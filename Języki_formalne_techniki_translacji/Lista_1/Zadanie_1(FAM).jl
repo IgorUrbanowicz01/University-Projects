@@ -23,7 +23,7 @@ function computerTransitionFuncion(pattern,character_list)
                     break
                 end
             end
-            println(q, " ",  a, "  ",k,"  ", pattern)
+            #println(q, " ",  a, "  ",k,"  ", pattern)
             qFuncion[(q,a)]=k
         end
     end
@@ -31,15 +31,16 @@ function computerTransitionFuncion(pattern,character_list)
 end
 
 function finiteAtomatonMatcher(base, qFuncion, m)
-    n = length(base)
+    n = lastindex(base)
     q=0
-    for i in 1:n
-        q = qFuncion[q,base[thisind(base, i)]]
+    i=1
+    while i <= n
+        q = qFuncion[q,base[i]]
         if q == m
-            s = i-m
-            println("Wrzozec występuje z przesunięciem ", s)
+            s = (i-1)/4-m+1
+            println("Wrzozec występuje z przesunięciem ", Int(s))
         end
-        i = thisind(base, i)
+        i = nextind(base, i)
     end
 end
 
