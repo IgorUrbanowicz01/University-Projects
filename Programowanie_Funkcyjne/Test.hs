@@ -15,3 +15,16 @@ makesEvenNumbers y = [x*2 | x<- [1..y]]
 makesNumbersDiv3 y = [x | x<- [1..y],mod x 3 == 0]
 
 pushIfEven xs = [if x < 10 then "Push" else "Pull" | x <- xs, odd x ]
+
+removeNonUppercase:: [Char] -> [Char]
+removeNonUppercase x = [xs | xs <- x ,elem xs ['A' .. 'Z']]
+
+productFromOneToX x = product [1 .. x]
+
+-- cycle[1,2,3]
+--repeat 5
+
+--fst first of tuplet
+--second of tuplet
+
+--let triangels = [ (a,b,c) | c<-[1..10], b<-[1..10], a<-[1..10], a^2 + b^2 == c^2]

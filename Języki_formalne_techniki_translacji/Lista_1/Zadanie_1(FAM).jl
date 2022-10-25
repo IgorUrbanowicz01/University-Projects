@@ -26,20 +26,16 @@ function computerTransitionFuncion(pattern,character_list)
 end
 
 function finiteAtomatonMatcher(base, qFuncion, m)
-    n = lastindex(base)
+    n = length(base)
     q=0
     i=1
     while i <= n
-        q = qFuncion[q,base[i]]
+        q = qFuncion[q, base[nextind(base, 0 ,i)]]
         if q == m
-            if n != length(base)
-                s = (i-1)/4-m+1
-            else
                 s = i - m
-            end
             print( Int(s), " ")
         end
-        i = nextind(base, i)
+        i += 1
     end
 end
 
