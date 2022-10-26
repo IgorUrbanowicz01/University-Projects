@@ -12,7 +12,7 @@ myinits xs =  myinits (init xs) ++ [xs]
 
 partitionc :: [a] -> [([a],[a])]
 partitionc [] =[([],[])]
-partitionc (x:xs) = divide [x] xs 
+partitionc xs = divide [] xs 
 divide ys [] = [(ys,[])]
 divide ys zs = [(ys,zs)] ++ divide (ys ++ [head zs]) (tail zs) 
 
@@ -34,12 +34,18 @@ myzip (x:xs) (y:ys) = [(x,y)]++ myzip xs ys
 
 -- 35
 
---permutations' :: [a] -> [[a]]
+permutations' :: [a] -> [[a]]
+permutations' [] =[[]]
+permutations' (x:xs) = [f ++ [x] ++ e| ps <- permutations' xs,(f, e) <- partitionc ps]
 
 --permutations' [] = []
 --permutations' xs    |lenght xs  <= 3 = cycle (lenght xs) xs
 --                    |groupInto 3 xs 
 
+
+--38
+zeros n | div n 5 == 0 = 0
+        | otherwise div n 5 + zeros (div n 5)
 
 --37
 
