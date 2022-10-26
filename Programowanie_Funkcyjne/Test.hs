@@ -21,6 +21,9 @@ removeNonUppercase x = [xs | xs <- x ,elem xs ['A' .. 'Z']]
 
 productFromOneToX x = product [1 .. x]
 
+addVectors :: (Num a) => (a, a) -> (a, a) -> (a, a)
+addVectors (x1, y1) (x2, y2) = (x1 + x2, y1 +y2)
+
 -- cycle[1,2,3]
 --repeat 5
 
@@ -28,3 +31,9 @@ productFromOneToX x = product [1 .. x]
 --second of tuplet
 
 --let triangels = [ (a,b,c) | c<-[1..10], b<-[1..10], a<-[1..10], a^2 + b^2 == c^2]
+
+calcBmis :: (RealFloat a) => [(a, a)] -> [a]  
+calcBmis xs = [bmi w h | (w, h) <- xs]  
+    where bmi weight height = weight / height ^ 2  
+
+

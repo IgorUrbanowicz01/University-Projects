@@ -1,6 +1,6 @@
 #Praca Igora Urbanowicz
 
-x = 2.0
+x:: Float16  = 2.0
 
 for i = 1:100
     #println(x," = ",bitstring(x))
