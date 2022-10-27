@@ -1,0 +1,16 @@
+
+name: calculator
+
+descreption: >
+Program that allows user to input numbers and a funcion to get a 
+mathematicly correct resoult
+
+funcions:
+  -add
+    znak: (+)
+  -subtract
+   znak: (-)
+  -divide
+    znak: (/)
+  -multiply
+    znak: (*)
