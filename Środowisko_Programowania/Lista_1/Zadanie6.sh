@@ -1,6 +1,7 @@
 
 dir="$1"
 
+
 for file in $(./Zadanie1.sh $dir); do
     while read -- line; do
         declare -A stats

@@ -4,7 +4,7 @@ declare -A words_files
 dir="$1"
 for file in $(./Zadanie1.sh $dir); do
     declare -A current_file
-    for word in $(cat $file); do
+    for word in $(cat $dir$file); do
         if [ ! ${current_file["$word"]+yup} ]; then
             words_files["$word"]+=" $file"
             current_file["$word"]="a"
@@ -14,10 +14,10 @@ for file in $(./Zadanie1.sh $dir); do
 done
 
 for word in "${!words_files[@]}"; do
-    printf -- "\033[38;5;45mthe word ‘\033[0m$word\033[38;5;45m’ \033[38;5;45mappeared in:\033[0m\n"
+    printf -- "word: $word\n"
     for file in ${words_files["$word"]}; do
-        printf "    \033[38;5;81ma file named ‘\033[0m$file\033[38;5;81m’:\033[0m\n"
-        grep -w -- "$word" "$file" | sed 's/^/    /'
+        printf "file: $file\ncontains: "
+        grep -w -- "$word" "$dir$file" | sed 's/^/    /'
     done
     printf "\n"
 done

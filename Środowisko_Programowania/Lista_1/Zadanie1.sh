@@ -1,6 +1,6 @@
 #!/bin/bash
 
+dir="$1"
+dir=${dir%/}
 
-read -p 'Path: ' path
-
-find $path -type f -printf "%f\n"
+find $dir -type f -printf "%f\n"

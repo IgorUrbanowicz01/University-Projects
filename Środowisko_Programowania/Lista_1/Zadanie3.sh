@@ -4,7 +4,7 @@ dir="$1"
 
 for file in $(./Zadanie1.sh $dir); do
     declare -A current_file
-    for word in $(cat $file); do
+    for word in $(cat $dir$file); do
         if [ ! ${current_file["$word"]+yup} ]; then
             if [ ${stats["$word"]+yup} ]; then
                 ((stats['$word']++))
@@ -18,5 +18,5 @@ for file in $(./Zadanie1.sh $dir); do
 done
 
 for word in "${!stats[@]}"; do
-    printf -- "\033[38;5;45mthe word ‘\033[0m$word\033[38;5;45m’ \033[38;5;45mappeared in ${stats[$word]} file(s)\033[0m\n"
+    printf -- "$word appeared ${stats[$word]} time \n"
 done
