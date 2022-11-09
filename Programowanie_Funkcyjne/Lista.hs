@@ -45,7 +45,7 @@ permutations' (x:xs) = [f ++ [x] ++ e| ps <- permutations' xs,(f, e) <- partitio
 
 --38
 zeros n | div n 5 == 0 = 0
-        | otherwise div n 5 + zeros (div n 5)
+        | otherwise  = div n 5 + zeros (div n 5)
 
 --37
 
@@ -70,7 +70,7 @@ qs2 (x:xs) = qs2 [t|t<- xs,t<=x] ++ [x] ++ qs2 [t|t<-xs,t>x]
 
 -- 41 
 
-leven' a b  | mod a 2 == 0 = b+1 
+even' a b  | mod a 2 == 0 = b+1 
             | otherwise = b
                 --in foldr even' 0 [1,2,3,4,5,6]
 
@@ -82,10 +82,33 @@ nondecrec (x:xs)
     |x <= head xs = nondecrec xs
     |otherwise = False
 
-nondec' (x:xs)  = zip xs (tail xs)
+nondec' xs = nondec'' (zip xs (tail xs))
+
+--nondec'' :: [(a,a)] -> Bool
+nondec'' (x:xs)
+    |xs == [] && fst x <= snd x = True
+    |fst x <= snd x = nondec'' xs
+    |otherwise = False
+
+
+-- 43
+
+
+--foldl (-) 10 [1,2,3]
+--foldl
+
 
 -- 44
 
 
 ssmf a b| a>b = [a]
         | otherwise = []
+
+--45
+
+
+remdupl'' a b
+    | a == b = []
+    | otherwise = [b]
+
+--remdupl' xs = foldr remdupl'': [] xs
