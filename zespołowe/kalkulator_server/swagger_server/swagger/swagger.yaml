@@ -1,0 +1,172 @@
+openapi: 3.0.3
+info:
+  title: Calculator - OpenAPI 3.0
+  description: Calculator for simple arthmetic funcions
+  contact:
+    email: igoor.urbanowicz@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+servers:
+- url: https://localhost:8080
+tags:
+- name: expresions
+  description: All basic math funcions adding(add) / subtracting(sub) / multiplying(mul)
+    / dividing(div)
+paths:
+  /expresions/add:
+    put:
+      tags:
+      - expresions
+      summary: add number to acumulator
+      operationId: add_number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/expresions'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/expresions'
+        "400":
+          description: Error
+      x-openapi-router-controller: swagger_server.controllers.expresions_controller
+  /expresions/sub:
+    put:
+      tags:
+      - expresions
+      summary: sub number from acumulator
+      operationId: sub_number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/expresions'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/expresions'
+        "400":
+          description: Error
+      x-openapi-router-controller: swagger_server.controllers.expresions_controller
+  /expresions/mul:
+    put:
+      tags:
+      - expresions
+      summary: mul number from acumulator
+      operationId: mul_number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/expresions'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/expresions'
+        "400":
+          description: Error
+      x-openapi-router-controller: swagger_server.controllers.expresions_controller
+  /expresions/div:
+    put:
+      tags:
+      - expresions
+      summary: sub number from acumulator
+      operationId: div_number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/expresions'
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/expresions'
+        "400":
+          description: Error
+        "404":
+          description: Divide by zero
+      x-openapi-router-controller: swagger_server.controllers.expresions_controller
+  /expresions/clear:
+    delete:
+      tags:
+      - expresions
+      summary: clear number from acumulator
+      operationId: clear_number
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resoult'
+        "400":
+          description: Error
+      x-openapi-router-controller: swagger_server.controllers.expresions_controller
+  /expresions/get:
+    get:
+      tags:
+      - expresions
+      summary: get accumulator
+      operationId: get_acc
+      responses:
+        "200":
+          description: Succesful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resoult'
+      x-openapi-router-controller: swagger_server.controllers.expresions_controller
+components:
+  schemas:
+    expresions:
+      required:
+      - acc
+      - exp
+      - num
+      type: object
+      properties:
+        num:
+          type: integer
+          format: int64
+          example: 3
+        exp:
+          type: string
+        acc:
+          type: integer
+          format: int64
+          example: 0
+      example:
+        acc: 0
+        num: 3
+        exp: exp
+    resoult:
+      required:
+      - res
+      type: object
+      properties:
+        res:
+          type: integer
+          format: int64
+          example: 10
+      example:
+        res: 10
+
