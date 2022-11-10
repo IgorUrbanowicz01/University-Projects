@@ -106,9 +106,43 @@ ssmf a b| a>b = [a]
 
 --45
 
+--remdupl'':: a -> [a] -> [a]
 
-remdupl'' a b
-    | a == b = []
-    | otherwise = [b]
+--remdupl'' x [] = [x]
+--remdupl'' a b
+  --  | a == (head b) = b
+  --- | otherwise = a : b
 
---remdupl' xs = foldr remdupl'': [] xs
+
+
+--remdupl' xs = foldr remdupl'' [] xs
+
+
+--46(smiechu warte)
+
+--47
+
+div1' a = 1/a 
+approx n = (foldl (*) 1 (map div1' [n| n <- [1..n]]))
+
+--48
+
+minuseven x
+    | mod x 2 == 0 = -x
+    | otherwise = x
+
+funfunvion x = (foldl (+) 0 (map minuseven [x| x<-[1..x]]))
+
+
+--50
+
+
+takeWhile' f xs = take' lenght[x| x<-xs, f xs] xs
+take' a [] = []
+take' 0 xs = xs
+take' xs
+    | a>0 = take  
+
+
+
+    
