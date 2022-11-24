@@ -1,36 +1,34 @@
-%{
-#include<stdio.h>
-#include <stdbool.h>
-
-int yywrap();
-int yylex();
-int lines_count = 0;
-int words_count = 0;
-
-bool allow_shebang = true;
-void shebang_done() {
-	allow_shebang = false;
-}
-
-%}
-
-%x string_mode
-%x documentation
+%s CODE
+%s STRING_A
+%s STRING_B
+%s STRING_C
+%s STRING_D
 
 %%
 
-#!.*\n							{if(allow_shebang) {ECHO; shebang_done();};};
-.?((\"\")|(\'\'))							{printf("%s", yytext);};
-[^\\][\"\']{3}					{printf("%s", yytext); BEGIN(documentation);};
-<documentation>[^\\][\"\']{3}	{printf("%s", yytext); BEGIN(0);};
-[^\\][\"\']						{printf("%s", yytext); BEGIN(string_mode);};
-<string_mode>[^\\][\"\']		{printf("%s", yytext); BEGIN(0);};
-#.*\n?							{};
+
+<INITIAL>^#![^\r\n]*\r?\n?					ECHO; BEGIN(CODE);
+
+<INITIAL,CODE>\"						BEGIN(STRING_A);
+<INITIAL,CODE>\'						BEGIN(STRING_B);
+<INITIAL,CODE>\"\"\"						BEGIN(STRING_C);
+<INITIAL,CODE>\'\'\'						BEGIN(STRING_D);
+<INITIAL,CODE>[ \t]*#.*\r?\n?					;
+
+<STRING_A>\"					    BEGIN(CODE);
+<STRING_B>\'						BEGIN(CODE);
+<STRING_C>.                         ;
+<STRING_C>\"\"\"					BEGIN(CODE);
+<STRING_D>.                         ;
+<STRING_D>\'\'\'					BEGIN(CODE);
+<INITIAL>.							ECHO; BEGIN(CODE);
 
 %%
+
 int yywrap() {
-	return 1;
+    return 1;
 }
+
 int main( int argc, char **argv )
 {  
         ++argv, --argc;
@@ -39,5 +37,4 @@ int main( int argc, char **argv )
         else
                 yyin = stdin;
         yylex();
-        printf("# of words %d \n# of lines %d\n",word_count,line_count);
 }
