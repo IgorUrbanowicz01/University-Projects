@@ -72,12 +72,13 @@
 #include<math.h>
 #define YYSTYPE int
 #include<stdio.h>
+#include <stdlib.h>
 int n = 1234577;
 extern int yylineno;  // z lex-a
 int yylex();
 int yyerror(char*);
 
-#line 81 "calc_y.c"
+#line 82 "calc_y.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -125,7 +126,9 @@ enum yysymbol_kind_t
   YYSYMBOL_expe = 17,                      /* expe  */
   YYSYMBOL_expu = 18,                      /* expu  */
   YYSYMBOL_val = 19,                       /* val  */
-  YYSYMBOL_pow1 = 20                       /* pow1  */
+  YYSYMBOL_pow1 = 20,                      /* pow1  */
+  YYSYMBOL_expe1 = 21,                     /* expe1  */
+  YYSYMBOL_val1 = 22                       /* val1  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -453,16 +456,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   31
+#define YYLAST   44
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  13
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  8
+#define YYNNTS  10
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  18
+#define YYNRULES  26
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  31
+#define YYNSTATES  47
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   267
@@ -512,8 +515,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    23,    23,    24,    26,    27,    29,    30,    31,    33,
-      34,    35,    37,    38,    40,    41,    42,    44,    45
+       0,    28,    28,    29,    31,    32,    33,    35,    36,    37,
+      39,    40,    41,    43,    44,    46,    47,    48,    53,    54,
+      55,    57,    58,    59,    62,    63,    64
 };
 #endif
 
@@ -531,7 +535,7 @@ static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "VAL", "MUL", "DIV",
   "POW", "MIN", "ADD", "LNAW", "PNAW", "END", "ERROR", "$accept", "input",
-  "line", "expa", "expe", "expu", "val", "pow1", YY_NULLPTR
+  "line", "expa", "expe", "expu", "val", "pow1", "expe1", "val1", YY_NULLPTR
 };
 
 static const char *
@@ -541,7 +545,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-12)
+#define YYPACT_NINF (-23)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -555,10 +559,11 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -12,     0,   -12,     2,   -12,    26,    -1,   -12,    12,    21,
-      24,   -12,   -12,   -12,    14,    -1,    -1,   -12,    -1,    -1,
-       7,   -12,    21,    21,    24,    24,     8,   -12,   -12,   -12,
-     -12
+     -23,     1,   -23,    15,   -23,     0,     8,   -23,    14,    32,
+      24,   -23,   -23,   -23,    31,    16,    21,     8,     8,   -23,
+       8,     8,     9,   -23,   -23,   -23,    32,    32,    24,    24,
+     -23,    41,     9,   -23,   -23,    25,    34,   -23,     9,     9,
+     -23,     9,     9,    34,    34,   -23,   -23
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -566,22 +571,23 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       2,     0,     1,     0,    14,     0,     0,     3,     0,     6,
-       9,    12,     5,    15,     0,     0,     0,     4,     0,     0,
-       0,    16,     8,     7,    10,    11,     0,    17,    13,    14,
-      18
+       2,     0,     1,     0,    16,     0,     0,     3,     0,     7,
+      10,    13,     6,    15,     0,     0,     0,     0,     0,     5,
+       0,     0,     0,    15,     4,    17,     9,     8,    11,    12,
+      25,     0,     0,    14,    24,     0,    18,    21,     0,     0,
+      26,     0,     0,    20,    19,    22,    23
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -12,   -12,   -12,    25,   -11,     9,    -8,   -12
+     -23,   -23,   -23,    35,   -12,    -7,   -23,   -23,     4,   -22
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     1,     7,     8,     9,    10,    11,    28
+       0,     1,     7,     8,     9,    10,    11,    35,    36,    37
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -589,18 +595,20 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       2,     3,     4,     4,    22,    23,     5,     5,     6,     6,
-       4,    29,    27,    12,    26,     5,     6,     6,    30,    15,
-      16,    15,    16,    17,    21,    18,    19,    24,    25,    13,
-      20,    14
+      33,     2,     3,    13,     4,    26,    27,    14,     5,     6,
+       6,     4,    30,    28,    29,    14,    31,     6,    32,    45,
+      46,    17,    18,    17,    18,    19,    12,    24,    17,    18,
+      22,    25,    38,    39,    23,    40,    20,    21,    41,    42,
+      15,    16,    43,    44,    34
 };
 
 static const yytype_int8 yycheck[] =
 {
-       0,     1,     3,     3,    15,    16,     7,     7,     9,     9,
-       3,     3,    20,    11,     7,     7,     9,     9,    26,     7,
-       8,     7,     8,    11,    10,     4,     5,    18,    19,     3,
-       6,     6
+      22,     0,     1,     3,     3,    17,    18,     7,     7,     9,
+       9,     3,     3,    20,    21,     7,     7,     9,     9,    41,
+      42,     7,     8,     7,     8,    11,    11,    11,     7,     8,
+       6,    10,     7,     8,     3,    10,     4,     5,     4,     5,
+       5,     6,    38,    39,     3
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
@@ -608,23 +616,26 @@ static const yytype_int8 yycheck[] =
 static const yytype_int8 yystos[] =
 {
        0,    14,     0,     1,     3,     7,     9,    15,    16,    17,
-      18,    19,    11,     3,    16,     7,     8,    11,     4,     5,
-       6,    10,    17,    17,    18,    18,     7,    19,    20,     3,
-      19
+      18,    19,    11,     3,     7,    16,    16,     7,     8,    11,
+       4,     5,     6,     3,    11,    10,    17,    17,    18,    18,
+       3,     7,     9,    22,     3,    20,    21,    22,     7,     8,
+      10,     4,     5,    21,    21,    22,    22
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    13,    14,    14,    15,    15,    16,    16,    16,    17,
-      17,    17,    18,    18,    19,    19,    19,    20,    20
+       0,    13,    14,    14,    15,    15,    15,    16,    16,    16,
+      17,    17,    17,    18,    18,    19,    19,    19,    20,    20,
+      20,    21,    21,    21,    22,    22,    22
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     0,     2,     2,     2,     1,     3,     3,     1,
-       3,     3,     1,     3,     1,     2,     3,     1,     2
+       0,     2,     0,     2,     3,     2,     2,     1,     3,     3,
+       1,     3,     3,     1,     3,     2,     1,     3,     1,     3,
+       3,     1,     3,     3,     2,     1,     3
 };
 
 
@@ -1087,98 +1098,146 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 4: /* line: expa END  */
-#line 26 "calc.y"
-                { yyval = yyvsp[-1]; printf(" %d\n",yyval); }
-#line 1094 "calc_y.c"
-    break;
-
-  case 5: /* line: error END  */
-#line 27 "calc.y"
-                { printf("\nBłąd.\n"); }
-#line 1100 "calc_y.c"
-    break;
-
-  case 6: /* expa: expe  */
-#line 29 "calc.y"
-                            { yyval = yyvsp[0]; }
-#line 1106 "calc_y.c"
-    break;
-
-  case 7: /* expa: expa ADD expe  */
-#line 30 "calc.y"
-                        { yyval = ((yyvsp[-2] + yyvsp[0])%n); printf("+ "); }
-#line 1112 "calc_y.c"
-    break;
-
-  case 8: /* expa: expa MIN expe  */
+  case 4: /* line: MIN expa END  */
 #line 31 "calc.y"
-                        { if(yyvsp[-2] - yyvsp[0] < 0){yyval = n - (yyvsp[-2] - yyvsp[0]);}else {yyval = yyvsp[-2] - yyvsp[0];}; printf("- "); }
-#line 1118 "calc_y.c"
+                        { yyval = n-yyvsp[-1]; printf("\n= %d \n",yyval); }
+#line 1105 "calc_y.c"
     break;
 
-  case 9: /* expe: expu  */
+  case 5: /* line: expa END  */
+#line 32 "calc.y"
+                { if(yyvsp[-1] == -1){yyval = -1;}else{ yyval = yyvsp[-1]; printf("\n= %d\n",yyval);}; }
+#line 1111 "calc_y.c"
+    break;
+
+  case 6: /* line: error END  */
 #line 33 "calc.y"
-                            { yyval = yyvsp[0]; }
-#line 1124 "calc_y.c"
+                { printf("Błąd.\n"); }
+#line 1117 "calc_y.c"
     break;
 
-  case 10: /* expe: expe MUL expu  */
-#line 34 "calc.y"
-                        { yyval = ((yyvsp[-2] * yyvsp[0]) % n); printf("* "); }
-#line 1130 "calc_y.c"
-    break;
-
-  case 11: /* expe: expe DIV expu  */
+  case 7: /* expa: expe  */
 #line 35 "calc.y"
-                        { yyval = yyvsp[-2] / yyvsp[0]; printf("/ "); }
-#line 1136 "calc_y.c"
+                            { yyval = yyvsp[0]; }
+#line 1123 "calc_y.c"
     break;
 
-  case 12: /* expu: val  */
+  case 8: /* expa: expa ADD expe  */
+#line 36 "calc.y"
+                        { yyval = ((yyvsp[-2] + yyvsp[0])%n); printf("+ "); }
+#line 1129 "calc_y.c"
+    break;
+
+  case 9: /* expa: expa MIN expe  */
 #line 37 "calc.y"
-                    {yyval = yyvsp[0];}
-#line 1142 "calc_y.c"
+                        { if(yyvsp[-2] - yyvsp[0] < 0){yyval = (yyvsp[-2] + (n - yyvsp[0])%(n));}else {yyval = yyvsp[-2] - yyvsp[0];}; printf("- "); }
+#line 1135 "calc_y.c"
     break;
 
-  case 13: /* expu: expu POW pow1  */
-#line 38 "calc.y"
-                    { if(yyvsp[0] == 0){yyval = 1;}; yyval = fastExp(yyvsp[-2], yyvsp[0], n); printf("^ ");}
-#line 1148 "calc_y.c"
+  case 10: /* expe: expu  */
+#line 39 "calc.y"
+                            { yyval = yyvsp[0]; }
+#line 1141 "calc_y.c"
     break;
 
-  case 14: /* val: VAL  */
+  case 11: /* expe: expe MUL expu  */
 #line 40 "calc.y"
-                                { yyval = yyvsp[0]; printf("%d ",yyval); }
-#line 1154 "calc_y.c"
+                        { yyval = ((yyvsp[-2] * yyvsp[0]) % n); printf("* "); }
+#line 1147 "calc_y.c"
+    break;
+
+  case 12: /* expe: expe DIV expu  */
+#line 41 "calc.y"
+                        { yyval = divide(yyvsp[-2], yyvsp[0], n); printf("/ "); }
+#line 1153 "calc_y.c"
+    break;
+
+  case 13: /* expu: val  */
+#line 43 "calc.y"
+                    {yyval = yyvsp[0];}
+#line 1159 "calc_y.c"
+    break;
+
+  case 14: /* expu: expu POW val1  */
+#line 44 "calc.y"
+                    { if(yyvsp[0] == 0){yyval = 1;}; yyval = fastExp(yyvsp[-2], yyvsp[0], n); printf("^ ");}
+#line 1165 "calc_y.c"
     break;
 
   case 15: /* val: MIN VAL  */
-#line 41 "calc.y"
-                        { yyval = n - yyvsp[0];}
-#line 1160 "calc_y.c"
+#line 46 "calc.y"
+                       { yyval = n-yyvsp[0]; printf("%d ", yyval);}
+#line 1171 "calc_y.c"
     break;
 
-  case 16: /* val: LNAW expa PNAW  */
-#line 42 "calc.y"
+  case 16: /* val: VAL  */
+#line 47 "calc.y"
+                                { yyval = yyvsp[0]; printf("%d ",yyval); }
+#line 1177 "calc_y.c"
+    break;
+
+  case 17: /* val: LNAW expa PNAW  */
+#line 48 "calc.y"
                         { yyval = yyvsp[-1]; }
-#line 1166 "calc_y.c"
+#line 1183 "calc_y.c"
     break;
 
-  case 17: /* pow1: val  */
-#line 44 "calc.y"
-          { yyval = yyvsp[0]; }
-#line 1172 "calc_y.c"
+  case 18: /* pow1: expe1  */
+#line 53 "calc.y"
+                            {if(yyvsp[0] == -1){yyval = -1;}else{ yyval = yyvsp[0];}; }
+#line 1189 "calc_y.c"
     break;
 
-  case 18: /* pow1: MIN val  */
-#line 45 "calc.y"
-              {yyval = n - yyvsp[0] % (n - 1);}
-#line 1178 "calc_y.c"
+  case 19: /* pow1: pow1 ADD expe1  */
+#line 54 "calc.y"
+                        { yyval = ((yyvsp[-2] + yyvsp[0])%n); printf("+ "); }
+#line 1195 "calc_y.c"
+    break;
+
+  case 20: /* pow1: pow1 MIN expe1  */
+#line 55 "calc.y"
+                        { if(yyvsp[-2] - yyvsp[0] < 0){yyval = ((yyvsp[-2] - yyvsp[0])%(n-1)+n-1)%(n-1);}else {yyval = yyvsp[-2] - yyvsp[0];}; printf("- ", yyval, yyvsp[-2], yyvsp[-1]); }
+#line 1201 "calc_y.c"
+    break;
+
+  case 21: /* expe1: val1  */
+#line 57 "calc.y"
+                    { yyval = yyvsp[0]; }
+#line 1207 "calc_y.c"
+    break;
+
+  case 22: /* expe1: expe1 MUL val1  */
+#line 58 "calc.y"
+                     { yyval = ((yyvsp[-2] * yyvsp[0]) % (n-1)); printf("* "); }
+#line 1213 "calc_y.c"
+    break;
+
+  case 23: /* expe1: expe1 DIV val1  */
+#line 59 "calc.y"
+                     { if(divide(yyvsp[-2], yyvsp[0], (n-1)) == -1){yyval = -1;} else {yyval = divide(yyvsp[-2], yyvsp[0], (n-1));}; printf("/ "); }
+#line 1219 "calc_y.c"
+    break;
+
+  case 24: /* val1: MIN VAL  */
+#line 62 "calc.y"
+                        { yyval = n - 1 - yyvsp[0]; printf("%d ", yyval);}
+#line 1225 "calc_y.c"
+    break;
+
+  case 25: /* val1: VAL  */
+#line 63 "calc.y"
+                                { yyval = yyvsp[0]; printf("%d ",yyval); }
+#line 1231 "calc_y.c"
+    break;
+
+  case 26: /* val1: LNAW pow1 PNAW  */
+#line 64 "calc.y"
+                        { yyval = yyvsp[-1]; }
+#line 1237 "calc_y.c"
     break;
 
 
-#line 1182 "calc_y.c"
+#line 1241 "calc_y.c"
 
       default: break;
     }
@@ -1371,7 +1430,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 47 "calc.y"
+#line 66 "calc.y"
 
 
 int yyerror(char *s)
@@ -1380,7 +1439,23 @@ int yyerror(char *s)
     return 0;
 }
 
-int fastExp(int b, int e, int m)
+int divide(int a, int b, int p) {
+    int x, y;
+    long long inv;
+    int g = extendedEuclideanAlgorithm(b, p, &x, &y);
+    if (g != 1)
+        inv = -1;
+    else
+        inv = (x%p + p)%p;
+    a = a%p;
+    if (inv == -1){
+        printf("> %d nie jest odwracalne modulo %d\n", b, p);
+        return -1;
+    }
+    return (inv * a)%p;
+}
+
+int fastExp(long int b, long int e, long int m)
 {
 	int result = 1;
 	if (1 & e)
@@ -1394,6 +1469,19 @@ int fastExp(int b, int e, int m)
 	}
 	return result;
 }
+
+int extendedEuclideanAlgorithm(int a, int b, int *x, int *y) {
+        if (a == 0){
+            *x = 0, *y = 1;
+            return b;
+        }
+        int x1, y1;
+        int gcd = extendedEuclideanAlgorithm(b%a, a, &x1, &y1);
+        *x = y1 - (b/a) *x1;
+        *y = x1;
+        return gcd;
+}
+
 int main()
 {
     yyparse();
