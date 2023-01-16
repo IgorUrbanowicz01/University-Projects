@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "parser.h"
+#include "parser.c"
+#include "scanner.c"
 #include "decl.h"
 #include "scope.h"
 #include <string.h>

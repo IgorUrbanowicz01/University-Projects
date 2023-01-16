@@ -1,4 +1,4 @@
-FLAGS := -g -Wall -std=gnu99
+FLAGS := -g -Wall -std=gnu99 -c
 
 SOURCES = $(wildcard *.c)
 HEADERS = $(wildcard *.h)
@@ -6,16 +6,20 @@ OBJECTS = $(SOURCES:.c=.o)
 
 .PHONY = all clean cleanall
 
+build: gramar all
+
+all: main.c
+	gcc $(FLAGS) -o main main.c
+
+
 gramar: parser.bison scanner.flex
 	bison -Wcounterexamples -v -d -o parser.c -d parser.bison
 	flex -o scanner.c scanner.flex
-
-all: $(OBJECTS)
-	gcc $(FLAGS) -c -o $@ $<
-
+	gcc $(FLAGS) -o scanner.o scanner.c
+	gcc $(FLAGS) -o parser.o parser.c
 
 %.o: %.c $(HEADERS)
-    gcc $(FLAGS) -c -o $@ $<
+	gcc $(FLAGS) -o $@ $<
 
 clean:
 	@rm -f *.o
@@ -23,4 +27,6 @@ clean:
 	@rm -f parser.c scanner.c
 	@rm -f parse.output
 	@rm -f *_tests/*_tests/*.out
+	@rm -f main
+
 	
