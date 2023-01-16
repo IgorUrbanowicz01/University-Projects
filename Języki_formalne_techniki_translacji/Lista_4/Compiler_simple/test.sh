@@ -14,8 +14,8 @@ do
 	
 	if [ "$DIFF" == "" ]
 	then
-		echo -e "\n $FILE succeded!\n"
+		echo -e " $FILE succeded!\n"
 	else
-		echo -e "\ $FILE failed!\n"
+		echo -e " $FILE failed!\n"
 	fi
 done
