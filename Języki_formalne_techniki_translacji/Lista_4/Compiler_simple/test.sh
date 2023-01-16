@@ -1,10 +1,12 @@
 #!/bin/bash
 
-for FILE in $(find tests/ | grep ".imp")
+
+for FILE in $(find tests/ | grep ".in")
 do
-	FILE_NAME="$( echo "$FILE" | awk '{ print substr( $0, 1, length($0) - 4 ) }' )"
-	OUTPUT_FILE="$( echo $FILE_NAME ).mr"
-	CORRECT_FILE="$( echo $FILE_NAME )_correct.out"
+	FILE_NAME="$( echo "$FILE" | cut -d'.' -f1 )"
+	echo TEST FOR $FILE_NAME
+	OUTPUT_FILE="$( echo $FILE_NAME ).out"
+	CORRECT_FILE="$( echo $FILE_NAME ).correct"
 	
 	./kompilator $FILE $OUTPUT_FILE > $OUTPUT_FILE
 	OUTPUT_CODE="$(echo "$( sudo virtual-machine/maszyna-wirtualna $OUTPUT_FILE)" | grep ">")"
@@ -12,8 +14,8 @@ do
 	
 	if [ "$DIFF" == "" ]
 	then
-		echo -e "\nTest $FILE completed!\n"
+		echo -e "\n $FILE succeded!\n"
 	else
-		echo -e "\nest $FILE failed!\n"
+		echo -e "\ $FILE failed!\n"
 	fi
 done
