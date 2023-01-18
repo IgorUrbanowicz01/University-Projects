@@ -1,5 +1,4 @@
 #include "expr.h"
-#include "scope.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -17,17 +16,12 @@ struct expr *expr_create(expr_t expr_type, union expr_data *data)
 {
     struct expr *e = malloc(sizeof(*e));
     if (!e)
-    {
-        puts("[ERROR|internal] Could not allocate expr memory, exiting...");
-        exit(EXIT_FAILURE);
-    }
+        e->symbol = NULL;
 
     e->kind = expr_type;
     // this seemed to me a good union application since the data values are mutually exclusive
     e->data = data;
     e->next = NULL;
-    e->symbol = NULL;
-
     return e;
 }
 
@@ -73,37 +67,6 @@ struct expr *expr_create_function_call(struct expr *function, struct expr *arg_l
 struct expr *expr_create_empty()
 {
     return expr_create(EXPR_EMPTY, NULL);
-}
-
-int expr_resolve(struct expr *e, struct scope *sc, bool verbose)
-{
-    if (!e)
-        return 0;
-
-    int err_count = 0;
-    if (e->kind == EXPR_IDENT)
-    {
-        e->symbol = scope_lookup(sc, e->data->ident_name, false);
-        if (!e->symbol)
-        {
-            printf("[ERROR|resolve] Variable %s used before declaration\n", e->data->ident_name);
-            err_count++;
-        }
-        else if (verbose)
-        {
-            printf("Variable %s resolved to ", e->data->ident_name);
-            symbol_print(e->symbol);
-            puts("");
-        }
-    }
-    // if we have arguments, resolve them: operator_args is arbitrary choice here
-    //  - just need to interpret data as expr pointer
-    // my choice to use a union for e->data makes this clunky
-    if (!(e->kind == EXPR_EMPTY || e->kind == EXPR_IDENT || e->kind == EXPR_INT_LIT))
-        err_count += expr_resolve(e->data->operator_args, sc, verbose);
-
-    err_count += expr_resolve(e->next, sc, verbose);
-    return err_count;
 }
 
 void expr_print(struct expr *e)

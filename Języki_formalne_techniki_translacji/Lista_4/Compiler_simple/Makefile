@@ -14,5 +14,5 @@ clean:
 
 test:
 	./test.sh
-	./testError.sh
+	./testError.sh 
 	./testStrona.sh

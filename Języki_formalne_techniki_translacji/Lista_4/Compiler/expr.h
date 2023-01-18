@@ -56,7 +56,4 @@ struct expr *expr_create_empty();
 void expr_print(struct expr *e);
 void expr_print_list(struct expr *e, char *delim);
 
-struct scope;
-int expr_resolve(struct expr *e, struct scope *sc, bool verbose);
-
 #endif

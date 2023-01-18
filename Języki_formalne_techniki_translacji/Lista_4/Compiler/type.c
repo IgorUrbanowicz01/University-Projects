@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "type.h"
 
-struct type *type_create(type_t kind, struct type *subtype, struct decl *params)
+struct type *type_create(type_t kind, struct decl *params)
 {
     struct type *t = malloc(sizeof(*t));
     if (!t)
@@ -12,7 +12,6 @@ struct type *type_create(type_t kind, struct type *subtype, struct decl *params)
     }
 
     t->kind = kind;
-    t->subtype = subtype;
     t->params = params;
 
     return t;
@@ -30,8 +29,6 @@ void type_print(struct type *t)
     switch (t->kind)
     {
     case TYPE_FUNCTION:
-        fputs(" ", stdout);
-        type_print(t->subtype);
         fputs(" (", stdout);
         decl_print_list(t->params, 0, "", ", ");
         fputs(")", stdout);

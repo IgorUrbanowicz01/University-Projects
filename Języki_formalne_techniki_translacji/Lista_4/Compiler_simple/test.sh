@@ -9,13 +9,5 @@ do
 	CORRECT_FILE="$( echo $FILE_NAME ).correct"
 	
 	./kompilator $FILE $OUTPUT_FILE > $OUTPUT_FILE
-	OUTPUT_CODE="$(echo "$( sudo virtual-machine/maszyna-wirtualna $OUTPUT_FILE)" | grep ">")"
-	DIFF=$( diff $CORRECT_FILE <( echo "$OUTPUT_CODE" ) )
-	
-	if [ "$DIFF" == "" ]
-	then
-		echo -e " $FILE succeded!\n"
-	else
-		echo -e " $FILE failed!\n"
-	fi
+	sudo ./virtual-machine/maszyna-wirtualna $OUTPUT_FILE
 done

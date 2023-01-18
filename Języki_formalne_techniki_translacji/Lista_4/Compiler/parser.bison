@@ -68,11 +68,11 @@ struct decl *ast;
     char *ident;
 }
 
-%type <decl>        program decl param_comma_list procedures_decl main
+%type <decl>        program decl procedures_decl main
 %type <stmt>        stmt maybe_stmts  if_stmt write_stmt while_stmt repeat_stmt
 %type <expr>        read_stmt expr expr1 expr3 expr4 expr5 expr6 func_call atom expr_commdecla_list
-/* %type <param_list>  param_comma_list, maybe_param_comma_list, expr_comma_list, maybe_expr_comma_list */
 %type <ident>       ident
+%type <type>        proc_head
 
 %%
 
@@ -81,27 +81,25 @@ program : procedures_decl main
         ;
 /* END PROGRAM ================================= BEGIN PROCEDURE */
 
-procedures_decl : procedures_decl PROCEDURE ident LPR param_comma_list RPR IS VAR decl X_BEGIN maybe_stmts END
-            { $$ = decl_create($3, type_create(TYPE_FUNCTION, NULL, $5), NULL, $11, $9); }
-            | procedures_decl PROCEDURE ident LPR param_comma_list RPR IS X_BEGIN stmt END
-            { $$ = decl_create($3, type_create(TYPE_FUNCTION, NULL, $5), NULL, $9, NULL); }
+procedures_decl : procedures_decl PROCEDURE proc_head IS VAR decl X_BEGIN maybe_stmts END
+            { $$ = decl_create(NULL, $3, NULL, $8, $6); }
+            | procedures_decl PROCEDURE proc_head IS X_BEGIN maybe_stmts END
+            { $$ = decl_create(NULL, $3, NULL, $6, NULL); }
             |
             { $$ = NULL; }
             ;
 
-param_comma_list : ident 
-      { $$ = decl_create($1, type_create(TYPE_INTEGER, NULL, NULL), NULL, NULL, NULL); }
-      | ident param_comma_list
-      { $$ = decl_create($1, type_create(TYPE_INTEGER, NULL, NULL), NULL, NULL, NULL); $$->next = $2; }
-      ;
+proc_head: IDENT LPR decl RPR
+            { $$ = type_create(TYPE_FUNCTION, $3) }
+            ;
 
 
 /* END PROCEDURE ================================= BEGIN DECLARATIONS */
 
 decl : decl COMMA ident 
-      { $$  = decl_create($3, type_create(TYPE_INTEGER, NULL, NULL), NULL, NULL, NULL); $$->next = $1; }
+      { $$  = decl_create($3, type_create(TYPE_INTEGER, NULL), NULL, NULL); $$->next = $1; }
       | ident 
-      { $$  = decl_create($1, type_create(TYPE_INTEGER, NULL, NULL), NULL, NULL, NULL); }
+      { $$  = decl_create($1, type_create(TYPE_INTEGER, NULL), NULL, NULL); }
       ;
 
 
@@ -109,9 +107,9 @@ decl : decl COMMA ident
 /* END DECLARATIONS ============================ BEGIN MAIN */
 
 main : PROGRAM IS VAR decl X_BEGIN maybe_stmts END
-      {$$ = decl_create(NULL, type_create(TYPE_FUNCTION,  NULL, NULL), NULL, $6, $4);}
+      {$$ = decl_create("MAIN", type_create(TYPE_FUNCTION,  NULL, NULL), $6, $4);}
       |PROGRAM IS X_BEGIN maybe_stmts END
-      {$$ = decl_create(NULL, type_create(TYPE_FUNCTION,  NULL, NULL), NULL, $4, NULL);}
+      {$$ = decl_create("MAIN", type_create(TYPE_FUNCTION,  NULL, NULL), $4, NULL);}
       ;
  
 /* END MAIN ============================ BEGIN STATEMENTS */
@@ -243,7 +241,7 @@ func_call: expr1 LPR expr_commdecla_list RPR
          ;
 
 
-expr_commdecla_list: expr
+expr_commdecla_list: atom
                { $$ = $1; }
                | expr COMMA expr_commdecla_list
                { $1->next = $3; $$ = $1; }

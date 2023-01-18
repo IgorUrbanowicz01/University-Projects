@@ -9,10 +9,10 @@
 #include<vector> 
 #include<utility>
 using namespace std;
+#define YYSTYPE long long
 }
 %{
 
-#define YYSTYPE long long
 
 #include <iostream>
 #include <utility>

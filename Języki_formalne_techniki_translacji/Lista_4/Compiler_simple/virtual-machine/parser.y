@@ -8,11 +8,11 @@
 %code requires { 
 #include<vector> 
 #include<utility>
+#define YYSTYPE long long
 using namespace std;
 }
 %{
 
-#define YYSTYPE long long
 
 #include <iostream>
 #include <utility>

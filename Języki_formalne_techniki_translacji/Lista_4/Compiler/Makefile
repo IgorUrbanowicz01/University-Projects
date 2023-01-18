@@ -15,8 +15,6 @@ all: main.c
 gramar: parser.bison scanner.flex
 	bison -Wcounterexamples -v -d -o parser.c -d parser.bison
 	flex -o scanner.c scanner.flex
-	gcc $(FLAGS) -o scanner.o scanner.c
-	gcc $(FLAGS) -o parser.o parser.c
 
 %.o: %.c $(HEADERS)
 	gcc $(FLAGS) -o $@ $<

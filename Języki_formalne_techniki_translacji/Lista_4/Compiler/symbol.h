@@ -8,7 +8,6 @@ typedef enum
 {
 	SYMBOL_LOCAL,
 	SYMBOL_PARAM,
-	SYMBOL_GLOBAL
 } symbol_t;
 
 struct symbol

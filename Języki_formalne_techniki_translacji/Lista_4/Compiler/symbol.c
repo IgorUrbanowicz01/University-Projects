@@ -26,9 +26,6 @@ void symbol_print(struct symbol *sym)
         return;
     switch (sym->kind)
     {
-    case SYMBOL_GLOBAL:
-        printf("global %s", sym->name);
-        break;
     case SYMBOL_LOCAL:
         printf("local %d", sym->which);
         break;
