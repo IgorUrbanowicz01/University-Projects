@@ -41,7 +41,6 @@ struct expr
     /* used by all kinds of exprs */
     expr_t kind;
     union expr_data *data;
-    struct symbol *symbol;
     struct expr *next;
 };
 

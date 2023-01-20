@@ -1,11 +1,8 @@
 #include "stmt.h"
-#include "scope.h"
 #include <stdlib.h>
 #include <stdio.h>
 
-extern void indent(int indents);
-
-struct stmt *stmt_create(stmt_t kind, struct decl *decl, struct expr *expr_list, struct stmt *body, struct stmt *else_body)
+struct stmt *stmt_create(stmt_t kind, struct decl *decl, struct expr *expr_list, struct stmt *body, struct stmt *else_body, struct type *type)
 {
     struct stmt *s = malloc(sizeof(*s));
     if (!s)
@@ -19,6 +16,7 @@ struct stmt *stmt_create(stmt_t kind, struct decl *decl, struct expr *expr_list,
     s->expr_list = expr_list;
     s->body = body;
     s->else_body = else_body;
+    s->type = type;
     s->next = NULL;
 
     return s;
@@ -28,10 +26,6 @@ void stmt_print(struct stmt *s, int indents, bool indent_first)
 {
     if (!s)
         return;
-
-    // somewhat sloppy solution but gets the job done for if-else and bracket on same line
-    if (indent_first)
-        indent(indents);
 
     // bool indent_next = true;
 
@@ -54,24 +48,35 @@ void stmt_print(struct stmt *s, int indents, bool indent_first)
         if (s->body->next)
         {
             fputs("\n", stdout);
-            indent(indents);
             fputs("else", stdout);
             bool body_is_not_block_or_if = !(s->body->next->kind == STMT_BLOCK || s->body->next->kind == STMT_IF_ELSE);
             fputs(body_is_not_block_or_if ? "\n" : " ", stdout);
             stmt_print(s->body->next, indents + body_is_not_block_or_if, body_is_not_block_or_if);
         }
         break;
-    case STMT_PRINT:
+    case STMT_WRITE:
         fputs("print ", stdout);
         expr_print_list(s->expr_list, ", ");
         fputs(";", stdout);
         break;
-    case STMT_BLOCK:
-        fputs("{\n", stdout);
-        stmt_print_list(s->body, indents + 1, "\n");
+    case STMT_READ:
+        fputs("read ", stdout);
+        expr_print_list(s->expr_list, ", ");
+        fputs(";", stdout);
+        break;
+    case STMT_REPEAT:
+        fputs("repeat: ", stdout);
         fputs("\n", stdout);
-        indent(indents);
-        fputs("}", stdout);
+        stmt_print_list(s->body, indents + 1, ", ");
+        fputs("until ", stdout);
+        expr_print(s->expr_list);
+        break;
+    case STMT_WHILE:
+        fputs("while ", stdout);
+        expr_print(s->expr_list);
+        fputs("\n", stdout);
+        stmt_print_list(s->body, indents + 1, ", ");
+        fputs("end while: ", stdout);
         break;
     default:
         break;
@@ -95,26 +100,19 @@ int stmt_resolve(struct stmt *s, struct scope *sc, bool verbose)
         return 0;
     int err_count = 0;
     // printf("stmt: received scope with %d params\n", sc->params);
-    err_count += decl_resolve(s->decl, sc, false, verbose);
+    // err_count += decl_resolve(s->decl, sc, false, verbose);
     // resolve if cond, print par#include "scope.h"ams, for params, general expression
-    err_count += expr_resolve(s->expr_list, sc, verbose);
+    // err_count += expr_resolve(s->expr_list, sc, verbose);
     // resolve inner scope if block
     // static int i = 0;
     // i++;
     // struct scope *p = sc;
-    // if( i == 3 ) printf("scope being nested contains argv? %d\n", (bool) scope_lookup(sc, "argv", true));
-    sc = s->kind == STMT_BLOCK ? scope_enter(sc) : sc;
-    // if( i == 3 ) printf("nested scope contains argv? %d\n", (bool) scope_lookup(sc, "argv", false));
+    // if( i == 3 ) printf("scope being nested contains argv? %d\n", (bool) scope_lookup(sc, "argv", true));    // if( i == 3 ) printf("nested scope contains argv? %d\n", (bool) scope_lookup(sc, "argv", false));
     // printf("inner scope next is og scope? %d\n", p == sc->next);
     // if( i == 3 ) printf("nested scope next contains argv? %d\n", (bool) scope_lookup(sc->next, "argv", true));
     // struct scope *inner_sc = scope_enter(sc);
     // printf("stmt: resolving body %d\n", i);
-    // err_count += stmt_resolve(s->body, inner_sc, verbose);
-    err_count += stmt_resolve(s->body, sc, verbose);
-    sc = s->kind == STMT_BLOCK ? scope_exit(sc) : sc;
-    // printf("stmt: body resolved %d\n", i);
+    // err_count += stmt_resolve(s->body, inner_sc, verbose);    // printf("stmt: body resolved %d\n", i);
     // printf("stmt %d has %d errors\n", s->kind, err_count);
-
-    err_count += stmt_resolve(s->next, sc, verbose);
     return err_count;
 }

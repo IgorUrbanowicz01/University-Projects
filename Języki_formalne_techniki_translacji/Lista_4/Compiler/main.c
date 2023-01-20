@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include "parser.h"
-#include "parser.c"
-#include "scanner.c"
 #include "decl.h"
-#include "scope.h"
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -20,7 +17,7 @@ extern struct decl *ast;
 extern int yyparse();
 
 char *indent_space(int indents);
-int scan_file(char *filename, bool verbose);
+struct decl *scan_file(char *filename);
 int parse_file(char *filename);
 void print_ast(struct decl *ast);
 int resolve_ast(struct decl *ast, bool verbose);
@@ -46,109 +43,27 @@ void usage(int return_code, char *called_as)
     exit(return_code);
 }
 
-int main(int argc, char **argv)
+int main(int argc, char **argv[])
 {
-    // default values
-    bool stages[] = {false, false, false, false, false};
-    char *to_compile = "";
-
-    bool run_all = true;
-
-    /* process CL args */
-    process_cl_args(argc, argv, stages, &to_compile);
-
-    for (int i = 0; i < 4; i++)
-        run_all = run_all && !stages[i];
+    FILE *fin = fopen(argv[1], "r");
 
     /* scan */
-    if (scan_file(to_compile, stages[SCAN]))
+    if (!fin)
     {
-        puts("Scan unsuccessful");
-        return EXIT_FAILURE;
-    }
-    else if (stages[SCAN])
-        puts("Scan successful");
-
-    /* parse */
-    if (stages[PARSE] || stages[PPRINT] || stages[RESOLVE])
-    {
-        if (parse_file(to_compile))
-        {
-            puts("Parse unsuccessful");
-            return EXIT_FAILURE;
-        }
-        else if (stages[PARSE])
-            puts("Parse successful");
+        printf("can't open file");
+        exit(1);
     }
 
-    /* print */
-    if (stages[PPRINT])
-    {
-        print_ast(ast);
-        puts("");
-    }
-
-    /* resolve */
-    // if resolve or typecheck or...
-    if (stages[RESOLVE])
-    {
-        int err_count = resolve_ast(ast, stages[RESOLVE]);
-        puts("");
-        if (err_count)
-        {
-            printf("Encountered %d name resolution error%s\n", err_count, err_count == 1 ? "" : "s");
-            puts("Name resolution unsuccessful");
-            return EXIT_FAILURE;
-        }
-        else if (stages[RESOLVE])
-        {
-            puts("Name resolution successful");
-        }
-    }
+    yyin = fin;
+    yyparse();
+    print_ast(ast);
 
     return EXIT_SUCCESS;
 }
 
-void process_cl_args(int argc, char **argv, bool *stages, char **to_compile)
-{
-
-    for (int i = 1; i < argc; i++)
-    {
-        if (!strcmp("-scan", argv[i]))
-        {
-            stages[SCAN] = true;
-        }
-        else if (!strcmp("-parse", argv[i]))
-        {
-            stages[PARSE] = true;
-        }
-        else if (!strcmp("-print", argv[i]))
-        {
-            stages[PPRINT] = true;
-        }
-        else if (!strcmp("-resolve", argv[i]))
-        {
-            stages[RESOLVE] = true;
-        }
-        else if (!strcmp("-help", argv[i]) || !strcmp("-h", argv[i]))
-        {
-            usage(EXIT_SUCCESS, argv[0]);
-        }
-        else
-        {
-            // if we've already assigned the file to compile
-            if (**to_compile)
-                usage(EXIT_FAILURE, argv[0]);
-            // shouldn't need to worry about data pointed to going out of scope here since this isn't being assigned to something on the stack
-            else
-                *to_compile = argv[i];
-        }
-    }
-}
-
 void print_ast(struct decl *ast) { decl_print_list(ast, 0, ";", "\n"); }
 
-int resolve_ast(struct decl *ast, bool verbose)
+/*int resolve_ast(struct decl *ast, bool verbose)
 {
     struct scope *sc = scope_enter(NULL);
     int err_count = decl_resolve(ast, sc, false, verbose);
@@ -170,46 +85,17 @@ int parse_file(char *filename)
     return to_return;
 }
 
-int scan_file(char *filename, bool verbose)
+int scan_file(char *filename)
 {
     /* Runs the flex-generated scanner on the file with name given by 'filename'
         - returns 1 on failure, 0 on success */
 
-    /* An array of strings, where token_strs[<token>] = "<token name as str>", where <token> is a value of the enum token_t and <token name as str> is the symbolic name given to <token> in the enum token_t. Substituted by the Makefile via sed, ensuring the array is up to date with token.h */
-    char *token_strs[] = {"TOKEN_EOF", "ARRAY", "BOOLEAN", "CHAR", "ELSE", "FALSE", "FOR", "FUNCTION", "IF", "INTEGER", "PRINT", "RETURN", "STRING", "TRUE", "VOID", "WHILE", "L_PAR", "R_PAR", "L_BRK", "R_BRK", "L_BRC", "R_BRC", "INC", "DEC", "MINUS", "NOT", "CARET", "STAR", "SLASH", "PRCT", "PLUS", "LT_EQ", "LT", "GT_EQ", "GT", "EQ", "NOT_EQ", "AND", "OR", "ASGN", "COLON", "S_COL", "COMMA", "IDENT", "STR_LIT", "INT_LIT", "CHAR_LIT", "INTERNAL_ERR", "SCAN_ERR"};
-
+/* An array of strings, where token_strs[<token>] = "<token name as str>", where <token> is a value of the enum token_t and <token name as str> is the symbolic name given to <token> in the enum token_t. Substituted by the Makefile via sed, ensuring the array is up to date with token.h */
+/*
     yyin = fopen(filename, "r");
-    token_t t = TOKEN_EOF;
-    if (!yyin)
-    {
-        printf("[ERROR|file] Could not open %s! %s\n", filename, strerror(errno));
-        return 1;
-    }
-    do
-    {
-        t = yylex();
-        int t_str_idx = t - TOKEN_EOF;
-        if (verbose)
-        {
-            switch (t)
-            {
-            case SCAN_ERR:
-                fprintf(stdout, "[ERROR|scan] Invalid token: %s\n", yytext);
-                break;
-            case IDENT:
-                printf("%s %s\n", token_strs[t_str_idx], yytext);
-                break;
-            case INT_LIT:
-                printf("%s %d\n", token_strs[t_str_idx], last_int_literal);
-                break;
-            default:
-                printf("%s\n", token_strs[t_str_idx]);
-                break;
-            }
-        }
-    } while (!(t == SCAN_ERR));
-    fclose(yyin);
-    return t != TOKEN_EOF;
+    int t = yylex();
+
+    return t;
 }
 
 void indent(int indents)
@@ -217,3 +103,4 @@ void indent(int indents)
     for (int i = 0; i < indents; i++)
         fputs("\t", stdout);
 }
+*/

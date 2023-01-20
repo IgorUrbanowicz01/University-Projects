@@ -10,7 +10,7 @@
 
     char *clean_string(char *string, char skip);
     
-    int   last_int_literal;
+    int last_int_literal;
 
 %}
 
@@ -25,8 +25,8 @@ IDENT       ({LETTER}|_)({LETTER}|{DIGIT}|_)*
 INT_LIT     {DIGIT}+
 
 %%
-[.]
-{WHITESPACE}                /* consume whitespace */
+\[[^]]*\]			{/* consume whitespace */}
+{WHITESPACE}        {/* consume whitespace */}
 <<EOF>>                     { return TOKEN_EOF; }
 
 "PROCEDURE"         { return PROCEDURE; }
@@ -42,27 +42,20 @@ INT_LIT     {DIGIT}+
 "WHILE"             { return WHILE; }
 "DO"                { return DO; }
 "ENDWHILE"          { return ENDWHILE; }
-"REPEAT"            { return REPEAT; }
+"REPEAT"            { return REPEAT;}
 "UNTIL"             { return UNTIL; }
 "READ"              { return READ; }
 "WRITE"             { return WRITE; }
 
-
-{IDENT}                     { return yyleng <= 256 ? IDENT : SCAN_ERR; }
-{INT_LIT}                   {
-                            last_int_literal = atoi(yytext);
-                            return INT_LIT;
-                            }
-
 "("                     { return LPR; }
 ")"                     { return RPR; }
 
-":="                    { return ASSIGN; }
+":="                    {  printf("ASSIGN");return ASSIGN;}
 ","                     { return COMMA; }
 ";"                     { return SEMICOLON; }
 
-"="                     { return EQ; }
 "!="                    { return NEQ; }
+"="                     { return EQ; }
 "<"                     { return LT; }
 ">"                     { return GT; }
 "<="                    { return LEQ; }
@@ -73,6 +66,13 @@ INT_LIT     {DIGIT}+
 "*"                     { return MUL; }
 "/"                     { return DIV; }
 "%"                     { return MOD; }
+
+
+{IDENT}                     { return yyleng <= 256 ? IDENT : SCAN_ERR; }
+{INT_LIT}                   {
+                            last_int_literal = atoi(yytext);
+                            return INT_LIT;
+                            }
 
 .                           { return SCAN_ERR; }
 

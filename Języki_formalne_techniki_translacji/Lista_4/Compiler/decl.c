@@ -3,9 +3,7 @@
 #include <stdlib.h>
 // #include <stdbool.h>
 
-extern void indent(int indents);
-
-struct decl *decl_create(char *ident, struct type *type, struct stmt *func_body, struct decl *var)
+struct decl *decl_create(char *ident, struct type *type, struct stmt *func_body, struct decl *next, struct expr *var)
 {
     struct decl *d = malloc(sizeof(*d));
     if (!d)
@@ -18,8 +16,7 @@ struct decl *decl_create(char *ident, struct type *type, struct stmt *func_body,
     d->type = type;
     d->func_body = func_body;
     d->var = var;
-    d->next = NULL;
-    d->symbol = NULL;
+    d->next = next;
 
     return d;
 }
@@ -29,7 +26,6 @@ void decl_print(struct decl *d, int indents, char *term)
     if (!d)
         return;
 
-    indent(indents);
     printf("%s: ", d->ident);
     type_print(d->type);
 
@@ -43,7 +39,6 @@ void decl_print(struct decl *d, int indents, char *term)
     {
         fputs(" = {\n", stdout);
         stmt_print_list(d->func_body, indents + 1, "\n");
-        indent(indents);
         fputs("\n}", stdout);
     }
     else
@@ -63,4 +58,5 @@ void decl_print_list(struct decl *d, int indents, char *term, char *delim)
 int decl_resolve(struct decl *d, struct scope *sc, bool am_param, bool verbose)
 {
     // ToDO/
+    return d;
 }

@@ -1,4 +1,4 @@
-FLAGS := -g -Wall -std=gnu99 -c
+FLAGS := -g -Wall -std=gnu99 -ggdb
 
 SOURCES = $(wildcard *.c)
 HEADERS = $(wildcard *.h)
@@ -9,15 +9,13 @@ OBJECTS = $(SOURCES:.c=.o)
 build: gramar all
 
 all: main.c
-	gcc $(FLAGS) -o main main.c
+	gcc  $(FLAGS) -o main $(SOURCES)
 
 
 gramar: parser.bison scanner.flex
 	bison -Wcounterexamples -v -d -o parser.c -d parser.bison
 	flex -o scanner.c scanner.flex
 
-%.o: %.c $(HEADERS)
-	gcc $(FLAGS) -o $@ $<
 
 clean:
 	@rm -f *.o

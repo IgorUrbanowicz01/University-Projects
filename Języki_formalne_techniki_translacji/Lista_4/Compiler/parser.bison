@@ -15,6 +15,7 @@ extern char *yytext;
 extern int last_int_literal;
 extern int yylex();
 extern int yyerror( char *str );
+extern int yylineno;
 //extern char *clean_string(char *string, char delim);
 struct decl *ast;
 
@@ -69,37 +70,37 @@ struct decl *ast;
 }
 
 %type <decl>        program decl procedures_decl main
-%type <stmt>        stmt maybe_stmts  if_stmt write_stmt while_stmt repeat_stmt
-%type <expr>        read_stmt expr expr1 expr3 expr4 expr5 expr6 func_call atom expr_commdecla_list
+%type <stmt>        function_head_stmt stmt maybe_stmts  if_stmt write_stmt while_stmt repeat_stmt
+%type <expr>        read_stmt expr expr1 expr3 expr4 expr5 expr6  atom 
 %type <ident>       ident
 %type <type>        proc_head
 
 %%
 
 program : procedures_decl main
-        { ast = $2; return 0; }
+        { ast = $2; return ast; }
         ;
 /* END PROGRAM ================================= BEGIN PROCEDURE */
 
 procedures_decl : procedures_decl PROCEDURE proc_head IS VAR decl X_BEGIN maybe_stmts END
-            { $$ = decl_create(NULL, $3, NULL, $8, $6); }
+            { $$ = decl_create(NULL, $3, $8, $6, NULL); }
             | procedures_decl PROCEDURE proc_head IS X_BEGIN maybe_stmts END
-            { $$ = decl_create(NULL, $3, NULL, $6, NULL); }
+            { $$ = decl_create(NULL, $3, $6, NULL, NULL); }
             |
             { $$ = NULL; }
             ;
 
 proc_head: IDENT LPR decl RPR
-            { $$ = type_create(TYPE_FUNCTION, $3) }
+            { $$ = type_create(TYPE_FUNCTION, $3); }
             ;
 
 
 /* END PROCEDURE ================================= BEGIN DECLARATIONS */
 
 decl : decl COMMA ident 
-      { $$  = decl_create($3, type_create(TYPE_INTEGER, NULL), NULL, NULL); $$->next = $1; }
+      { $$  = decl_create($3, type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); $$->next = $1; }
       | ident 
-      { $$  = decl_create($1, type_create(TYPE_INTEGER, NULL), NULL, NULL); }
+      { $$  = decl_create($1, type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); }
       ;
 
 
@@ -107,15 +108,15 @@ decl : decl COMMA ident
 /* END DECLARATIONS ============================ BEGIN MAIN */
 
 main : PROGRAM IS VAR decl X_BEGIN maybe_stmts END
-      {$$ = decl_create("MAIN", type_create(TYPE_FUNCTION,  NULL, NULL), $6, $4);}
+      {$$ = decl_create("MAIN", type_create(TYPE_FUNCTION, NULL), $6, $4, NULL);}
       |PROGRAM IS X_BEGIN maybe_stmts END
-      {$$ = decl_create("MAIN", type_create(TYPE_FUNCTION,  NULL, NULL), $4, NULL);}
+      {$$ = decl_create("MAIN", type_create(TYPE_FUNCTION, NULL), $4, NULL, NULL);}
       ;
  
 /* END MAIN ============================ BEGIN STATEMENTS */
 
 stmt : expr
-      { $$ = stmt_create(STMT_EXPR, NULL, $1, NULL, NULL); }
+      { $$ = stmt_create(STMT_EXPR, NULL, $1, NULL, NULL, NULL); }
       | if_stmt
       { $$ = $1; }
       | read_stmt
@@ -126,30 +127,34 @@ stmt : expr
       { $$ = $1; }
       | repeat_stmt
       { $$ = $1; }
+      | function_head_stmt
+      { $$ = $1; }
      ;
 
 
-if_stmt : IF expr THEN stmt ELSE stmt ENDIF
-        { $4->next = $6; $$ = stmt_create(STMT_IF_ELSE, NULL, $2, $4, $6); }
-        | IF  expr THEN stmt ENDIF
-        { $$ = stmt_create(STMT_IF_ELSE, NULL, $2, $4, NULL); }
+if_stmt : IF expr THEN maybe_stmts ELSE maybe_stmts ENDIF
+        { $4->next = $6; $$ = stmt_create(STMT_IF_ELSE, NULL, $2, $4, $6, NULL); }
+        | IF  expr THEN maybe_stmts ENDIF
+        { $$ = stmt_create(STMT_IF_ELSE, NULL, $2, $4, NULL, NULL); }
         ;
 
 read_stmt : READ expr SEMICOLON
-      { $$ = stmt_create(STMT_READ, NULL, $2, NULL, NULL);}
+      { $$ = stmt_create(STMT_READ, NULL, $2, NULL, NULL, NULL);}
       ;
 
 write_stmt: WRITE expr SEMICOLON
-      { $$ = stmt_create(STMT_WRITE, NULL, $2, NULL, NULL);}
+      { $$ = stmt_create(STMT_WRITE, NULL, $2, NULL, NULL, NULL);}
       ;
 
 while_stmt: WHILE expr DO maybe_stmts ENDWHILE
-      { $$ = stmt_create(STMT_WHILE, NULL, $2, $4, NULL);}
+      { $$ = stmt_create(STMT_WHILE, NULL, $2, $4, NULL, NULL);}
       ;
 
 repeat_stmt: REPEAT maybe_stmts UNTIL expr SEMICOLON 
-      { $$ = stmt_create(STMT_REPEAT, NULL, $4, $2, NULL);}
+      { $$ = stmt_create(STMT_REPEAT, NULL, $4, $2, NULL, NULL);}
       ;
+function_head_stmt: proc_head SEMICOLON
+      { $$ = stmt_create(STMT_HEAD, NULL, NULL, NULL, NULL, $1);}
 
 
 maybe_stmts : /* empty */
@@ -167,7 +172,7 @@ expr : expr6
 
 /* assignment: = */
 expr6: expr5 ASSIGN expr6 SEMICOLON
-      { $$ = expr_create_oper(EXPR_ASGN, $1, $3); }
+      { $$ = expr_create_oper(EXPR_ASGN, $1, $3);}
       | expr5
       { $$ = $1; }
       ;
@@ -182,7 +187,7 @@ expr5 : expr5 LT expr4
       | expr5 GEQ expr4
       { $$ = expr_create_oper(EXPR_GT_EQ, $1, $3); }
       | expr5 EQ expr4
-      { $$ = expr_create_oper(EXPR_EQ, $1, $3); }
+      { $$ = expr_create_oper(EXPR_EQ, $1, $3);}
       | expr5 NEQ expr4
       { $$ = expr_create_oper(EXPR_NOT_EQ, $1, $3); }
       | expr4
@@ -210,17 +215,15 @@ expr3 : expr3 MUL expr1
       ;
 
 /* grouping: () [] f() */
-expr1 : func_call
-      { $$ = $1; }
-      | atom
+expr1 : atom
       { $$ = $1; }
       ;
 
 /* atom: lowest form of expression */
 atom : ident
-     { $$ = expr_create_identifier($1); }
+     { $$ = expr_create_identifier($1); /*printf("%s <-- \n", $1);*/ }
      | INT_LIT
-     { $$ = expr_create_integer_literal(last_int_literal); }
+     { $$ = expr_create_integer_literal(last_int_literal); /*printf("%d <-- \n", last_int_literal);*/}
      ;
 
 ident: IDENT
@@ -230,26 +233,15 @@ ident: IDENT
            exit(EXIT_FAILURE);
        }
        $$ = s;
+       printf("%s <--\n", s);
      }
      ;
 
 
-/* function call: <function name>(<arg list>) */
-/* use expr1 instead of ident at the head of this call so that I can have a function return a function, and then access that function */
-func_call: expr1 LPR expr_commdecla_list RPR
-         { $$ = expr_create_function_call($1, $3); }
-         ;
-
-
-expr_commdecla_list: atom
-               { $$ = $1; }
-               | expr COMMA expr_commdecla_list
-               { $1->next = $3; $$ = $1; }
-               ;
 %%
 
 int yyerror( char *str )
 {
-    printf("parse error: %s\n",str);
+      fprintf(stderr, "Error at line: %d\n%s\n", yylineno, str);
     return 0;
 }

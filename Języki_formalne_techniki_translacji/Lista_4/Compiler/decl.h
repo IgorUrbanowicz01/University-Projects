@@ -6,19 +6,17 @@
 #include "type.h"
 #include "stmt.h"
 #include "expr.h"
-#include "symbol.h"
 
 struct decl
 {
 	char *ident;
 	struct type *type;
 	struct stmt *func_body;
-	struct decl *var;
-	struct symbol *symbol;
+	struct expr *var;
 	struct decl *next;
 };
 
-struct decl *decl_create(char *name, struct type *type, struct stmt *func_body, struct decl *var);
+struct decl *decl_create(char *name, struct type *type, struct stmt *func_body, struct decl *next, struct expr *var);
 void decl_print(struct decl *d, int indents, char *term);
 void decl_print_list(struct decl *d, int indents, char *term, char *delim);
 

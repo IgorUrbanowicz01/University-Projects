@@ -14,10 +14,8 @@ char *descape_char(char c, char delim);
 
 struct expr *expr_create(expr_t expr_type, union expr_data *data)
 {
-    struct expr *e = malloc(sizeof(*e));
-    if (!e)
-        e->symbol = NULL;
 
+    struct expr *e = malloc(sizeof(*e));
     e->kind = expr_type;
     // this seemed to me a good union application since the data values are mutually exclusive
     e->data = data;
@@ -56,17 +54,15 @@ struct expr *expr_create_integer_literal(int i)
     return expr_create(EXPR_INT_LIT, d);
 }
 
-struct expr *expr_create_function_call(struct expr *function, struct expr *arg_list)
-{
-    union expr_data *d = malloc(sizeof(*d));
-    function->next = arg_list;
-    d->func_and_args = function;
-    return expr_create(EXPR_FUNC_CALL, d);
-}
-
 struct expr *expr_create_empty()
 {
     return expr_create(EXPR_EMPTY, NULL);
+}
+
+char *oper_to_str(expr_t t)
+{
+    char *strs[] = {" = ", " < ", " <= ", " > ", " >= ", " == ", " != ", " + ", " - ", " * ", " / ", " % "};
+    return (t < EXPR_ASGN) ? "" : strs[t - EXPR_ASGN];
 }
 
 void expr_print(struct expr *e)
