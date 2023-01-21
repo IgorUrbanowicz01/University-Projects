@@ -13,6 +13,7 @@ extern int yylex();
 extern char *yytext;
 extern int last_int_literal;
 extern struct decl *ast;
+extern struct decl *procedure;
 
 extern int yyparse();
 
@@ -43,7 +44,7 @@ void usage(int return_code, char *called_as)
     exit(return_code);
 }
 
-int main(int argc, char **argv[])
+int main(int argc, char *argv[])
 {
     FILE *fin = fopen(argv[1], "r");
 
@@ -56,11 +57,14 @@ int main(int argc, char **argv[])
 
     yyin = fin;
     yyparse();
+    print_procedure(procedure);
+    printf("\n");
     print_ast(ast);
 
     return EXIT_SUCCESS;
 }
 
+void print_procedure(struct decl *procedure) { decl_print_list(procedure, 0, ";", "\n"); }
 void print_ast(struct decl *ast) { decl_print_list(ast, 0, ";", "\n"); }
 
 /*int resolve_ast(struct decl *ast, bool verbose)
@@ -87,8 +91,6 @@ int parse_file(char *filename)
 
 int scan_file(char *filename)
 {
-    /* Runs the flex-generated scanner on the file with name given by 'filename'
-        - returns 1 on failure, 0 on success */
 
 /* An array of strings, where token_strs[<token>] = "<token name as str>", where <token> is a value of the enum token_t and <token name as str> is the symbolic name given to <token> in the enum token_t. Substituted by the Makefile via sed, ensuring the array is up to date with token.h */
 /*

@@ -87,9 +87,12 @@ extern int yyerror( char *str );
 extern int yylineno;
 //extern char *clean_string(char *string, char delim);
 struct decl *ast;
+struct decl *procedure;
+struct decl *declere = NULL;
+struct decl *parameters = NULL;
 
 
-#line 93 "parser.c"
+#line 96 "parser.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -161,24 +164,28 @@ enum yysymbol_kind_t
   YYSYMBOL_program = 41,                   /* program  */
   YYSYMBOL_procedures_decl = 42,           /* procedures_decl  */
   YYSYMBOL_proc_head = 43,                 /* proc_head  */
-  YYSYMBOL_decl = 44,                      /* decl  */
-  YYSYMBOL_main = 45,                      /* main  */
-  YYSYMBOL_stmt = 46,                      /* stmt  */
-  YYSYMBOL_if_stmt = 47,                   /* if_stmt  */
-  YYSYMBOL_read_stmt = 48,                 /* read_stmt  */
-  YYSYMBOL_write_stmt = 49,                /* write_stmt  */
-  YYSYMBOL_while_stmt = 50,                /* while_stmt  */
-  YYSYMBOL_repeat_stmt = 51,               /* repeat_stmt  */
-  YYSYMBOL_function_head_stmt = 52,        /* function_head_stmt  */
-  YYSYMBOL_maybe_stmts = 53,               /* maybe_stmts  */
-  YYSYMBOL_expr = 54,                      /* expr  */
-  YYSYMBOL_expr6 = 55,                     /* expr6  */
-  YYSYMBOL_expr5 = 56,                     /* expr5  */
-  YYSYMBOL_expr4 = 57,                     /* expr4  */
-  YYSYMBOL_expr3 = 58,                     /* expr3  */
-  YYSYMBOL_expr1 = 59,                     /* expr1  */
-  YYSYMBOL_atom = 60,                      /* atom  */
-  YYSYMBOL_ident = 61                      /* ident  */
+  YYSYMBOL_proc_headSTMT = 44,             /* proc_headSTMT  */
+  YYSYMBOL_declSTMT = 45,                  /* declSTMT  */
+  YYSYMBOL_declH = 46,                     /* declH  */
+  YYSYMBOL_decl = 47,                      /* decl  */
+  YYSYMBOL_main = 48,                      /* main  */
+  YYSYMBOL_stmt = 49,                      /* stmt  */
+  YYSYMBOL_if_stmt = 50,                   /* if_stmt  */
+  YYSYMBOL_read_stmt = 51,                 /* read_stmt  */
+  YYSYMBOL_write_stmt = 52,                /* write_stmt  */
+  YYSYMBOL_while_stmt = 53,                /* while_stmt  */
+  YYSYMBOL_repeat_stmt = 54,               /* repeat_stmt  */
+  YYSYMBOL_function_head_stmt = 55,        /* function_head_stmt  */
+  YYSYMBOL_maybe_stmts = 56,               /* maybe_stmts  */
+  YYSYMBOL_expr = 57,                      /* expr  */
+  YYSYMBOL_expr6 = 58,                     /* expr6  */
+  YYSYMBOL_expr5 = 59,                     /* expr5  */
+  YYSYMBOL_expr4 = 60,                     /* expr4  */
+  YYSYMBOL_expr3 = 61,                     /* expr3  */
+  YYSYMBOL_expr1 = 62,                     /* expr1  */
+  YYSYMBOL_atom = 63,                      /* atom  */
+  YYSYMBOL_ident = 64,                     /* ident  */
+  YYSYMBOL_identE = 65                     /* identE  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -506,16 +513,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  3
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   86
+#define YYLAST   100
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  40
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  22
+#define YYNNTS  26
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  47
+#define YYNRULES  53
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  103
+#define YYNSTATES  114
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   294
@@ -568,11 +575,12 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    80,    80,    85,    87,    90,    93,   100,   102,   110,
-     112,   118,   120,   122,   124,   126,   128,   130,   135,   137,
-     141,   145,   149,   153,   156,   161,   162,   169,   174,   176,
-     181,   183,   185,   187,   189,   191,   193,   198,   200,   202,
-     207,   209,   211,   213,   218,   223,   225,   229
+       0,    83,    83,    88,    90,    93,    96,   100,   106,   108,
+     111,   113,   117,   119,   127,   129,   135,   137,   139,   141,
+     143,   145,   147,   152,   154,   158,   162,   166,   170,   173,
+     178,   179,   186,   190,   192,   197,   199,   201,   203,   205,
+     207,   209,   214,   216,   218,   223,   225,   227,   229,   234,
+     239,   241,   245,   254
 };
 #endif
 
@@ -594,9 +602,10 @@ static const char *const yytname[] =
   "RPR", "ASSIGN", "COMMA", "SEMICOLON", "EQ", "NEQ", "GT", "LT", "LEQ",
   "GEQ", "ADD", "SUB", "MUL", "DIV", "MOD", "IDENT", "INT_LIT", "SCAN_ERR",
   "TOKEN_EOF", "$accept", "program", "procedures_decl", "proc_head",
-  "decl", "main", "stmt", "if_stmt", "read_stmt", "write_stmt",
-  "while_stmt", "repeat_stmt", "function_head_stmt", "maybe_stmts", "expr",
-  "expr6", "expr5", "expr4", "expr3", "expr1", "atom", "ident", YY_NULLPTR
+  "proc_headSTMT", "declSTMT", "declH", "decl", "main", "stmt", "if_stmt",
+  "read_stmt", "write_stmt", "while_stmt", "repeat_stmt",
+  "function_head_stmt", "maybe_stmts", "expr", "expr6", "expr5", "expr4",
+  "expr3", "expr1", "atom", "ident", "identE", YY_NULLPTR
 };
 
 static const char *
@@ -606,12 +615,12 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-36)
+#define YYPACT_NINF (-45)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
 
-#define YYTABLE_NINF (-1)
+#define YYTABLE_NINF (-53)
 
 #define yytable_value_is_error(Yyn) \
   0
@@ -620,17 +629,18 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -36,    63,    -1,   -36,    30,    64,   -36,   -19,    65,    36,
-      31,    39,    31,     3,   -36,    -6,   -36,    31,     3,    -3,
-      17,    17,     3,    17,    17,   -19,   -36,    46,     3,   -36,
-     -36,   -36,   -36,   -36,   -36,    66,   -36,   -36,     7,    19,
-      14,   -36,   -36,   -36,   -36,    31,     8,    67,     3,    61,
-      58,    59,    51,    53,   -36,   -36,   -36,    17,    17,    17,
-      17,    17,    17,    17,    17,    17,    17,    17,    17,   -36,
-       3,   -36,    71,     3,     3,    17,   -36,   -36,    56,    19,
-      19,    19,    19,    19,    19,    14,    14,   -36,   -36,   -36,
-      74,   -36,    50,    68,    60,   -36,   -36,     3,   -36,   -36,
-     -36,    70,   -36
+     -45,     3,    11,   -45,    20,    67,   -45,   -45,   -15,    37,
+      20,    68,    20,     2,    52,    51,    47,    19,    53,   -20,
+     -20,     2,   -20,   -20,    58,   -45,     2,   -45,   -45,   -45,
+     -45,   -45,   -45,    72,   -45,   -45,     4,    23,   -11,   -45,
+     -45,    60,   -45,   -45,    20,    20,     2,     2,    20,   -45,
+      65,    69,    64,    61,    62,   -45,   -45,   -20,   -20,   -20,
+     -20,   -20,   -20,   -20,   -20,   -20,   -20,   -20,   -20,    20,
+      66,   -45,    76,    77,    81,   -45,     2,     2,   -20,   -45,
+     -45,    21,    23,    23,    23,    23,    23,    23,   -11,   -11,
+     -45,   -45,   -45,    70,    71,   -45,     2,   -45,   -45,    55,
+      74,    73,   -45,   -45,    20,    85,     2,   -45,   -45,   -45,
+     -45,   -45,    83,   -45
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -638,33 +648,34 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       5,     0,     0,     1,     0,     0,     2,     0,     0,     0,
-       0,     0,     0,    25,    47,     0,     8,     0,    25,     0,
-       0,     0,    25,     0,     0,    47,    46,     0,    25,    12,
-      13,    14,    15,    16,    17,     0,    11,    27,    29,    36,
-      39,    43,    44,    45,     6,     0,     0,     0,    25,     0,
-       0,     0,     0,     0,    24,    26,    10,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     7,
-      25,     4,     0,    25,    25,     0,    20,    21,     0,    34,
-      35,    32,    30,    31,    33,    37,    38,    40,    41,    42,
-       0,     9,     0,     0,     0,    28,     3,    25,    19,    22,
-      23,     0,    18
+       5,     0,     0,     1,     0,     0,     2,    52,     0,     0,
+       0,     0,     0,    30,     0,    11,     0,     0,    13,     0,
+       0,    30,     0,     0,    53,    51,    30,    17,    18,    19,
+      20,    21,    22,     0,    16,    32,    34,    41,    44,    48,
+      49,     0,    50,     6,     0,     0,    30,    30,     0,    53,
+       0,     0,     0,     0,     0,    31,    15,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,    10,     0,     0,     0,    12,    30,    30,     0,    25,
+      26,     0,    39,    40,    37,    35,    36,    38,    42,    43,
+      45,    46,    47,     0,     9,    29,    30,     4,    14,     0,
+       0,     0,    33,     7,     0,     0,    30,    24,    27,    28,
+       8,     3,     0,    23
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -36,   -36,   -36,    81,    26,   -36,   -36,   -36,   -36,   -36,
-     -36,   -36,   -36,   -18,   -15,    29,   -36,   -35,     0,    -9,
-     -36,     1
+     -45,   -45,   -45,   -45,   -45,    -8,    49,   -44,   -45,   -45,
+     -45,   -45,   -45,   -45,   -45,   -45,   -19,   -10,   -45,    41,
+       1,     5,   -31,   -45,    -4,   -45
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     1,     2,    27,    15,     6,    28,    29,    30,    31,
-      32,    33,    34,    35,    36,    37,    38,    39,    40,    41,
-      42,    43
+       0,     1,     2,    11,    70,    93,    14,    17,     6,    26,
+      27,    28,    29,    30,    31,    32,    33,    34,    35,    36,
+      37,    38,    39,    40,    41,    42
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -672,65 +683,72 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      47,    10,     4,    48,    51,    49,    50,     5,    52,    53,
-      55,    16,    20,    16,    70,    44,    21,    45,    16,    22,
-      45,    23,    24,    79,    80,    81,    82,    83,    84,    57,
-      72,    45,    58,    59,    60,    61,    62,    63,    19,    25,
-      26,    12,    13,    46,    17,    18,    69,    66,    67,    68,
-      64,    65,    90,    14,    26,    92,    93,    87,    88,    89,
-      94,    97,    98,     3,    85,    86,     7,    14,     9,    11,
-      54,    73,    74,    56,    71,    76,    75,    77,    91,   101,
-      95,    96,   102,    99,   100,     8,    78
+       8,    72,    52,     3,    75,    10,    15,    55,    18,    50,
+      51,    19,    53,    54,     4,    20,    49,    25,    21,     5,
+      22,    23,    66,    67,    68,    47,    57,    73,    74,    58,
+      59,    60,    61,    62,    63,    90,    91,    92,    24,    25,
+      15,    18,    12,    13,    18,   102,    58,    59,    60,    61,
+      62,    63,    45,    46,    64,    65,     7,    99,   100,    82,
+      83,    84,    85,    86,    87,    94,   106,   107,   101,    88,
+      89,     9,    16,    43,    44,    76,    48,   105,   -52,    56,
+      69,    78,    96,    77,    97,    79,    80,   112,    98,   108,
+      95,   103,   111,    71,   104,   113,   110,   109,    81,     0,
+      94
 };
 
 static const yytype_int8 yycheck[] =
 {
-      18,    20,     3,     6,    22,    20,    21,     8,    23,    24,
-      28,    10,     9,    12,     6,    21,    13,    23,    17,    16,
-      23,    18,    19,    58,    59,    60,    61,    62,    63,    22,
-      48,    23,    25,    26,    27,    28,    29,    30,    12,    36,
-      37,     5,     6,    17,     5,     6,    45,    33,    34,    35,
-      31,    32,    70,    36,    37,    73,    74,    66,    67,    68,
-      75,    11,    12,     0,    64,    65,    36,    36,     4,     4,
-      24,    10,    14,     7,     7,    24,    17,    24,     7,    97,
-      24,     7,    12,    15,    24,     4,    57
+       4,    45,    21,     0,    48,    20,    10,    26,    12,    19,
+      20,     9,    22,    23,     3,    13,    36,    37,    16,     8,
+      18,    19,    33,    34,    35,     6,    22,    46,    47,    25,
+      26,    27,    28,    29,    30,    66,    67,    68,    36,    37,
+      44,    45,     5,     6,    48,    24,    25,    26,    27,    28,
+      29,    30,     5,     6,    31,    32,    36,    76,    77,    58,
+      59,    60,    61,    62,    63,    69,    11,    12,    78,    64,
+      65,     4,     4,    21,    23,    10,    23,    96,    20,     7,
+      20,    17,     6,    14,     7,    24,    24,   106,     7,    15,
+      24,    21,     7,    44,    23,    12,   104,    24,    57,    -1,
+     104
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    41,    42,     0,     3,     8,    45,    36,    43,     4,
-      20,     4,     5,     6,    36,    44,    61,     5,     6,    44,
-       9,    13,    16,    18,    19,    36,    37,    43,    46,    47,
-      48,    49,    50,    51,    52,    53,    54,    55,    56,    57,
-      58,    59,    60,    61,    21,    23,    44,    53,     6,    54,
-      54,    53,    54,    54,    24,    53,     7,    22,    25,    26,
-      27,    28,    29,    30,    31,    32,    33,    34,    35,    61,
-       6,     7,    53,    10,    14,    17,    24,    24,    55,    57,
-      57,    57,    57,    57,    57,    58,    58,    59,    59,    59,
-      53,     7,    53,    53,    54,    24,     7,    11,    12,    15,
-      24,    53,    12
+       0,    41,    42,     0,     3,     8,    48,    36,    64,     4,
+      20,    43,     5,     6,    46,    64,     4,    47,    64,     9,
+      13,    16,    18,    19,    36,    37,    49,    50,    51,    52,
+      53,    54,    55,    56,    57,    58,    59,    60,    61,    62,
+      63,    64,    65,    21,    23,     5,     6,     6,    23,    36,
+      57,    57,    56,    57,    57,    56,     7,    22,    25,    26,
+      27,    28,    29,    30,    31,    32,    33,    34,    35,    20,
+      44,    46,    47,    56,    56,    47,    10,    14,    17,    24,
+      24,    59,    60,    60,    60,    60,    60,    60,    61,    61,
+      62,    62,    62,    45,    64,    24,     6,     7,     7,    56,
+      56,    57,    24,    21,    23,    56,    11,    12,    15,    24,
+      45,     7,    56,    12
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    40,    41,    42,    42,    42,    43,    44,    44,    45,
-      45,    46,    46,    46,    46,    46,    46,    46,    47,    47,
-      48,    49,    50,    51,    52,    53,    53,    54,    55,    55,
-      56,    56,    56,    56,    56,    56,    56,    57,    57,    57,
-      58,    58,    58,    58,    59,    60,    60,    61
+       0,    40,    41,    42,    42,    42,    43,    44,    45,    45,
+      46,    46,    47,    47,    48,    48,    49,    49,    49,    49,
+      49,    49,    49,    50,    50,    51,    52,    53,    54,    55,
+      56,    56,    57,    58,    58,    59,    59,    59,    59,    59,
+      59,    59,    60,    60,    60,    61,    61,    61,    61,    62,
+      63,    63,    64,    65
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     2,     9,     7,     0,     4,     3,     1,     7,
-       5,     1,     1,     1,     1,     1,     1,     1,     7,     5,
-       3,     3,     5,     5,     2,     0,     2,     1,     4,     1,
-       3,     3,     3,     3,     3,     3,     1,     3,     3,     1,
-       3,     3,     3,     1,     1,     1,     1,     1
+       0,     2,     2,    10,     8,     0,     3,     3,     3,     1,
+       3,     1,     3,     1,     7,     5,     1,     1,     1,     1,
+       1,     1,     1,     7,     5,     3,     3,     5,     5,     3,
+       0,     2,     1,     4,     1,     3,     3,     3,     3,     3,
+       3,     1,     3,     3,     1,     3,     3,     3,     1,     1,
+       1,     1,     1,     1
 };
 
 
@@ -1194,290 +1212,337 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: procedures_decl main  */
-#line 81 "parser.bison"
-        { ast = (yyvsp[0].decl); return ast; }
-#line 1200 "parser.c"
-    break;
-
-  case 3: /* procedures_decl: procedures_decl PROCEDURE proc_head IS VAR decl X_BEGIN maybe_stmts END  */
-#line 86 "parser.bison"
-            { (yyval.decl) = decl_create(NULL, (yyvsp[-6].type), (yyvsp[-1].stmt), (yyvsp[-3].decl), NULL); }
-#line 1206 "parser.c"
-    break;
-
-  case 4: /* procedures_decl: procedures_decl PROCEDURE proc_head IS X_BEGIN maybe_stmts END  */
-#line 88 "parser.bison"
-            { (yyval.decl) = decl_create(NULL, (yyvsp[-4].type), (yyvsp[-1].stmt), NULL, NULL); }
-#line 1212 "parser.c"
-    break;
-
-  case 5: /* procedures_decl: %empty  */
-#line 90 "parser.bison"
-            { (yyval.decl) = NULL; }
+#line 84 "parser.bison"
+        {procedure = (yyvsp[-1].decl); ast = (yyvsp[0].decl); return 1; }
 #line 1218 "parser.c"
     break;
 
-  case 6: /* proc_head: IDENT LPR decl RPR  */
-#line 94 "parser.bison"
-            { (yyval.type) = type_create(TYPE_FUNCTION, (yyvsp[-1].decl)); }
+  case 3: /* procedures_decl: procedures_decl PROCEDURE ident proc_head IS VAR decl X_BEGIN maybe_stmts END  */
+#line 89 "parser.bison"
+            {  (yyval.decl) = decl_create((yyvsp[-7].ident), (yyvsp[-6].type), (yyvsp[-1].stmt), (yyvsp[-3].decl), (yyvsp[-9].decl)); }
 #line 1224 "parser.c"
     break;
 
-  case 7: /* decl: decl COMMA ident  */
-#line 101 "parser.bison"
-      { (yyval.decl)  = decl_create((yyvsp[0].ident), type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); (yyval.decl)->next = (yyvsp[-2].decl); }
+  case 4: /* procedures_decl: procedures_decl PROCEDURE ident proc_head IS X_BEGIN maybe_stmts END  */
+#line 91 "parser.bison"
+            { (yyval.decl) = decl_create((yyvsp[-5].ident), (yyvsp[-4].type), (yyvsp[-1].stmt), NULL, (yyvsp[-7].decl)); }
 #line 1230 "parser.c"
     break;
 
-  case 8: /* decl: ident  */
-#line 103 "parser.bison"
-      { (yyval.decl)  = decl_create((yyvsp[0].ident), type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); }
+  case 5: /* procedures_decl: %empty  */
+#line 93 "parser.bison"
+            { (yyval.decl) = NULL; }
 #line 1236 "parser.c"
     break;
 
-  case 9: /* main: PROGRAM IS VAR decl X_BEGIN maybe_stmts END  */
-#line 111 "parser.bison"
-      {(yyval.decl) = decl_create("MAIN", type_create(TYPE_FUNCTION, NULL), (yyvsp[-1].stmt), (yyvsp[-3].decl), NULL);}
+  case 6: /* proc_head: LPR declH RPR  */
+#line 97 "parser.bison"
+            { (yyval.type) = type_create(TYPE_FUNCTION, (yyvsp[-1].decl)); }
 #line 1242 "parser.c"
     break;
 
-  case 10: /* main: PROGRAM IS X_BEGIN maybe_stmts END  */
-#line 113 "parser.bison"
-      {(yyval.decl) = decl_create("MAIN", type_create(TYPE_FUNCTION, NULL), (yyvsp[-1].stmt), NULL, NULL);}
+  case 7: /* proc_headSTMT: LPR declSTMT RPR  */
+#line 101 "parser.bison"
+            { (yyval.type) = type_create(TYPE_FUNCTION, (yyvsp[-1].decl)); }
 #line 1248 "parser.c"
     break;
 
-  case 11: /* stmt: expr  */
-#line 119 "parser.bison"
-      { (yyval.stmt) = stmt_create(STMT_EXPR, NULL, (yyvsp[0].expr), NULL, NULL, NULL); }
+  case 8: /* declSTMT: ident COMMA declSTMT  */
+#line 107 "parser.bison"
+      { (yyval.decl)  = decl_create((yyvsp[-2].ident), type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); (yyval.decl)->next = (yyvsp[0].decl);}
 #line 1254 "parser.c"
     break;
 
-  case 12: /* stmt: if_stmt  */
-#line 121 "parser.bison"
-      { (yyval.stmt) = (yyvsp[0].stmt); }
+  case 9: /* declSTMT: ident  */
+#line 109 "parser.bison"
+      { (yyval.decl)  = decl_create((yyvsp[0].ident), type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL);}
 #line 1260 "parser.c"
     break;
 
-  case 13: /* stmt: read_stmt  */
-#line 123 "parser.bison"
-      { (yyval.stmt) = (yyvsp[0].expr); }
+  case 10: /* declH: ident COMMA declH  */
+#line 112 "parser.bison"
+      { (yyval.decl)  = decl_create((yyvsp[-2].ident), type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); (yyval.decl)->next = (yyvsp[0].decl); parameters = (yyval.decl); }
 #line 1266 "parser.c"
     break;
 
-  case 14: /* stmt: write_stmt  */
-#line 125 "parser.bison"
-      { (yyval.stmt) = (yyvsp[0].stmt); }
+  case 11: /* declH: ident  */
+#line 114 "parser.bison"
+      { (yyval.decl)  = decl_create((yyvsp[0].ident), type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); parameters = (yyval.decl);}
 #line 1272 "parser.c"
     break;
 
-  case 15: /* stmt: while_stmt  */
-#line 127 "parser.bison"
-      { (yyval.stmt) = (yyvsp[0].stmt); }
+  case 12: /* decl: ident COMMA decl  */
+#line 118 "parser.bison"
+      { (yyval.decl)  = decl_create((yyvsp[-2].ident), type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); (yyval.decl)->next = (yyvsp[0].decl); declere = (yyval.decl); }
 #line 1278 "parser.c"
     break;
 
-  case 16: /* stmt: repeat_stmt  */
-#line 129 "parser.bison"
-      { (yyval.stmt) = (yyvsp[0].stmt); }
+  case 13: /* decl: ident  */
+#line 120 "parser.bison"
+      { (yyval.decl)  = decl_create((yyvsp[0].ident), type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); declere = (yyval.decl);}
 #line 1284 "parser.c"
     break;
 
-  case 17: /* stmt: function_head_stmt  */
-#line 131 "parser.bison"
-      { (yyval.stmt) = (yyvsp[0].stmt); }
+  case 14: /* main: PROGRAM IS VAR decl X_BEGIN maybe_stmts END  */
+#line 128 "parser.bison"
+      {(yyval.decl) = decl_create("MAIN", type_create(TYPE_FUNCTION, NULL), (yyvsp[-1].stmt), (yyvsp[-3].decl), NULL);}
 #line 1290 "parser.c"
     break;
 
-  case 18: /* if_stmt: IF expr THEN maybe_stmts ELSE maybe_stmts ENDIF  */
-#line 136 "parser.bison"
-        { (yyvsp[-3].stmt)->next = (yyvsp[-1].stmt); (yyval.stmt) = stmt_create(STMT_IF_ELSE, NULL, (yyvsp[-5].expr), (yyvsp[-3].stmt), (yyvsp[-1].stmt), NULL); }
+  case 15: /* main: PROGRAM IS X_BEGIN maybe_stmts END  */
+#line 130 "parser.bison"
+      {(yyval.decl) = decl_create("MAIN", type_create(TYPE_FUNCTION, NULL), (yyvsp[-1].stmt), NULL, NULL);}
 #line 1296 "parser.c"
     break;
 
-  case 19: /* if_stmt: IF expr THEN maybe_stmts ENDIF  */
-#line 138 "parser.bison"
-        { (yyval.stmt) = stmt_create(STMT_IF_ELSE, NULL, (yyvsp[-3].expr), (yyvsp[-1].stmt), NULL, NULL); }
+  case 16: /* stmt: expr  */
+#line 136 "parser.bison"
+      { (yyval.stmt) = stmt_create(STMT_EXPR, NULL, (yyvsp[0].expr), NULL, NULL); }
 #line 1302 "parser.c"
     break;
 
-  case 20: /* read_stmt: READ expr SEMICOLON  */
-#line 142 "parser.bison"
-      { (yyval.expr) = stmt_create(STMT_READ, NULL, (yyvsp[-1].expr), NULL, NULL, NULL);}
+  case 17: /* stmt: if_stmt  */
+#line 138 "parser.bison"
+      { (yyval.stmt) = (yyvsp[0].stmt); }
 #line 1308 "parser.c"
     break;
 
-  case 21: /* write_stmt: WRITE expr SEMICOLON  */
-#line 146 "parser.bison"
-      { (yyval.stmt) = stmt_create(STMT_WRITE, NULL, (yyvsp[-1].expr), NULL, NULL, NULL);}
+  case 18: /* stmt: read_stmt  */
+#line 140 "parser.bison"
+      { (yyval.stmt) = (yyvsp[0].expr); }
 #line 1314 "parser.c"
     break;
 
-  case 22: /* while_stmt: WHILE expr DO maybe_stmts ENDWHILE  */
-#line 150 "parser.bison"
-      { (yyval.stmt) = stmt_create(STMT_WHILE, NULL, (yyvsp[-3].expr), (yyvsp[-1].stmt), NULL, NULL);}
+  case 19: /* stmt: write_stmt  */
+#line 142 "parser.bison"
+      { (yyval.stmt) = (yyvsp[0].stmt); }
 #line 1320 "parser.c"
     break;
 
-  case 23: /* repeat_stmt: REPEAT maybe_stmts UNTIL expr SEMICOLON  */
-#line 154 "parser.bison"
-      { (yyval.stmt) = stmt_create(STMT_REPEAT, NULL, (yyvsp[-1].expr), (yyvsp[-3].stmt), NULL, NULL);}
+  case 20: /* stmt: while_stmt  */
+#line 144 "parser.bison"
+      { (yyval.stmt) = (yyvsp[0].stmt); }
 #line 1326 "parser.c"
     break;
 
-  case 24: /* function_head_stmt: proc_head SEMICOLON  */
-#line 157 "parser.bison"
-      { (yyval.stmt) = stmt_create(STMT_HEAD, NULL, NULL, NULL, NULL, (yyvsp[-1].type));}
+  case 21: /* stmt: repeat_stmt  */
+#line 146 "parser.bison"
+      { (yyval.stmt) = (yyvsp[0].stmt); }
 #line 1332 "parser.c"
     break;
 
-  case 25: /* maybe_stmts: %empty  */
-#line 161 "parser.bison"
-            { (yyval.stmt) = NULL; }
+  case 22: /* stmt: function_head_stmt  */
+#line 148 "parser.bison"
+      { (yyval.stmt) = (yyvsp[0].stmt); }
 #line 1338 "parser.c"
     break;
 
-  case 26: /* maybe_stmts: stmt maybe_stmts  */
-#line 163 "parser.bison"
-            { (yyvsp[-1].stmt)->next = (yyvsp[0].stmt); (yyval.stmt) = (yyvsp[-1].stmt); }
+  case 23: /* if_stmt: IF expr THEN maybe_stmts ELSE maybe_stmts ENDIF  */
+#line 153 "parser.bison"
+        { (yyvsp[-3].stmt)->next = (yyvsp[-1].stmt); (yyval.stmt) = stmt_create(STMT_IF_ELSE, NULL, (yyvsp[-5].expr), (yyvsp[-3].stmt), (yyvsp[-1].stmt)); }
 #line 1344 "parser.c"
     break;
 
-  case 27: /* expr: expr6  */
-#line 170 "parser.bison"
-     { (yyval.expr) = (yyvsp[0].expr); }
+  case 24: /* if_stmt: IF expr THEN maybe_stmts ENDIF  */
+#line 155 "parser.bison"
+        { (yyval.stmt) = stmt_create(STMT_IF_ELSE, NULL, (yyvsp[-3].expr), (yyvsp[-1].stmt), NULL); }
 #line 1350 "parser.c"
     break;
 
-  case 28: /* expr6: expr5 ASSIGN expr6 SEMICOLON  */
-#line 175 "parser.bison"
-      { (yyval.expr) = expr_create_oper(EXPR_ASGN, (yyvsp[-3].expr), (yyvsp[-1].expr));}
+  case 25: /* read_stmt: READ expr SEMICOLON  */
+#line 159 "parser.bison"
+      { (yyval.expr) = stmt_create(STMT_READ, NULL, (yyvsp[-1].expr), NULL, NULL);}
 #line 1356 "parser.c"
     break;
 
-  case 29: /* expr6: expr5  */
-#line 177 "parser.bison"
-      { (yyval.expr) = (yyvsp[0].expr); }
+  case 26: /* write_stmt: WRITE expr SEMICOLON  */
+#line 163 "parser.bison"
+      { (yyval.stmt) = stmt_create(STMT_WRITE, NULL, (yyvsp[-1].expr), NULL, NULL);}
 #line 1362 "parser.c"
     break;
 
-  case 30: /* expr5: expr5 LT expr4  */
-#line 182 "parser.bison"
-      { (yyval.expr) = expr_create_oper(EXPR_LT, (yyvsp[-2].expr), (yyvsp[0].expr)); }
+  case 27: /* while_stmt: WHILE expr DO maybe_stmts ENDWHILE  */
+#line 167 "parser.bison"
+      { (yyval.stmt) = stmt_create(STMT_WHILE, NULL, (yyvsp[-3].expr), (yyvsp[-1].stmt), NULL);}
 #line 1368 "parser.c"
     break;
 
-  case 31: /* expr5: expr5 LEQ expr4  */
-#line 184 "parser.bison"
-      { (yyval.expr) = expr_create_oper(EXPR_LT_EQ, (yyvsp[-2].expr), (yyvsp[0].expr)); }
+  case 28: /* repeat_stmt: REPEAT maybe_stmts UNTIL expr SEMICOLON  */
+#line 171 "parser.bison"
+      { (yyval.stmt) = stmt_create(STMT_REPEAT, NULL, (yyvsp[-1].expr), (yyvsp[-3].stmt), NULL);}
 #line 1374 "parser.c"
     break;
 
-  case 32: /* expr5: expr5 GT expr4  */
-#line 186 "parser.bison"
-      { (yyval.expr) = expr_create_oper(EXPR_GT, (yyvsp[-2].expr), (yyvsp[0].expr)); }
+  case 29: /* function_head_stmt: ident proc_headSTMT SEMICOLON  */
+#line 174 "parser.bison"
+      { (yyval.stmt) = stmt_create(STMT_HEAD, decl_create((yyvsp[-2].ident), (yyvsp[-1].type), NULL, NULL, NULL), NULL, NULL, NULL);}
 #line 1380 "parser.c"
     break;
 
-  case 33: /* expr5: expr5 GEQ expr4  */
-#line 188 "parser.bison"
-      { (yyval.expr) = expr_create_oper(EXPR_GT_EQ, (yyvsp[-2].expr), (yyvsp[0].expr)); }
+  case 30: /* maybe_stmts: %empty  */
+#line 178 "parser.bison"
+            { (yyval.stmt) = NULL; }
 #line 1386 "parser.c"
     break;
 
-  case 34: /* expr5: expr5 EQ expr4  */
-#line 190 "parser.bison"
-      { (yyval.expr) = expr_create_oper(EXPR_EQ, (yyvsp[-2].expr), (yyvsp[0].expr));}
+  case 31: /* maybe_stmts: stmt maybe_stmts  */
+#line 180 "parser.bison"
+            { (yyvsp[-1].stmt)->next = (yyvsp[0].stmt); (yyval.stmt) = (yyvsp[-1].stmt); }
 #line 1392 "parser.c"
     break;
 
-  case 35: /* expr5: expr5 NEQ expr4  */
-#line 192 "parser.bison"
-      { (yyval.expr) = expr_create_oper(EXPR_NOT_EQ, (yyvsp[-2].expr), (yyvsp[0].expr)); }
+  case 32: /* expr: expr6  */
+#line 187 "parser.bison"
+     { (yyval.expr) = (yyvsp[0].expr); }
 #line 1398 "parser.c"
     break;
 
-  case 36: /* expr5: expr4  */
-#line 194 "parser.bison"
-      { (yyval.expr) = (yyvsp[0].expr); }
+  case 33: /* expr6: expr5 ASSIGN expr5 SEMICOLON  */
+#line 191 "parser.bison"
+      { (yyval.expr) = expr_create_oper(EXPR_ASGN, (yyvsp[-3].expr), (yyvsp[-1].expr));}
 #line 1404 "parser.c"
     break;
 
-  case 37: /* expr4: expr4 ADD expr3  */
-#line 199 "parser.bison"
-      { (yyval.expr) = expr_create_oper(EXPR_ADD, (yyvsp[-2].expr), (yyvsp[0].expr)); }
+  case 34: /* expr6: expr5  */
+#line 193 "parser.bison"
+      { (yyval.expr) = (yyvsp[0].expr); }
 #line 1410 "parser.c"
     break;
 
-  case 38: /* expr4: expr4 SUB expr3  */
-#line 201 "parser.bison"
-      { (yyval.expr) = expr_create_oper(EXPR_SUB, (yyvsp[-2].expr), (yyvsp[0].expr)); }
+  case 35: /* expr5: expr5 LT expr4  */
+#line 198 "parser.bison"
+      { (yyval.expr) = expr_create_oper(EXPR_LT, (yyvsp[-2].expr), (yyvsp[0].expr)); }
 #line 1416 "parser.c"
     break;
 
-  case 39: /* expr4: expr3  */
-#line 203 "parser.bison"
-      { (yyval.expr) = (yyvsp[0].expr); }
+  case 36: /* expr5: expr5 LEQ expr4  */
+#line 200 "parser.bison"
+      { (yyval.expr) = expr_create_oper(EXPR_LT_EQ, (yyvsp[-2].expr), (yyvsp[0].expr)); }
 #line 1422 "parser.c"
     break;
 
-  case 40: /* expr3: expr3 MUL expr1  */
-#line 208 "parser.bison"
-      { (yyval.expr) = expr_create_oper(EXPR_MUL, (yyvsp[-2].expr), (yyvsp[0].expr)); }
+  case 37: /* expr5: expr5 GT expr4  */
+#line 202 "parser.bison"
+      { (yyval.expr) = expr_create_oper(EXPR_GT, (yyvsp[-2].expr), (yyvsp[0].expr)); }
 #line 1428 "parser.c"
     break;
 
-  case 41: /* expr3: expr3 DIV expr1  */
-#line 210 "parser.bison"
-      { (yyval.expr) = expr_create_oper(EXPR_DIV, (yyvsp[-2].expr), (yyvsp[0].expr)); }
+  case 38: /* expr5: expr5 GEQ expr4  */
+#line 204 "parser.bison"
+      { (yyval.expr) = expr_create_oper(EXPR_GT_EQ, (yyvsp[-2].expr), (yyvsp[0].expr)); }
 #line 1434 "parser.c"
     break;
 
-  case 42: /* expr3: expr3 MOD expr1  */
-#line 212 "parser.bison"
-      { (yyval.expr) = expr_create_oper(EXPR_MOD, (yyvsp[-2].expr), (yyvsp[0].expr)); }
+  case 39: /* expr5: expr5 EQ expr4  */
+#line 206 "parser.bison"
+      { (yyval.expr) = expr_create_oper(EXPR_EQ, (yyvsp[-2].expr), (yyvsp[0].expr));}
 #line 1440 "parser.c"
     break;
 
-  case 43: /* expr3: expr1  */
-#line 214 "parser.bison"
-      { (yyval.expr) = (yyvsp[0].expr); }
+  case 40: /* expr5: expr5 NEQ expr4  */
+#line 208 "parser.bison"
+      { (yyval.expr) = expr_create_oper(EXPR_NOT_EQ, (yyvsp[-2].expr), (yyvsp[0].expr)); }
 #line 1446 "parser.c"
     break;
 
-  case 44: /* expr1: atom  */
-#line 219 "parser.bison"
+  case 41: /* expr5: expr4  */
+#line 210 "parser.bison"
       { (yyval.expr) = (yyvsp[0].expr); }
 #line 1452 "parser.c"
     break;
 
-  case 45: /* atom: ident  */
-#line 224 "parser.bison"
-     { (yyval.expr) = expr_create_identifier((yyvsp[0].ident)); /*printf("%s <-- \n", $1);*/ }
+  case 42: /* expr4: expr4 ADD expr3  */
+#line 215 "parser.bison"
+      { (yyval.expr) = expr_create_oper(EXPR_ADD, (yyvsp[-2].expr), (yyvsp[0].expr)); }
 #line 1458 "parser.c"
     break;
 
-  case 46: /* atom: INT_LIT  */
-#line 226 "parser.bison"
-     { (yyval.expr) = expr_create_integer_literal(last_int_literal); /*printf("%d <-- \n", last_int_literal);*/}
+  case 43: /* expr4: expr4 SUB expr3  */
+#line 217 "parser.bison"
+      { (yyval.expr) = expr_create_oper(EXPR_SUB, (yyvsp[-2].expr), (yyvsp[0].expr)); }
 #line 1464 "parser.c"
     break;
 
-  case 47: /* ident: IDENT  */
+  case 44: /* expr4: expr3  */
+#line 219 "parser.bison"
+      { (yyval.expr) = (yyvsp[0].expr); }
+#line 1470 "parser.c"
+    break;
+
+  case 45: /* expr3: expr3 MUL expr1  */
+#line 224 "parser.bison"
+      { (yyval.expr) = expr_create_oper(EXPR_MUL, (yyvsp[-2].expr), (yyvsp[0].expr)); }
+#line 1476 "parser.c"
+    break;
+
+  case 46: /* expr3: expr3 DIV expr1  */
+#line 226 "parser.bison"
+      { (yyval.expr) = expr_create_oper(EXPR_DIV, (yyvsp[-2].expr), (yyvsp[0].expr)); }
+#line 1482 "parser.c"
+    break;
+
+  case 47: /* expr3: expr3 MOD expr1  */
+#line 228 "parser.bison"
+      { (yyval.expr) = expr_create_oper(EXPR_MOD, (yyvsp[-2].expr), (yyvsp[0].expr)); }
+#line 1488 "parser.c"
+    break;
+
+  case 48: /* expr3: expr1  */
 #line 230 "parser.bison"
-     { char *s = strdup(yytext);
+      { (yyval.expr) = (yyvsp[0].expr); }
+#line 1494 "parser.c"
+    break;
+
+  case 49: /* expr1: atom  */
+#line 235 "parser.bison"
+      { (yyval.expr) = (yyvsp[0].expr); }
+#line 1500 "parser.c"
+    break;
+
+  case 50: /* atom: identE  */
+#line 240 "parser.bison"
+     { (yyval.expr) = expr_create_identifier((yyvsp[0].ident)); /*printf("%s <-- \n", $1);*/ }
+#line 1506 "parser.c"
+    break;
+
+  case 51: /* atom: INT_LIT  */
+#line 242 "parser.bison"
+     { (yyval.expr) = expr_create_integer_literal(last_int_literal); /*printf("%d <-- \n", last_int_literal);*/}
+#line 1512 "parser.c"
+    break;
+
+  case 52: /* ident: IDENT  */
+#line 246 "parser.bison"
+     { char *s = strdup((yyvsp[0].ident));
        if (!s){
            fprintf(stdout, "[ERROR|internal] Failed to allocate space for duping identifier.\n");
            exit(EXIT_FAILURE);
        }
        (yyval.ident) = s;
-       printf("%s <--\n", s);
      }
-#line 1477 "parser.c"
+#line 1524 "parser.c"
+    break;
+
+  case 53: /* identE: IDENT  */
+#line 255 "parser.bison"
+     { char *s = strdup((yyvsp[0].ident));
+       if (!s){
+           fprintf(stdout, "[ERROR|internal] Failed to allocate space for duping identifier.\n");
+           exit(EXIT_FAILURE);
+       }
+       if(decl_find(declere, s) || decl_find(parameters, s))
+            (yyval.ident) = s;
+       else{
+            fprintf(stdout, "[ERROR|identifire] Failed to find decleared varible %s at line: %d \n", s, yylineno);
+            exit(EXIT_FAILURE);
+      }
+
+     }
+#line 1542 "parser.c"
     break;
 
 
-#line 1481 "parser.c"
+#line 1546 "parser.c"
 
       default: break;
     }
@@ -1670,7 +1735,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 241 "parser.bison"
+#line 271 "parser.bison"
 
 
 int yyerror( char *str )

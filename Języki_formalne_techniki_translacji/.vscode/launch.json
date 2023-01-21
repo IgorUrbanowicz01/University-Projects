@@ -6,7 +6,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "/home/igor/University-Projects/Języki_formalne_techniki_translacji/Lista_4/Compiler/main",
-            "args": ["./test/program0.imp"],
+            "args": ["./test/program1.imp"],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],

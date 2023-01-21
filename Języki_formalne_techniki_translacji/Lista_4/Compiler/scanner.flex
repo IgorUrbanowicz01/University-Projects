@@ -1,5 +1,4 @@
 
-
 %option yylineno
 %option nounput
 %option noinput
@@ -21,7 +20,7 @@ LOWER       [a-z]
 UPPER       [A-Z]
 LETTER      {LOWER}|{UPPER}
 WHITESPACE  [ \r\n\t]
-IDENT       ({LETTER}|_)({LETTER}|{DIGIT}|_)*
+IDENT       ({LETTER})({LETTER}|{DIGIT})*
 INT_LIT     {DIGIT}+
 
 %%
@@ -47,10 +46,22 @@ INT_LIT     {DIGIT}+
 "READ"              { return READ; }
 "WRITE"             { return WRITE; }
 
+
+{IDENT}                     {
+                                 yylval.ident = strdup(yytext);
+                                 /*printf("Matched IDENT: %s\n", yytext);*/
+                                 return yyleng <= 256 ? IDENT : SCAN_ERR;
+                              }
+
+{INT_LIT}                   {
+                            last_int_literal = atoi(yytext);
+                            return INT_LIT;
+                            }
+
 "("                     { return LPR; }
 ")"                     { return RPR; }
 
-":="                    {  printf("ASSIGN");return ASSIGN;}
+":="                    {  /*printf("ASSIGN");*/return ASSIGN;}
 ","                     { return COMMA; }
 ";"                     { return SEMICOLON; }
 
@@ -66,13 +77,6 @@ INT_LIT     {DIGIT}+
 "*"                     { return MUL; }
 "/"                     { return DIV; }
 "%"                     { return MOD; }
-
-
-{IDENT}                     { return yyleng <= 256 ? IDENT : SCAN_ERR; }
-{INT_LIT}                   {
-                            last_int_literal = atoi(yytext);
-                            return INT_LIT;
-                            }
 
 .                           { return SCAN_ERR; }
 

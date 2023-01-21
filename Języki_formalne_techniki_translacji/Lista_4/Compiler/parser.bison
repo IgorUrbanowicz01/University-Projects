@@ -18,6 +18,9 @@ extern int yyerror( char *str );
 extern int yylineno;
 //extern char *clean_string(char *string, char delim);
 struct decl *ast;
+struct decl *procedure;
+struct decl *declere = NULL;
+struct decl *parameters = NULL;
 
 %}
 
@@ -54,7 +57,7 @@ struct decl *ast;
 %token MUL
 %token DIV
 %token MOD
-%token IDENT
+%token <ident> IDENT
 %token INT_LIT
 %token SCAN_ERR
 %token TOKEN_EOF
@@ -69,38 +72,52 @@ struct decl *ast;
     char *ident;
 }
 
-%type <decl>        program decl procedures_decl main
+%type <decl>        program decl procedures_decl main declH declSTMT
 %type <stmt>        function_head_stmt stmt maybe_stmts  if_stmt write_stmt while_stmt repeat_stmt
 %type <expr>        read_stmt expr expr1 expr3 expr4 expr5 expr6  atom 
-%type <ident>       ident
-%type <type>        proc_head
+%type <ident>       ident identE
+%type <type>        proc_head proc_headSTMT
 
 %%
 
 program : procedures_decl main
-        { ast = $2; return ast; }
+        {procedure = $1; ast = $2; return 1; }
         ;
 /* END PROGRAM ================================= BEGIN PROCEDURE */
 
-procedures_decl : procedures_decl PROCEDURE proc_head IS VAR decl X_BEGIN maybe_stmts END
-            { $$ = decl_create(NULL, $3, $8, $6, NULL); }
-            | procedures_decl PROCEDURE proc_head IS X_BEGIN maybe_stmts END
-            { $$ = decl_create(NULL, $3, $6, NULL, NULL); }
+procedures_decl : procedures_decl PROCEDURE ident proc_head IS VAR decl X_BEGIN maybe_stmts END
+            {  $$ = decl_create($3, $4, $9, $7, $1); }
+            | procedures_decl PROCEDURE ident proc_head IS X_BEGIN maybe_stmts END
+            { $$ = decl_create($3, $4, $7, NULL, $1); }
             |
             { $$ = NULL; }
             ;
 
-proc_head: IDENT LPR decl RPR
-            { $$ = type_create(TYPE_FUNCTION, $3); }
+proc_head: LPR declH RPR
+            { $$ = type_create(TYPE_FUNCTION, $2); }
             ;
 
+proc_headSTMT: LPR declSTMT RPR
+            { $$ = type_create(TYPE_FUNCTION, $2); }
+            ;
 
 /* END PROCEDURE ================================= BEGIN DECLARATIONS */
 
-decl : decl COMMA ident 
-      { $$  = decl_create($3, type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); $$->next = $1; }
+declSTMT:ident COMMA declSTMT
+      { $$  = decl_create($1, type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); $$->next = $3;}
       | ident 
-      { $$  = decl_create($1, type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); }
+      { $$  = decl_create($1, type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL);}
+
+declH : ident COMMA declH
+      { $$  = decl_create($1, type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); $$->next = $3; parameters = $$; }
+      | ident 
+      { $$  = decl_create($1, type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); parameters = $$;}
+      ;
+
+decl : ident COMMA decl
+      { $$  = decl_create($1, type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); $$->next = $3; declere = $$; }
+      | ident 
+      { $$  = decl_create($1, type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); declere = $$;}
       ;
 
 
@@ -116,7 +133,7 @@ main : PROGRAM IS VAR decl X_BEGIN maybe_stmts END
 /* END MAIN ============================ BEGIN STATEMENTS */
 
 stmt : expr
-      { $$ = stmt_create(STMT_EXPR, NULL, $1, NULL, NULL, NULL); }
+      { $$ = stmt_create(STMT_EXPR, NULL, $1, NULL, NULL); }
       | if_stmt
       { $$ = $1; }
       | read_stmt
@@ -133,28 +150,28 @@ stmt : expr
 
 
 if_stmt : IF expr THEN maybe_stmts ELSE maybe_stmts ENDIF
-        { $4->next = $6; $$ = stmt_create(STMT_IF_ELSE, NULL, $2, $4, $6, NULL); }
+        { $4->next = $6; $$ = stmt_create(STMT_IF_ELSE, NULL, $2, $4, $6); }
         | IF  expr THEN maybe_stmts ENDIF
-        { $$ = stmt_create(STMT_IF_ELSE, NULL, $2, $4, NULL, NULL); }
+        { $$ = stmt_create(STMT_IF_ELSE, NULL, $2, $4, NULL); }
         ;
 
 read_stmt : READ expr SEMICOLON
-      { $$ = stmt_create(STMT_READ, NULL, $2, NULL, NULL, NULL);}
+      { $$ = stmt_create(STMT_READ, NULL, $2, NULL, NULL);}
       ;
 
 write_stmt: WRITE expr SEMICOLON
-      { $$ = stmt_create(STMT_WRITE, NULL, $2, NULL, NULL, NULL);}
+      { $$ = stmt_create(STMT_WRITE, NULL, $2, NULL, NULL);}
       ;
 
 while_stmt: WHILE expr DO maybe_stmts ENDWHILE
-      { $$ = stmt_create(STMT_WHILE, NULL, $2, $4, NULL, NULL);}
+      { $$ = stmt_create(STMT_WHILE, NULL, $2, $4, NULL);}
       ;
 
 repeat_stmt: REPEAT maybe_stmts UNTIL expr SEMICOLON 
-      { $$ = stmt_create(STMT_REPEAT, NULL, $4, $2, NULL, NULL);}
+      { $$ = stmt_create(STMT_REPEAT, NULL, $4, $2, NULL);}
       ;
-function_head_stmt: proc_head SEMICOLON
-      { $$ = stmt_create(STMT_HEAD, NULL, NULL, NULL, NULL, $1);}
+function_head_stmt:ident proc_headSTMT SEMICOLON
+      { $$ = stmt_create(STMT_HEAD, decl_create($1, $2, NULL, NULL, NULL), NULL, NULL, NULL);}
 
 
 maybe_stmts : /* empty */
@@ -170,8 +187,7 @@ expr : expr6
      { $$ = $1; }
      ;
 
-/* assignment: = */
-expr6: expr5 ASSIGN expr6 SEMICOLON
+expr6: expr5 ASSIGN expr5 SEMICOLON
       { $$ = expr_create_oper(EXPR_ASGN, $1, $3);}
       | expr5
       { $$ = $1; }
@@ -220,20 +236,34 @@ expr1 : atom
       ;
 
 /* atom: lowest form of expression */
-atom : ident
+atom : identE
      { $$ = expr_create_identifier($1); /*printf("%s <-- \n", $1);*/ }
      | INT_LIT
      { $$ = expr_create_integer_literal(last_int_literal); /*printf("%d <-- \n", last_int_literal);*/}
      ;
 
 ident: IDENT
-     { char *s = strdup(yytext);
+     { char *s = strdup($1);
        if (!s){
            fprintf(stdout, "[ERROR|internal] Failed to allocate space for duping identifier.\n");
            exit(EXIT_FAILURE);
        }
        $$ = s;
-       printf("%s <--\n", s);
+     }
+     ;
+identE: IDENT
+     { char *s = strdup($1);
+       if (!s){
+           fprintf(stdout, "[ERROR|internal] Failed to allocate space for duping identifier.\n");
+           exit(EXIT_FAILURE);
+       }
+       if(decl_find(declere, s) || decl_find(parameters, s))
+            $$ = s;
+       else{
+            fprintf(stdout, "[ERROR|identifire] Failed to find decleared varible %s at line: %d \n", s, yylineno);
+            exit(EXIT_FAILURE);
+      }
+
      }
      ;
 

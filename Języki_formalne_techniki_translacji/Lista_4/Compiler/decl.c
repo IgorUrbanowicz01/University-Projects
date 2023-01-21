@@ -1,9 +1,13 @@
 #include "decl.h"
 #include <stdio.h>
 #include <stdlib.h>
-// #include <stdbool.h>
+#include <string.h>
+#include <stdbool.h>
 
-struct decl *decl_create(char *ident, struct type *type, struct stmt *func_body, struct decl *next, struct expr *var)
+#define MAX_SIZE 100
+char *arr[MAX_SIZE];
+
+struct decl *decl_create(char *ident, struct type *type, struct stmt *func_body, struct decl *next, struct decl *next_procedure)
 {
     struct decl *d = malloc(sizeof(*d));
     if (!d)
@@ -15,7 +19,7 @@ struct decl *decl_create(char *ident, struct type *type, struct stmt *func_body,
     d->ident = ident;
     d->type = type;
     d->func_body = func_body;
-    d->var = var;
+    d->next_procedure = next_procedure;
     d->next = next;
 
     return d;
@@ -26,14 +30,7 @@ void decl_print(struct decl *d, int indents, char *term)
     if (!d)
         return;
 
-    printf("%s: ", d->ident);
-    type_print(d->type);
-
-    if (d->var)
-    {
-        fputs(" = ", stdout);
-        expr_print(d->var);
-    }
+    printf("%s", d->ident);
 
     if (d->func_body)
     {
@@ -51,12 +48,54 @@ void decl_print_list(struct decl *d, int indents, char *term, char *delim)
         return;
     decl_print(d, indents, term);
     if (d->next)
+        fputs(term, stdout);
+    decl_print_list(d->next, indents, ", ", delim);
+    if (d->next_procedure)
         fputs(delim, stdout);
-    decl_print_list(d->next, indents, term, delim);
+    decl_print_list(d->next_procedure, indents, term, delim);
 }
 
-int decl_resolve(struct decl *d, struct scope *sc, bool am_param, bool verbose)
+bool decl_find(struct decl *d, char *i_find)
 {
-    // ToDO/
-    return d;
+    if (!d)
+        return 0;
+    if (strcmp(d->ident, i_find) == 0)
+        return 1;
+    return decl_find(d->next, i_find);
 }
+
+/*int contains(char *str, int index)
+{
+    for (int i = 0; i < index; i++)
+    {
+        if (strcmp(arr[i], str) == 0)
+        {
+            return 1;
+        }
+    }
+    return 0;
+}*/
+
+/*void add_string(char *str, int index)
+{
+    if (index < MAX_SIZE)
+        arr[index++] = str;
+    else
+        printf("Array is full\n");
+}*/
+
+/*int march_on_decl(struct decl *d, int index){
+    add_string(d->ident, index);
+    if (d->next)
+        return march_on_decl(d->next, index+1);
+    else
+        return index + 1;
+}*/
+
+/*void decl_resolve(struct decl *d, int index)
+{
+    if (d->type->params)
+        index += march_on_decl(d->type->params, index);
+    if (d->next)
+        index += march_on_decl(d->next, index);
+}*/

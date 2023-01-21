@@ -6,6 +6,7 @@ BEGIN
   b:=c;
 END
 
+
 PROCEDURE gcd(a,b,c) IS
 VAR x,y
 BEGIN
@@ -18,7 +19,7 @@ BEGIN
       swap(x,y);
     ENDIF
   ENDWHILE
-  c:=x;
+  c:=d;
 END
 
 PROGRAM IS
