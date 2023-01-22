@@ -537,7 +537,7 @@ char *yytext;
 
     char *clean_string(char *string, char skip);
     
-    int last_int_literal;
+    char *last_int_literal;
 
 #line 543 "scanner.c"
 /* DEFINITIONS */
@@ -940,7 +940,7 @@ case 21:
 YY_RULE_SETUP
 #line 56 "scanner.flex"
 {
-                            last_int_literal = atoi(yytext);
+                            last_int_literal = yytext;
                             return INT_LIT;
                             }
 	YY_BREAK

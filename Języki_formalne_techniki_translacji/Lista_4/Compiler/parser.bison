@@ -8,11 +8,12 @@
 #include "type.h"
 #include <stdlib.h>
 #include <string.h>
+#include "codeGen/registerHandler.h"
 
 //#define YYSTYPE struct decl *
 
 extern char *yytext;
-extern int last_int_literal;
+extern char *last_int_literal;
 extern int yylex();
 extern int yyerror( char *str );
 extern int yylineno;
@@ -239,7 +240,8 @@ expr1 : atom
 atom : identE
      { $$ = expr_create_identifier($1); /*printf("%s <-- \n", $1);*/ }
      | INT_LIT
-     { $$ = expr_create_integer_literal(last_int_literal); /*printf("%d <-- \n", last_int_literal);*/}
+     { $$ = expr_create_identifier(last_int_literal); /*printf("%d <-- \n", last_int_literal);*/
+     set_register_varible(last_int_literal);}
      ;
 
 ident: IDENT

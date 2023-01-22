@@ -9,7 +9,7 @@
 
     char *clean_string(char *string, char skip);
     
-    int last_int_literal;
+    char *last_int_literal;
 
 %}
 
@@ -54,7 +54,7 @@ INT_LIT     {DIGIT}+
                               }
 
 {INT_LIT}                   {
-                            last_int_literal = atoi(yytext);
+                            last_int_literal = yytext;
                             return INT_LIT;
                             }
 

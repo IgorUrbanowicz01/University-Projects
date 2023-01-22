@@ -104,5 +104,11 @@ bool decl_find(struct decl *d, char *i_find)
 
 void decl_generate(struct decl *d, struct decl *p, int linenumber)
 {
+    if (!d)
+    {
+        return 0;
+    }
     if (d->type->kind == TYPE_FUNCTION)
+    {
+    }
 }

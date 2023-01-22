@@ -1,6 +1,6 @@
 FLAGS := -g -Wall -std=gnu99 -ggdb
 
-SOURCES = $(wildcard *.c)
+SOURCES = $(wildcard *.c codeGen/*.c)
 HEADERS = $(wildcard *.h)
 OBJECTS = $(SOURCES:.c=.o)
 
@@ -9,7 +9,7 @@ OBJECTS = $(SOURCES:.c=.o)
 build: gramar all
 
 all: main.c
-	gcc  $(FLAGS) -o main $(SOURCES)
+	gcc  $(FLAGS) -o main $(SOURCES) 
 
 
 gramar: parser.bison scanner.flex
