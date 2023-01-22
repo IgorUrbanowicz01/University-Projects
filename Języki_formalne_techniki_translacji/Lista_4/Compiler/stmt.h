@@ -8,16 +8,14 @@
 
 typedef enum
 {
-	STMT_DECL,
 	STMT_EXPR,
 	STMT_IF_ELSE,
-	STMT_PRINT,
-	STMT_BLOCK,
 	STMT_READ,
 	STMT_WRITE,
 	STMT_WHILE,
 	STMT_REPEAT,
-	STMT_HEAD
+	STMT_HEAD,
+	STMT_BLOCK
 } stmt_t;
 
 struct stmt

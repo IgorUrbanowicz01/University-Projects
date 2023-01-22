@@ -156,11 +156,11 @@ if_stmt : IF expr THEN maybe_stmts ELSE maybe_stmts ENDIF
         { $$ = stmt_create(STMT_IF_ELSE, NULL, $2, $4, NULL); }
         ;
 
-read_stmt : READ expr SEMICOLON
+read_stmt : READ atom SEMICOLON
       { $$ = stmt_create(STMT_READ, NULL, $2, NULL, NULL);}
       ;
 
-write_stmt: WRITE expr SEMICOLON
+write_stmt: WRITE atom SEMICOLON
       { $$ = stmt_create(STMT_WRITE, NULL, $2, NULL, NULL);}
       ;
 

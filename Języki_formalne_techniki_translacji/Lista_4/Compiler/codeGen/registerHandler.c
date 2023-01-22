@@ -2,7 +2,7 @@
 
 #define NUM_REGISTERS 32
 int registers[NUM_REGISTERS];
-int line_number = NUM_REGISTERS;
+int line_number = 0;
 int index = 2;
 
 // Initialize all registers to 0

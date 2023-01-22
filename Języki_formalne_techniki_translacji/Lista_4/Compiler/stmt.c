@@ -35,9 +35,6 @@ void stmt_print(struct stmt *s, int indents, bool indent_first)
 
     switch (s->kind)
     {
-    case STMT_DECL:
-        decl_print(s->decl, 0, ";");
-        break;
     case STMT_EXPR:
         expr_print(s->expr_list);
         fputs(";", stdout);

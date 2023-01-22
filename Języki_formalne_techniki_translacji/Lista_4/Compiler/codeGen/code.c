@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "registerHandler.h"
 
 // Structure for a single line of code
 struct Line
@@ -30,6 +31,7 @@ void add_line(struct CodeList *list, char *command, int arg1)
     newLine->command = command;
     newLine->arg1 = arg1;
     newLine->next = NULL;
+    increment_counter();
 
     if (list->tail == NULL)
     {
