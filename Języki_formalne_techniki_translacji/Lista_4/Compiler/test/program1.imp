@@ -19,7 +19,7 @@ BEGIN
       swap(x,y);
     ENDIF
   ENDWHILE
-  c:=d;
+  c:=b;
 END
 
 PROGRAM IS
