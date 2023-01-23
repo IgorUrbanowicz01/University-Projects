@@ -1,3 +1,4 @@
+#include "code.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "registerHandler.h"
@@ -52,6 +53,16 @@ void print_code_list(struct CodeList *list)
     while (currentLine != NULL)
     {
         printf("Command: %s, Arg1: %dn", currentLine->command, currentLine->arg1);
+        currentLine = currentLine->next;
+    }
+}
+
+void copy_code_list(struct CodeList *a, struct CodeList *b)
+{
+    struct Line *currentLine = a->head;
+    while (currentLine != NULL)
+    {
+        add_line(b, currentLine->command, currentLine->arg1);
         currentLine = currentLine->next;
     }
 }

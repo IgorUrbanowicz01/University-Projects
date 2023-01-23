@@ -34,5 +34,6 @@
         "typeinfo": "cpp",
         "utility": "cpp",
         "expr.h": "c"
-    }
+    },
+    "cmake.parseBuildDiagnostics": false
 }

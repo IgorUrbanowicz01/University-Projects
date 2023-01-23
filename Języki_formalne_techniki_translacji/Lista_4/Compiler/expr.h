@@ -29,7 +29,7 @@ typedef enum
 
 union expr_data
 {
-    const char *ident_name;
+    char *ident_name;
     const char *str_data;
     int int_data;
     struct expr *func_and_args;
@@ -47,7 +47,7 @@ struct expr
 struct expr *expr_create(expr_t kind, union expr_data *data);
 
 struct expr *expr_create_oper(expr_t kind, struct expr *left, struct expr *right);
-struct expr *expr_create_identifier(const char *ident);
+struct expr *expr_create_identifier(char *ident);
 struct expr *expr_create_integer_literal(int c);
 struct expr *expr_create_function_call(struct expr *function, struct expr *arg_list);
 struct expr *expr_create_empty();

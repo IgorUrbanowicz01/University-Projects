@@ -104,9 +104,9 @@ proc_headSTMT: LPR declSTMT RPR
 
 /* END PROCEDURE ================================= BEGIN DECLARATIONS */
 
-declSTMT:ident COMMA declSTMT
+declSTMT:identE COMMA declSTMT
       { $$  = decl_create($1, type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); $$->next = $3;}
-      | ident 
+      | identE 
       { $$  = decl_create($1, type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL);}
 
 declH : ident COMMA declH

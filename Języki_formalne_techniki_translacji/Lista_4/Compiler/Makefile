@@ -9,7 +9,7 @@ OBJECTS = $(SOURCES:.c=.o)
 build: gramar all
 
 all: main.c
-	gcc  $(FLAGS) -o main $(SOURCES) 
+	make -f ./utilis/Makefile
 
 
 gramar: parser.bison scanner.flex

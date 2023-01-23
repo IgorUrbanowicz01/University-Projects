@@ -40,7 +40,7 @@ struct expr *expr_create_oper(expr_t expr_type, struct expr *left_arg, struct ex
     return expr_create(expr_type, d);
 }
 
-struct expr *expr_create_identifier(const char *ident)
+struct expr *expr_create_identifier(char *ident)
 {
     union expr_data *d = malloc(sizeof(*d));
     d->ident_name = ident;

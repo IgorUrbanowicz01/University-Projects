@@ -3,10 +3,10 @@
 #include "code.h"
 #include "exprGen.h"
 
-void generateode_from_expr(struct CodeList *list, struct stmt *s)
+void generateode_from_expr(struct CodeList *list, struct CodeList *parameters, struct stmt *s)
 {
     if (!s)
-        return 0;
+        return;
 
     int line_index = get_line_number();
 
@@ -31,8 +31,16 @@ void generateode_from_expr(struct CodeList *list, struct stmt *s)
         generate_repeat_loop_code_from_expr(list, s);
         break;
     case STMT_HEAD:
-
+        copy_code_list(parameters, list);
         break;
     }
-    generateode_from_expr(list, s->next);
+    generateode_from_expr(list, parameters, s->next);
+
+    /*struct stmt addstmtAdd(struct stmt s)
+    {
+        struct stmt new_stmt = stmt_create(STMT_IF_ELSE, NULL, NULL);
+                                   s->next =
+            return new_stmt
+    struct stmt *stmt_create(stmt_t kind, struct decl *decl, struct expr *expr_list, struct stmt *body, struct stmt *else_body);
+    }*/
 }

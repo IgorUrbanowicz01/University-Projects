@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#define NUM_REGISTERS 16
+#define NUM_REGISTERS 32
 
 extern int registers[NUM_REGISTERS];
 extern int line_number;

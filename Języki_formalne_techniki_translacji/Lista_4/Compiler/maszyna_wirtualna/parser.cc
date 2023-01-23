@@ -67,10 +67,9 @@
 
 
 /* First part of user prologue.  */
-#line 13 "parser.y"
+#line 14 "parser.y"
 
 
-#define YYSTYPE long long
 
 #include <iostream>
 #include <utility>
@@ -87,7 +86,7 @@ void yyset_in( FILE * in_str );
 void yyerror( vector< pair<int,long long> > & program, char const *s );
 
 
-#line 91 "parser.cc"
+#line 90 "parser.cc"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -1073,29 +1072,29 @@ yyreduce:
   case 4: /* line: COM_0  */
 #line 45 "parser.y"
                   { program.push_back( make_pair(yyvsp[0],0) ); }
-#line 1077 "parser.cc"
+#line 1076 "parser.cc"
     break;
 
   case 5: /* line: COM_1 NUMBER  */
 #line 46 "parser.y"
                   { program.push_back( make_pair(yyvsp[-1],yyvsp[0]) ); }
-#line 1083 "parser.cc"
+#line 1082 "parser.cc"
     break;
 
   case 6: /* line: JUMP_1 NUMBER  */
 #line 47 "parser.y"
                   { program.push_back( make_pair(yyvsp[-1],yyvsp[0]) ); }
-#line 1089 "parser.cc"
+#line 1088 "parser.cc"
     break;
 
   case 7: /* line: ERROR  */
 #line 48 "parser.y"
                   { yyerror( program, "Nierozpoznany symbol" ); }
-#line 1095 "parser.cc"
+#line 1094 "parser.cc"
     break;
 
 
-#line 1099 "parser.cc"
+#line 1098 "parser.cc"
 
       default: break;
     }

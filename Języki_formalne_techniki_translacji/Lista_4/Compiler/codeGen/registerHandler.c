@@ -1,48 +1,49 @@
 #include "registerHandler.h"
+#include <string.h>
 
-#define NUM_REGISTERS 32
-int registers[NUM_REGISTERS];
+#define NUM_reg 32
+char *reg[NUM_reg];
 int line_number = 0;
-int index = 2;
+int index_ = 2;
 
-// Initialize all registers to 0
-void init_registers()
+// Initialize all reg to 0
+void init_reg()
 {
-    for (int i = 0; i < NUM_REGISTERS; i++)
+    for (int i = 0; i < NUM_reg; i++)
     {
-        registers[i] = 0;
-        index = 2;
+        reg[i] = 0;
+        index_ = 2;
     }
 }
 
-// Get the value of a register at a specific index
+// Get the value of a register at a specific index_
 int get_register_value(int i)
 {
-    if (i < 0 || i >= NUM_REGISTERS)
+    if (i < 0 || i >= NUM_reg)
     {
-        printf("Error: Invalid register index\n");
+        printf("Error: Invalid register index_\n");
         return -1;
     }
-    return registers[i];
+    return reg[i];
 }
 
-// Set the name of varible to a register at a specific index
+// Set the name of varible to a register at a specific index_
 void set_register_varible(char *varible)
 {
-    if (index < 0 || index >= NUM_REGISTERS)
+    if (index_ < 0 || index_ >= NUM_reg)
     {
-        printf("Error: Invalid register index\n");
+        printf("Error: Invalid register index_\n");
         return;
     }
-    registers[index] = varible;
-    index++;
+    reg[index_] = varible;
+    index_++;
 }
 
-int get_register_index(char *varible)
+int get_register_index_(char *varible)
 {
-    for (int i = 0; i < NUM_REGISTERS; i++)
+    for (int i = 0; i < NUM_reg; i++)
     {
-        if (strcmp(registers[i], varible) == 0)
+        if (strcmp(reg[i], varible) == 0)
         {
             return i;
         }
