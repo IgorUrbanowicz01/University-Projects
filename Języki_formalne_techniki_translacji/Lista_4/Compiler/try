@@ -1,0 +1,4 @@
+GET 1
+JUMP 2
+PUT 1
+HALT
