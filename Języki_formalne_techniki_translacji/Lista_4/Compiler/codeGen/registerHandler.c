@@ -1,7 +1,7 @@
 #include "registerHandler.h"
 #include <string.h>
 
-#define NUM_reg 32
+#define NUM_reg 1024
 char *reg[NUM_reg];
 int line_number = 0;
 int index_ = 2;
@@ -17,12 +17,12 @@ void init_reg()
 }
 
 // Get the value of a register at a specific index_
-int get_register_value(int i)
+char *get_register_value(int i)
 {
     if (i < 0 || i >= NUM_reg)
     {
         printf("Error: Invalid register index_\n");
-        return -1;
+        return "-1";
     }
     return reg[i];
 }

@@ -1,5 +1,6 @@
 #include "code.h"
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include "registerHandler.h"
 
@@ -14,8 +15,9 @@ void init_code_list(struct CodeList *list)
 void add_line(struct CodeList *list, char *command, char *arg1)
 {
     struct Line *newLine = (struct Line *)malloc(sizeof(struct Line));
-    newLine->command = command;
-    newLine->arg1 = arg1;
+    newLine->command = strdup(command);
+    if (arg1)
+        newLine->arg1 = strdup(arg1);
     newLine->next = NULL;
 
     if (list->tail == NULL)
@@ -34,6 +36,8 @@ void add_line(struct CodeList *list, char *command, char *arg1)
 
 long long get_last_line_index(struct CodeList *list)
 {
+    if (!list->tail)
+        return -1;
     return list->tail->line_number;
 }
 // Print the code list
@@ -42,7 +46,10 @@ void print_code_list(struct CodeList *list)
     struct Line *currentLine = list->head;
     while (currentLine != NULL)
     {
-        printf("Command: %s, Arg1: %sn", currentLine->command, currentLine->arg1);
+        if (!currentLine->arg1)
+            printf("%s \n", currentLine->command);
+        else
+            printf("%s %s\n", currentLine->command, currentLine->arg1);
         currentLine = currentLine->next;
     }
 }
