@@ -50,22 +50,3 @@ int get_register_index_(char *varible)
     }
     return -1;
 }
-
-/* END REGISTARES ============================ BEGIN LINE */
-
-int get_line_number()
-{
-    return line_number;
-}
-
-// Function to set the current line number
-void set_line_number(int new_line_number)
-{
-    line_number = new_line_number;
-}
-
-// Function to increment the current line number
-void increment_counter()
-{
-    line_number++;
-}

@@ -4,8 +4,8 @@
 struct Line
 {
     int command;
-    int arg1;
-    int arg2;
+    char *arg1;
+    long long line_number;
     struct Line *next;
 };
 
@@ -16,8 +16,9 @@ struct CodeList
 };
 
 void init_code_list(struct CodeList *list);
-void add_line(struct CodeList *list, char *command, int arg1);
+void add_line(struct CodeList *list, char *command, char *arg1);
 void print_code_list(struct CodeList *list);
 void copy_code_list(struct CodeList *a, struct CodeList *b);
+ong long get_last_line_index(struct CodeList *list);
 
 #endif
