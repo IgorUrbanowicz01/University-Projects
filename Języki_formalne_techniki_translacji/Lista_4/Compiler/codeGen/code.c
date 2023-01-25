@@ -42,7 +42,7 @@ void print_code_list(struct CodeList *list)
     struct Line *currentLine = list->head;
     while (currentLine != NULL)
     {
-        printf("Command: %s, Arg1: %dn", currentLine->command, currentLine->arg1);
+        printf("Command: %s, Arg1: %sn", currentLine->command, currentLine->arg1);
         currentLine = currentLine->next;
     }
 }

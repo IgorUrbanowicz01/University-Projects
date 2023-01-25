@@ -3,9 +3,9 @@
 #include <string.h>
 #include "../codeGen/code.h"
 
-void add_Operation_to_list(struct CodeList *list, char *file)
+void add_Operation_to_list(struct CodeList *list, char *operation)
 {
-    FILE *input = fopen(file, "r");
+    FILE *input = fopen(operation, "r");
     int nofl = get_last_line_index(list) + 1;
     char buffer[1024];
 
@@ -24,6 +24,4 @@ void add_Operation_to_list(struct CodeList *list, char *file)
             add_line(list, first, second);
         }
     }
-
-    return 0;
 }
