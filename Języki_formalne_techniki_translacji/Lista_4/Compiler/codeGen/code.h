@@ -5,7 +5,7 @@ struct Line
 {
     char *command;
     char *arg1;
-    long long line_number;
+    unsigned long long line_number;
     struct Line *next;
 };
 

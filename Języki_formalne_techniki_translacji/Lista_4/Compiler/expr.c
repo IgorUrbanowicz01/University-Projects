@@ -203,3 +203,35 @@ int oper_precedence(expr_t t)
     int oper_precs[] = {1, 2, 3, 4, 4, 4, 4, 4, 4, 5, 5, 6, 6, 6, 7, 8, 8, 8, 9, 9, 10, 10, 10, 10, 10, 10, 10, 10};
     return oper_precs[t - EXPR_ASGN];
 }
+
+void expr_free_oper(struct expr *e)
+{
+    if (!e)
+    {
+        return;
+    }
+
+    // recursively free next element in linked list
+    expr_free(e->next);
+    // check the type of expression and free the corresponding data
+    switch (e->kind)
+    {
+    case EXPR_:
+        if (e->data.literal.type == LITERAL_STRING)
+        {
+            free(e->data.literal.value.string);
+        }
+        break;
+    case EXPR_VAR:
+        free(e->data.var);
+        break;
+    case EXPR_BINARY:
+        expr_free(e->data.binary.left);
+        expr_free(e->data.binary.right);
+        break;
+    case EXPR_FUNCALL:
+        expr_free(e->data.funcall.args);
+        break;
+    }
+    free(e);
+}

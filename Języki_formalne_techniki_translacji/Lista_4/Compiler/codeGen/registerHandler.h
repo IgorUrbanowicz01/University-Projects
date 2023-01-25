@@ -3,14 +3,12 @@
 
 #include <stdio.h>
 
-#define NUM_REGISTERS 1024
+#define NUM_REGISTERS 4294967295
 
-extern int registers[NUM_REGISTERS];
-extern int line_number;
+extern char *registers[NUM_REGISTERS];
 
-void init_registers();
-int get_register_varible(int index);
+char *get_register_varible(long long index);
 void set_register_varible(char *varible);
-int get_register_index(char *varible);
+unsigned long long get_register_index(char *varible);
 
 #endif
