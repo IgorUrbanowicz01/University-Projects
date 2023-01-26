@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "addOperation.h"
 
 int main(int argc, char *argv[])
 {
@@ -31,7 +32,7 @@ int main(int argc, char *argv[])
     add_Operation_to_list(list, input);
     line = get_last_line_index(list) + 1;
     printf("%d <--- line where divide ends\n", line);
-    add_line(list, "PUT", "3");
+    add_line(list, "PUT", "3");*/
 
     /*END DIV ---------------------------- START MOD*/
 
@@ -57,18 +58,15 @@ int main(int argc, char *argv[])
     add_line(list, "JUMP", "12");
     line = get_last_line_index(list) + 1;
     printf("%d <--- line where divide starts\n", line);
-    input = fopen("divide", "r");
-    add_Operation_to_list(list, input);
+    add_Operation_to_list(list, "divide");
 
     line = get_last_line_index(list) + 1;
     printf("%d <--- line where mod starts\n", line);
-    input = fopen("mod", "r");
-    add_Operation_to_list(list, input);
+    add_Operation_to_list(list, "mod");
 
     line = get_last_line_index(list) + 1;
     printf("%d <--- line where mul starts\n", line);
-    input = fopen("mul", "r");
-    add_Operation_to_list(list, input);
+    add_Operation_to_list(list, "mul");
     line = get_last_line_index(list) + 1;
     printf("%d <--- line where divide ENDS\n", line);
     print_code_list(list);

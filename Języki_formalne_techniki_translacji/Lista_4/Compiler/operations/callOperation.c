@@ -1,10 +1,4 @@
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "../codeGen/code.h"
-#include "../codeGen/registerHandler.h"
-#include "../expr.h"
+#include "callOperation.h"
 
 /*
 1 <--- line where divide starts

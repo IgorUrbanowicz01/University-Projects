@@ -3,7 +3,7 @@
         {
             "label": "build",
             "type": "shell",
-            "command": "make",
+            "command": "sudo make",
             "group": {
                 "kind": "build",
                 "isDefault": true

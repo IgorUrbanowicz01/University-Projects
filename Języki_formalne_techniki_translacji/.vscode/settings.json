@@ -34,7 +34,8 @@
         "typeinfo": "cpp",
         "utility": "cpp",
         "expr.h": "c",
-        "code.h": "c"
+        "code.h": "c",
+        "registerhandler.h": "c"
     },
     "cmake.parseBuildDiagnostics": false
 }

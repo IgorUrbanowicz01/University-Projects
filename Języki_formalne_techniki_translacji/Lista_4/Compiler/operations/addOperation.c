@@ -1,11 +1,9 @@
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "../codeGen/code.h"
+#include "addOperation.h"
 
-void add_Operation_to_list(struct CodeList *list, FILE *input)
+void add_Operation_to_list(struct CodeList *list, char *file)
 {
+    FILE *input = fopen(file, "r");
     add_line(list, "SET", "0");
     add_line(list, "STORE", "3");
     unsigned long long nofl = get_last_line_index(list) + 1;

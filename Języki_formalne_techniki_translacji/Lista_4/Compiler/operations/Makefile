@@ -5,11 +5,13 @@ OBJECTS = $(SOURCES:.c=.o)
 
 .PHONY = all clean cleanall
 
-all: test.c
+all: test1
+
+test1: test.c
 	gcc  $(FLAGS) -o main addOperation.c test.c ../codeGen/code.c ../codeGen/registerHandler.c
 
 test2: test2.c
-	gcc  $(FLAGS) -o main callOperation.c test2.c ../codeGen/code.c ../codeGen/registerHandler.c ../expr.c
+	gcc  $(FLAGS) -o main test2.c ../codeGen/code.c ../codeGen/registerHandler.c ../expr.c callOperation.c addOperation.c
 
 clean:
 	@rm -f *.o
