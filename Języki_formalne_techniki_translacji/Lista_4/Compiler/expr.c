@@ -212,25 +212,19 @@ void expr_free_oper(struct expr *e)
     }
 
     // recursively free next element in linked list
-    expr_free(e->next);
+    expr_free_oper(e->next);
     // check the type of expression and free the corresponding data
     switch (e->kind)
     {
-    case EXPR_:
-        if (e->data.literal.type == LITERAL_STRING)
-        {
-            free(e->data.literal.value.string);
-        }
+    case EXPR_TEMP:
         break;
-    case EXPR_VAR:
-        free(e->data.var);
+    case EXPR_IDENT:
+        free(e->data->ident_name);
+        free(e->data);
         break;
-    case EXPR_BINARY:
-        expr_free(e->data.binary.left);
-        expr_free(e->data.binary.right);
-        break;
-    case EXPR_FUNCALL:
-        expr_free(e->data.funcall.args);
+    default:
+        expr_free_oper(e->data->operator_args);
+        free(e->data);
         break;
     }
     free(e);

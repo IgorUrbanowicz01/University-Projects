@@ -6,7 +6,10 @@ OBJECTS = $(SOURCES:.c=.o)
 .PHONY = all clean cleanall
 
 all: test.c
-	gcc  $(FLAGS) -o main $(SOURCES) ../codeGen/code.c ../codeGen/registerHandler.c
+	gcc  $(FLAGS) -o main addOperation.c test.c ../codeGen/code.c ../codeGen/registerHandler.c
+
+test2: test2.c
+	gcc  $(FLAGS) -o main callOperation.c test2.c ../codeGen/code.c ../codeGen/registerHandler.c ../expr.c
 
 clean:
 	@rm -f *.o

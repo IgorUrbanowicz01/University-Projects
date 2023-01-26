@@ -61,12 +61,12 @@ int main(int argc, char *argv[])
     add_Operation_to_list(list, input);
 
     line = get_last_line_index(list) + 1;
-    printf("%d <--- line where divide starts\n", line);
+    printf("%d <--- line where mod starts\n", line);
     input = fopen("mod", "r");
     add_Operation_to_list(list, input);
 
     line = get_last_line_index(list) + 1;
-    printf("%d <--- line where divide starts\n", line);
+    printf("%d <--- line where mul starts\n", line);
     input = fopen("mul", "r");
     add_Operation_to_list(list, input);
     line = get_last_line_index(list) + 1;

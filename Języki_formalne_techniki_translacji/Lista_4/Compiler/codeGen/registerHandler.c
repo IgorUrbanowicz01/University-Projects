@@ -1,7 +1,7 @@
 #include "registerHandler.h"
 #include <string.h>
 
-#define NUM_reg 1024
+#define NUM_reg 4294967295
 char *reg[NUM_reg];
 int index_ = 11;
 
@@ -28,7 +28,7 @@ void set_register_varible(char *varible)
     index_++;
 }
 
-unsigned long long get_register_index_(char *varible)
+unsigned long long get_register_index(char *varible)
 {
     for (unsigned long long i = 11; i < NUM_reg; i++)
     {

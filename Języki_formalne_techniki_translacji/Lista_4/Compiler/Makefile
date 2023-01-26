@@ -8,7 +8,7 @@ OBJECTS = $(SOURCES:.c=.o)
 
 build: gramar all
 
-all: main.c
+all: gramar main.c
 	gcc  $(FLAGS) -o main $(SOURCES) 
 
 

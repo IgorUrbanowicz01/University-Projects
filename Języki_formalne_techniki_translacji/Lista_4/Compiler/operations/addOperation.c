@@ -8,7 +8,7 @@ void add_Operation_to_list(struct CodeList *list, FILE *input)
 {
     add_line(list, "SET", "0");
     add_line(list, "STORE", "3");
-    int nofl = get_last_line_index(list) + 1;
+    unsigned long long nofl = get_last_line_index(list) + 1;
     char buffer[1024];
 
     while (fgets(buffer, sizeof(buffer), input) != NULL)
@@ -23,7 +23,7 @@ void add_Operation_to_list(struct CodeList *list, FILE *input)
             if (second[0] == '<')
             {
                 int x = atoi(second + 1);
-                sprintf(second, "%d", x + nofl);
+                sprintf(second, "%lld", x + nofl);
             }
             add_line(list, first, second);
         }

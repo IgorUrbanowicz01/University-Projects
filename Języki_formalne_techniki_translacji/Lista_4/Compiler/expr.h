@@ -25,6 +25,7 @@ typedef enum
     EXPR_FUNC_CALL, // @    10      @                @                @           @
     EXPR_IDENT,     // @    10      @                @                @           @
     EXPR_INT_LIT,   // @    10      @                @                @           @
+    EXPR_TEMP
 } expr_t;
 
 union expr_data
@@ -51,7 +52,7 @@ struct expr *expr_create_identifier(char *ident);
 struct expr *expr_create_integer_literal(int c);
 struct expr *expr_create_function_call(struct expr *function, struct expr *arg_list);
 struct expr *expr_create_empty();
-
+void expr_free_oper(struct expr *e);
 void expr_print(struct expr *e);
 void expr_print_list(struct expr *e, char *delim);
 
