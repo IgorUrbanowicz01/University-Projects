@@ -116,9 +116,13 @@ declH : ident COMMA declH
       ;
 
 decl : ident COMMA decl
-      { $$  = decl_create($1, type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); $$->next = $3; declere = $$; }
+      { $$  = decl_create($1, type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); $$->next = $3; declere = $$; 
+            set_register_varible($1);   
+      }
       | ident 
-      { $$  = decl_create($1, type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); declere = $$;}
+      { $$  = decl_create($1, type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); declere = $$;
+            set_register_varible($1);
+      }
       ;
 
 
@@ -240,8 +244,7 @@ expr1 : atom
 atom : identE
      { $$ = expr_create_identifier($1); /*printf("%s <-- \n", $1);*/ }
      | INT_LIT
-     { $$ = expr_create_identifier(last_int_literal); /*printf("%d <-- \n", last_int_literal);*/
-     set_register_varible(last_int_literal);}
+     { $$ = expr_create_identifier(last_int_literal); /*printf("%d <-- \n", last_int_literal);*/}
      ;
 
 ident: IDENT

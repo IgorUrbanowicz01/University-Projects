@@ -830,7 +830,7 @@ case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
 #line 27 "scanner.flex"
-{/* consume whitespace */}
+{/* consume comments */}
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
@@ -940,101 +940,102 @@ case 21:
 YY_RULE_SETUP
 #line 56 "scanner.flex"
 {
-                            last_int_literal = yytext;
+                            last_int_literal = strdup(yytext);
+                            yylval.ident = strdup(yytext);
                             return INT_LIT;
                             }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 61 "scanner.flex"
+#line 62 "scanner.flex"
 { return LPR; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 62 "scanner.flex"
+#line 63 "scanner.flex"
 { return RPR; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 64 "scanner.flex"
+#line 65 "scanner.flex"
 {  /*printf("ASSIGN");*/return ASSIGN;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 65 "scanner.flex"
+#line 66 "scanner.flex"
 { return COMMA; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 66 "scanner.flex"
+#line 67 "scanner.flex"
 { return SEMICOLON; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 68 "scanner.flex"
+#line 69 "scanner.flex"
 { return NEQ; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 69 "scanner.flex"
+#line 70 "scanner.flex"
 { return EQ; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 70 "scanner.flex"
+#line 71 "scanner.flex"
 { return LT; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 71 "scanner.flex"
+#line 72 "scanner.flex"
 { return GT; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 72 "scanner.flex"
+#line 73 "scanner.flex"
 { return LEQ; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 73 "scanner.flex"
+#line 74 "scanner.flex"
 { return GEQ; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 75 "scanner.flex"
+#line 76 "scanner.flex"
 { return ADD; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 76 "scanner.flex"
+#line 77 "scanner.flex"
 { return SUB; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 77 "scanner.flex"
+#line 78 "scanner.flex"
 { return MUL; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 78 "scanner.flex"
+#line 79 "scanner.flex"
 { return DIV; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 79 "scanner.flex"
+#line 80 "scanner.flex"
 { return MOD; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 81 "scanner.flex"
+#line 82 "scanner.flex"
 { return SCAN_ERR; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 83 "scanner.flex"
+#line 84 "scanner.flex"
 ECHO;
 	YY_BREAK
-#line 1038 "scanner.c"
+#line 1039 "scanner.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2008,7 +2009,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 83 "scanner.flex"
+#line 84 "scanner.flex"
 
 
 /* additional code */

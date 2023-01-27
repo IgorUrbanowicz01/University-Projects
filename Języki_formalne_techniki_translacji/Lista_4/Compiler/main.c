@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "parser.h"
 #include "decl.h"
+#include "./codeGen/registerHandler.h"
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -57,13 +58,14 @@ int main(int argc, char *argv[])
 
     yyin = fin;
     yyparse();
+    resolveProcedures(procedure);
+    print_registers();
     print_procedure(procedure);
     printf("\n");
     print_ast(ast);
 
     return EXIT_SUCCESS;
 }
-
 void print_procedure(struct decl *procedure) { decl_print_list(procedure, 0, ";", "\n"); }
 void print_ast(struct decl *ast) { decl_print_list(ast, 0, ";", "\n"); }
 

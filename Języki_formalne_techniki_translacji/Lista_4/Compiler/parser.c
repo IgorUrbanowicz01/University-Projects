@@ -577,11 +577,11 @@ static const yytype_int8 yytranslate[] =
 static const yytype_int16 yyrline[] =
 {
        0,    84,    84,    89,    91,    94,    97,   101,   107,   109,
-     112,   114,   118,   120,   128,   130,   136,   138,   140,   142,
-     144,   146,   148,   153,   155,   159,   163,   167,   171,   174,
-     179,   180,   187,   191,   193,   198,   200,   202,   204,   206,
-     208,   210,   215,   217,   219,   224,   226,   228,   230,   235,
-     240,   242,   247,   256
+     112,   114,   118,   122,   132,   134,   140,   142,   144,   146,
+     148,   150,   152,   157,   159,   163,   167,   171,   175,   178,
+     183,   184,   191,   195,   197,   202,   204,   206,   208,   210,
+     212,   214,   219,   221,   223,   228,   230,   232,   234,   239,
+     244,   246,   250,   259
 };
 #endif
 
@@ -1274,247 +1274,250 @@ yyreduce:
 
   case 12: /* decl: ident COMMA decl  */
 #line 119 "parser.bison"
-      { (yyval.decl)  = decl_create((yyvsp[-2].ident), type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); (yyval.decl)->next = (yyvsp[0].decl); declere = (yyval.decl); }
-#line 1279 "parser.c"
+      { (yyval.decl)  = decl_create((yyvsp[-2].ident), type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); (yyval.decl)->next = (yyvsp[0].decl); declere = (yyval.decl); 
+            set_register_varible((yyvsp[-2].ident));   
+      }
+#line 1281 "parser.c"
     break;
 
   case 13: /* decl: ident  */
-#line 121 "parser.bison"
-      { (yyval.decl)  = decl_create((yyvsp[0].ident), type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); declere = (yyval.decl);}
-#line 1285 "parser.c"
+#line 123 "parser.bison"
+      { (yyval.decl)  = decl_create((yyvsp[0].ident), type_create(TYPE_INTEGER, NULL), NULL, NULL, NULL); declere = (yyval.decl);
+            set_register_varible((yyvsp[0].ident));
+      }
+#line 1289 "parser.c"
     break;
 
   case 14: /* main: PROGRAM IS VAR decl X_BEGIN maybe_stmts END  */
-#line 129 "parser.bison"
+#line 133 "parser.bison"
       {(yyval.decl) = decl_create("MAIN", type_create(TYPE_FUNCTION, NULL), (yyvsp[-1].stmt), (yyvsp[-3].decl), NULL);}
-#line 1291 "parser.c"
+#line 1295 "parser.c"
     break;
 
   case 15: /* main: PROGRAM IS X_BEGIN maybe_stmts END  */
-#line 131 "parser.bison"
+#line 135 "parser.bison"
       {(yyval.decl) = decl_create("MAIN", type_create(TYPE_FUNCTION, NULL), (yyvsp[-1].stmt), NULL, NULL);}
-#line 1297 "parser.c"
+#line 1301 "parser.c"
     break;
 
   case 16: /* stmt: expr  */
-#line 137 "parser.bison"
+#line 141 "parser.bison"
       { (yyval.stmt) = stmt_create(STMT_EXPR, NULL, (yyvsp[0].expr), NULL, NULL); }
-#line 1303 "parser.c"
+#line 1307 "parser.c"
     break;
 
   case 17: /* stmt: if_stmt  */
-#line 139 "parser.bison"
+#line 143 "parser.bison"
       { (yyval.stmt) = (yyvsp[0].stmt); }
-#line 1309 "parser.c"
+#line 1313 "parser.c"
     break;
 
   case 18: /* stmt: read_stmt  */
-#line 141 "parser.bison"
+#line 145 "parser.bison"
       { (yyval.stmt) = (yyvsp[0].expr); }
-#line 1315 "parser.c"
+#line 1319 "parser.c"
     break;
 
   case 19: /* stmt: write_stmt  */
-#line 143 "parser.bison"
+#line 147 "parser.bison"
       { (yyval.stmt) = (yyvsp[0].stmt); }
-#line 1321 "parser.c"
+#line 1325 "parser.c"
     break;
 
   case 20: /* stmt: while_stmt  */
-#line 145 "parser.bison"
+#line 149 "parser.bison"
       { (yyval.stmt) = (yyvsp[0].stmt); }
-#line 1327 "parser.c"
+#line 1331 "parser.c"
     break;
 
   case 21: /* stmt: repeat_stmt  */
-#line 147 "parser.bison"
+#line 151 "parser.bison"
       { (yyval.stmt) = (yyvsp[0].stmt); }
-#line 1333 "parser.c"
+#line 1337 "parser.c"
     break;
 
   case 22: /* stmt: function_head_stmt  */
-#line 149 "parser.bison"
+#line 153 "parser.bison"
       { (yyval.stmt) = (yyvsp[0].stmt); }
-#line 1339 "parser.c"
+#line 1343 "parser.c"
     break;
 
   case 23: /* if_stmt: IF expr THEN maybe_stmts ELSE maybe_stmts ENDIF  */
-#line 154 "parser.bison"
+#line 158 "parser.bison"
         { (yyvsp[-3].stmt)->next = (yyvsp[-1].stmt); (yyval.stmt) = stmt_create(STMT_IF_ELSE, NULL, (yyvsp[-5].expr), (yyvsp[-3].stmt), (yyvsp[-1].stmt)); }
-#line 1345 "parser.c"
+#line 1349 "parser.c"
     break;
 
   case 24: /* if_stmt: IF expr THEN maybe_stmts ENDIF  */
-#line 156 "parser.bison"
+#line 160 "parser.bison"
         { (yyval.stmt) = stmt_create(STMT_IF_ELSE, NULL, (yyvsp[-3].expr), (yyvsp[-1].stmt), NULL); }
-#line 1351 "parser.c"
+#line 1355 "parser.c"
     break;
 
   case 25: /* read_stmt: READ atom SEMICOLON  */
-#line 160 "parser.bison"
+#line 164 "parser.bison"
       { (yyval.expr) = stmt_create(STMT_READ, NULL, (yyvsp[-1].expr), NULL, NULL);}
-#line 1357 "parser.c"
+#line 1361 "parser.c"
     break;
 
   case 26: /* write_stmt: WRITE atom SEMICOLON  */
-#line 164 "parser.bison"
+#line 168 "parser.bison"
       { (yyval.stmt) = stmt_create(STMT_WRITE, NULL, (yyvsp[-1].expr), NULL, NULL);}
-#line 1363 "parser.c"
+#line 1367 "parser.c"
     break;
 
   case 27: /* while_stmt: WHILE expr DO maybe_stmts ENDWHILE  */
-#line 168 "parser.bison"
+#line 172 "parser.bison"
       { (yyval.stmt) = stmt_create(STMT_WHILE, NULL, (yyvsp[-3].expr), (yyvsp[-1].stmt), NULL);}
-#line 1369 "parser.c"
+#line 1373 "parser.c"
     break;
 
   case 28: /* repeat_stmt: REPEAT maybe_stmts UNTIL expr SEMICOLON  */
-#line 172 "parser.bison"
+#line 176 "parser.bison"
       { (yyval.stmt) = stmt_create(STMT_REPEAT, NULL, (yyvsp[-1].expr), (yyvsp[-3].stmt), NULL);}
-#line 1375 "parser.c"
+#line 1379 "parser.c"
     break;
 
   case 29: /* function_head_stmt: ident proc_headSTMT SEMICOLON  */
-#line 175 "parser.bison"
+#line 179 "parser.bison"
       { (yyval.stmt) = stmt_create(STMT_HEAD, decl_create((yyvsp[-2].ident), (yyvsp[-1].type), NULL, NULL, NULL), NULL, NULL, NULL);}
-#line 1381 "parser.c"
+#line 1385 "parser.c"
     break;
 
   case 30: /* maybe_stmts: %empty  */
-#line 179 "parser.bison"
+#line 183 "parser.bison"
             { (yyval.stmt) = NULL; }
-#line 1387 "parser.c"
+#line 1391 "parser.c"
     break;
 
   case 31: /* maybe_stmts: stmt maybe_stmts  */
-#line 181 "parser.bison"
+#line 185 "parser.bison"
             { (yyvsp[-1].stmt)->next = (yyvsp[0].stmt); (yyval.stmt) = (yyvsp[-1].stmt); }
-#line 1393 "parser.c"
+#line 1397 "parser.c"
     break;
 
   case 32: /* expr: expr6  */
-#line 188 "parser.bison"
+#line 192 "parser.bison"
      { (yyval.expr) = (yyvsp[0].expr); }
-#line 1399 "parser.c"
+#line 1403 "parser.c"
     break;
 
   case 33: /* expr6: expr5 ASSIGN expr5 SEMICOLON  */
-#line 192 "parser.bison"
+#line 196 "parser.bison"
       { (yyval.expr) = expr_create_oper(EXPR_ASGN, (yyvsp[-3].expr), (yyvsp[-1].expr));}
-#line 1405 "parser.c"
+#line 1409 "parser.c"
     break;
 
   case 34: /* expr6: expr5  */
-#line 194 "parser.bison"
+#line 198 "parser.bison"
       { (yyval.expr) = (yyvsp[0].expr); }
-#line 1411 "parser.c"
+#line 1415 "parser.c"
     break;
 
   case 35: /* expr5: expr5 LT expr4  */
-#line 199 "parser.bison"
+#line 203 "parser.bison"
       { (yyval.expr) = expr_create_oper(EXPR_LT, (yyvsp[-2].expr), (yyvsp[0].expr)); }
-#line 1417 "parser.c"
+#line 1421 "parser.c"
     break;
 
   case 36: /* expr5: expr5 LEQ expr4  */
-#line 201 "parser.bison"
+#line 205 "parser.bison"
       { (yyval.expr) = expr_create_oper(EXPR_LT_EQ, (yyvsp[-2].expr), (yyvsp[0].expr)); }
-#line 1423 "parser.c"
+#line 1427 "parser.c"
     break;
 
   case 37: /* expr5: expr5 GT expr4  */
-#line 203 "parser.bison"
+#line 207 "parser.bison"
       { (yyval.expr) = expr_create_oper(EXPR_GT, (yyvsp[-2].expr), (yyvsp[0].expr)); }
-#line 1429 "parser.c"
+#line 1433 "parser.c"
     break;
 
   case 38: /* expr5: expr5 GEQ expr4  */
-#line 205 "parser.bison"
+#line 209 "parser.bison"
       { (yyval.expr) = expr_create_oper(EXPR_GT_EQ, (yyvsp[-2].expr), (yyvsp[0].expr)); }
-#line 1435 "parser.c"
+#line 1439 "parser.c"
     break;
 
   case 39: /* expr5: expr5 EQ expr4  */
-#line 207 "parser.bison"
+#line 211 "parser.bison"
       { (yyval.expr) = expr_create_oper(EXPR_EQ, (yyvsp[-2].expr), (yyvsp[0].expr));}
-#line 1441 "parser.c"
+#line 1445 "parser.c"
     break;
 
   case 40: /* expr5: expr5 NEQ expr4  */
-#line 209 "parser.bison"
+#line 213 "parser.bison"
       { (yyval.expr) = expr_create_oper(EXPR_NOT_EQ, (yyvsp[-2].expr), (yyvsp[0].expr)); }
-#line 1447 "parser.c"
+#line 1451 "parser.c"
     break;
 
   case 41: /* expr5: expr4  */
-#line 211 "parser.bison"
+#line 215 "parser.bison"
       { (yyval.expr) = (yyvsp[0].expr); }
-#line 1453 "parser.c"
+#line 1457 "parser.c"
     break;
 
   case 42: /* expr4: expr4 ADD expr3  */
-#line 216 "parser.bison"
+#line 220 "parser.bison"
       { (yyval.expr) = expr_create_oper(EXPR_ADD, (yyvsp[-2].expr), (yyvsp[0].expr)); }
-#line 1459 "parser.c"
+#line 1463 "parser.c"
     break;
 
   case 43: /* expr4: expr4 SUB expr3  */
-#line 218 "parser.bison"
+#line 222 "parser.bison"
       { (yyval.expr) = expr_create_oper(EXPR_SUB, (yyvsp[-2].expr), (yyvsp[0].expr)); }
-#line 1465 "parser.c"
+#line 1469 "parser.c"
     break;
 
   case 44: /* expr4: expr3  */
-#line 220 "parser.bison"
+#line 224 "parser.bison"
       { (yyval.expr) = (yyvsp[0].expr); }
-#line 1471 "parser.c"
+#line 1475 "parser.c"
     break;
 
   case 45: /* expr3: expr3 MUL expr1  */
-#line 225 "parser.bison"
+#line 229 "parser.bison"
       { (yyval.expr) = expr_create_oper(EXPR_MUL, (yyvsp[-2].expr), (yyvsp[0].expr)); }
-#line 1477 "parser.c"
+#line 1481 "parser.c"
     break;
 
   case 46: /* expr3: expr3 DIV expr1  */
-#line 227 "parser.bison"
+#line 231 "parser.bison"
       { (yyval.expr) = expr_create_oper(EXPR_DIV, (yyvsp[-2].expr), (yyvsp[0].expr)); }
-#line 1483 "parser.c"
+#line 1487 "parser.c"
     break;
 
   case 47: /* expr3: expr3 MOD expr1  */
-#line 229 "parser.bison"
+#line 233 "parser.bison"
       { (yyval.expr) = expr_create_oper(EXPR_MOD, (yyvsp[-2].expr), (yyvsp[0].expr)); }
-#line 1489 "parser.c"
+#line 1493 "parser.c"
     break;
 
   case 48: /* expr3: expr1  */
-#line 231 "parser.bison"
+#line 235 "parser.bison"
       { (yyval.expr) = (yyvsp[0].expr); }
-#line 1495 "parser.c"
+#line 1499 "parser.c"
     break;
 
   case 49: /* expr1: atom  */
-#line 236 "parser.bison"
+#line 240 "parser.bison"
       { (yyval.expr) = (yyvsp[0].expr); }
-#line 1501 "parser.c"
+#line 1505 "parser.c"
     break;
 
   case 50: /* atom: identE  */
-#line 241 "parser.bison"
+#line 245 "parser.bison"
      { (yyval.expr) = expr_create_identifier((yyvsp[0].ident)); /*printf("%s <-- \n", $1);*/ }
-#line 1507 "parser.c"
+#line 1511 "parser.c"
     break;
 
   case 51: /* atom: INT_LIT  */
-#line 243 "parser.bison"
-     { (yyval.expr) = expr_create_identifier(last_int_literal); /*printf("%d <-- \n", last_int_literal);*/
-     set_register_varible(last_int_literal);}
-#line 1514 "parser.c"
+#line 247 "parser.bison"
+     { (yyval.expr) = expr_create_identifier(last_int_literal); /*printf("%d <-- \n", last_int_literal);*/}
+#line 1517 "parser.c"
     break;
 
   case 52: /* ident: IDENT  */
-#line 248 "parser.bison"
+#line 251 "parser.bison"
      { char *s = strdup((yyvsp[0].ident));
        if (!s){
            fprintf(stdout, "[ERROR|internal] Failed to allocate space for duping identifier.\n");
@@ -1522,11 +1525,11 @@ yyreduce:
        }
        (yyval.ident) = s;
      }
-#line 1526 "parser.c"
+#line 1529 "parser.c"
     break;
 
   case 53: /* identE: IDENT  */
-#line 257 "parser.bison"
+#line 260 "parser.bison"
      { char *s = strdup((yyvsp[0].ident));
        if (!s){
            fprintf(stdout, "[ERROR|internal] Failed to allocate space for duping identifier.\n");
@@ -1540,11 +1543,11 @@ yyreduce:
       }
 
      }
-#line 1544 "parser.c"
+#line 1547 "parser.c"
     break;
 
 
-#line 1548 "parser.c"
+#line 1551 "parser.c"
 
       default: break;
     }
@@ -1737,7 +1740,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 273 "parser.bison"
+#line 276 "parser.bison"
 
 
 int yyerror( char *str )

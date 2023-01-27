@@ -64,6 +64,23 @@ bool decl_find(struct decl *d, char *i_find)
     return decl_find(d->next, i_find);
 }
 
+void resolveProcedures(struct decl *d)
+{
+    if (!d)
+        return;
+    addparameters(d->ident, d->next);
+    resolveProcedures(d->next_procedure);
+}
+
+void addparameters(char *name, struct decl *p)
+{
+    if (!p)
+        return;
+    strcat(p->ident, name);
+    set_register_varible(p->ident);
+    addparameters(name, p->next);
+}
+
 /*int contains(char *str, int index)
 {
     for (int i = 0; i < index; i++)
@@ -99,5 +116,3 @@ bool decl_find(struct decl *d, char *i_find)
     if (d->next)
         index += march_on_decl(d->next, index);
 }*/
-
-/* END PRINT ================================= BEGIN CODE GENRATION */

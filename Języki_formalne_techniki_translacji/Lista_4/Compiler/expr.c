@@ -17,7 +17,7 @@ struct expr *expr_create(expr_t expr_type, union expr_data *data)
 
     struct expr *e = malloc(sizeof(*e));
     e->kind = expr_type;
-    // this seemed to me a good union application since the data values are mutually exclusive
+    // this seemed to me a good union applic.ation since the data values are mutually exclusive
     e->data = data;
     e->next = NULL;
     return e;

@@ -20,6 +20,8 @@ struct decl *decl_create(char *name, struct type *type, struct stmt *func_body, 
 void decl_print(struct decl *d, int indents, char *term);
 void decl_print_list(struct decl *d, int indents, char *term, char *delim);
 bool decl_find(struct decl *d, char *i_find);
+void resolveProcedures(struct decl *d);
+void addparameters(char *name, struct decl *p);
 
 struct scope;
 

@@ -24,7 +24,7 @@ IDENT       ({LETTER})({LETTER}|{DIGIT})*
 INT_LIT     {DIGIT}+
 
 %%
-\[[^]]*\]			{/* consume whitespace */}
+\[[^]]*\]			{/* consume comments */}
 {WHITESPACE}        {/* consume whitespace */}
 <<EOF>>                     { return TOKEN_EOF; }
 
@@ -54,7 +54,8 @@ INT_LIT     {DIGIT}+
                               }
 
 {INT_LIT}                   {
-                            last_int_literal = yytext;
+                            last_int_literal = strdup(yytext);
+                            yylval.ident = strdup(yytext);
                             return INT_LIT;
                             }
 
