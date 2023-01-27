@@ -5,7 +5,7 @@ OBJECTS = $(SOURCES:.c=.o)
 
 .PHONY = all clean cleanall
 
-all: test1
+all: test2
 
 test1: test.c
 	gcc  $(FLAGS) -o main addOperation.c test.c ../codeGen/code.c ../codeGen/registerHandler.c

@@ -1,4 +1,6 @@
 #include "callOperation.h"
+#include "../expr.h"
+#include "../codeGen/registerHandler.h"
 
 /*
 1 <--- line where divide starts
@@ -9,24 +11,15 @@
 
 char *get_reg(struct expr *expr)
 {
-    unsigned long long value;
-    char buffer[20] = {0};
-    char *new_string = malloc(strlen(buffer) + 1);
 
     switch (expr->kind)
     {
     case EXPR_IDENT:
-        value = get_register_index(expr->data->ident_name);
-        sprintf(buffer, "%llu", value);
-        strcpy(new_string, buffer);
-        return new_string;
+        return get_register_index(expr->data->ident_name);
         break;
 
     case EXPR_INT_LIT:
-        value = get_register_index(expr->data->ident_name);
-        sprintf(buffer, "%llu", value);
-        strcpy(new_string, buffer);
-        return new_string;
+        return get_register_index(expr->data->ident_name);
         break;
     case EXPR_TEMP:
         return "3";
@@ -92,6 +85,30 @@ struct expr *mod_call(struct CodeList *list, struct expr *expr)
     add_line(list, "SET", buffer);
     add_line(list, "STORE", "8");
     add_line(list, "JUMP", "44");
+    expr_free_oper(expr);
+    return new_expr;
+}
+
+struct expr *add_call(struct CodeList *list, struct expr *expr)
+{
+    struct expr *new_expr = expr_create(EXPR_TEMP, NULL);
+    char *A = get_reg(expr->data->operator_args);
+    char *B = get_reg(expr->data->operator_args->next);
+    add_line(list, "LOAD", A);
+    add_line(list, "ADD", B);
+    add_line(list, "STORE", "3");
+    expr_free_oper(expr);
+    return new_expr;
+}
+
+struct expr *sub_call(struct CodeList *list, struct expr *expr)
+{
+    struct expr *new_expr = expr_create(EXPR_TEMP, NULL);
+    char *A = get_reg(expr->data->operator_args);
+    char *B = get_reg(expr->data->operator_args->next);
+    add_line(list, "LOAD", A);
+    add_line(list, "SUB", B);
+    add_line(list, "STORE", "3");
     expr_free_oper(expr);
     return new_expr;
 }

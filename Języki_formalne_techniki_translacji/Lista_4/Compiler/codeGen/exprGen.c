@@ -1,6 +1,7 @@
 #include "exprGen.h"
 #include "../expr.h"
 #include "../stmt.h"
+#include "../operations/callOperation.h"
 #include "registerHandler.h"
 #include "code.h"
 
@@ -361,111 +362,19 @@ void generate_from_expr(struct CodeList *list, struct expr *e)
 
         break;
     case EXPR_ADD:
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, expr_create_identifier("r1"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal(0), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal(1), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r2"), NULL, NULL);
+        add_call(list, e);
         break;
     case EXPR_SUB:
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r1"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal(0), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_WHILE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, NULL, NULL, NULL);
+        sub_call(list, e);
         break;
     case EXPR_MUL:
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, expr_create_identifier("r1"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal(0), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal(1), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r2"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r3"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal(0), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_WHILE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r2"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_WHILE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r4"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, expr_create_identifier("r1"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal(0), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal(1), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r2"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r3"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal(0), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_WHILE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r2"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_WHILE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r4"), NULL, NULL);
+        mul_call(list, e);
         break;
     case EXPR_DIV:
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, expr_create_identifier("r1"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal(0), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal(1), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r2"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r3"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal(0), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_WHILE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r2"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_WHILE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r4"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, expr_create_identifier("r1"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal(0), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal(1), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r2"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r3"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal(0), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_WHILE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r2"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_WHILE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r4"), NULL, NULL);
+        div_call(list, e);
         break;
     case EXPR_MOD:
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r1"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_WHILE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r4"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, expr_create_identifier("r1"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal(0), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal(1), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r2"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r3"), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal(0), NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_WHILE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_integer_literal, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_IF_ELSE, NULL, NULL, NULL, NULL);
-        procedure->expr_list = stmt_create(STMT_EXPR, NULL, expr_create_identifier("r2"), NULL, NULL);
+        mod_call(list, e);
         break;
     }
 }

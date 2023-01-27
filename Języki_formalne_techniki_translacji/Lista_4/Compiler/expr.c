@@ -219,7 +219,6 @@ void expr_free_oper(struct expr *e)
     case EXPR_TEMP:
         break;
     case EXPR_IDENT:
-        free(e->data->ident_name);
         free(e->data);
         break;
     default:

@@ -4,6 +4,11 @@
 void add_Operation_to_list(struct CodeList *list, char *file)
 {
     FILE *input = fopen(file, "r");
+    if (input == NULL)
+    {
+        printf("Error: File %s not found\n", file);
+        return;
+    }
     add_line(list, "SET", "0");
     add_line(list, "STORE", "3");
     unsigned long long nofl = get_last_line_index(list) + 1;

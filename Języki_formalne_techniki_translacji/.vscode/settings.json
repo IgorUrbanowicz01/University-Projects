@@ -35,7 +35,8 @@
         "utility": "cpp",
         "expr.h": "c",
         "code.h": "c",
-        "registerhandler.h": "c"
+        "registerhandler.h": "c",
+        "calloperation.h": "c"
     },
     "cmake.parseBuildDiagnostics": false
 }

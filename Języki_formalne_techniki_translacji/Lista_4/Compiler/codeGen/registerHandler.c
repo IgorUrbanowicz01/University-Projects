@@ -1,41 +1,64 @@
 #include "registerHandler.h"
-#include <string.h>
 
-#define NUM_reg 4294967295
-char *reg[NUM_reg];
-int index_ = 11;
+struct Node *head = NULL;
 
-// Get the value of a register at a specific index_
-char *get_register_value(long long i)
+void set_register_varible(struct CodeList *list, char *varible)
 {
-    if (i < 0 || i >= NUM_reg)
+    struct Node *new_node = (struct Node *)malloc(sizeof(struct Node));
+    new_node->varible = strdup(varible);
+    new_node->next = NULL;
+    if (head == NULL)
     {
-        printf("Error: Invalid register index_\n");
-        return "-1";
+        new_node->reg = 11;
+        head = new_node;
     }
-    return reg[i];
-}
-
-// Set the name of varible to a register at a specific index_
-void set_register_varible(char *varible)
-{
-    if (index_ < 0 || index_ >= NUM_reg)
+    else
     {
-        printf("Error: Invalid register index_\n");
-        return;
-    }
-    reg[index_] = varible;
-    index_++;
-}
-
-unsigned long long get_register_index(char *varible)
-{
-    for (unsigned long long i = 11; i < NUM_reg; i++)
-    {
-        if (strcmp(reg[i], varible) == 0)
+        struct Node *current = head;
+        while (current->next != NULL)
         {
-            return i;
+            current = current->next;
         }
+        new_node->reg = current->reg + 1;
+        current->next = new_node;
     }
-    return -1;
+}
+
+char *get_register_index(char *varible)
+{
+    struct Node *current = head;
+    while (current != NULL)
+    {
+        if (strcmp(current->varible, varible) == 0)
+        {
+            char reg_str[20];
+            snprintf(reg_str, 20, "%lld", current->reg);
+            return strdup(reg_str);
+        }
+        current = current->next;
+    }
+    printf("ERROR| cant find verible %s", varible);
+    return strdup("-1");
+}
+
+void print_registers()
+{
+    struct Node *current = head;
+    while (current != NULL)
+    {
+        printf("Register index: %llu, Variable: %s\n", current->reg, current->varible);
+        current = current->next;
+    }
+}
+
+char *get_empty_register()
+{
+    struct Node *current = head;
+    while (current->next != NULL)
+    {
+        current = current->next;
+    }
+    char reg_str[20];
+    snprintf(reg_str, 20, "%lld", current->reg + 1);
+    return strdup(reg_str);
 }
