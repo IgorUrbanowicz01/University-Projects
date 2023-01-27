@@ -27,7 +27,7 @@ char *get_reg(struct expr *expr)
     }
 }
 
-struct expr *mul_call(struct CodeList *list, struct expr *expr)
+void mul_call(struct CodeList *list, struct expr *expr)
 {
     char *name = get_empty_register();
     strcat(name, "temp");
@@ -47,16 +47,16 @@ struct expr *mul_call(struct CodeList *list, struct expr *expr)
     add_line(list, "STORE", "8");
     add_line(list, "JUMP", "87");
     add_line(list, "STORE", WYNIK);
-    expr_free_oper(expr);
-    return new_expr;
+    expr_free_oper(expr->data->func_and_args);
+    expr->kind = EXPR_IDENT;
+    expr->data->ident_name = name;
 }
 
-struct expr *div_call(struct CodeList *list, struct expr *expr)
+void div_call(struct CodeList *list, struct expr *expr)
 {
     char *name = get_empty_register();
     strcat(name, "temp");
     set_register_varible(name);
-    struct expr *new_expr = expr_create_identifier(name);
     char *A = get_reg(expr->data->operator_args);
     char *B = get_reg(expr->data->operator_args->next);
     char *WYNIK = get_register_index(name);
@@ -72,16 +72,16 @@ struct expr *div_call(struct CodeList *list, struct expr *expr)
     add_line(list, "JUMP", "1");
     add_line(list, "LOAD", "3");
     add_line(list, "STORE", WYNIK);
-    expr_free_oper(expr);
-    return new_expr;
+    expr_free_oper(expr->data->func_and_args);
+    expr->kind = EXPR_IDENT;
+    expr->data->ident_name = name;
 }
 
-struct expr *mod_call(struct CodeList *list, struct expr *expr)
+void mod_call(struct CodeList *list, struct expr *expr)
 {
     char *name = get_empty_register();
     strcat(name, "temp");
     set_register_varible(name);
-    struct expr *new_expr = expr_create_identifier(name);
     char *A = get_reg(expr->data->operator_args);
     char *B = get_reg(expr->data->operator_args->next);
     char *WYNIK = get_register_index(name);
@@ -96,38 +96,49 @@ struct expr *mod_call(struct CodeList *list, struct expr *expr)
     add_line(list, "STORE", "8");
     add_line(list, "JUMP", "44");
     add_line(list, "STORE", WYNIK);
-    expr_free_oper(expr);
-    return new_expr;
+    expr_free_oper(expr->data->func_and_args);
+    expr->kind = EXPR_IDENT;
+    expr->data->ident_name = name;
 }
 
-struct expr *add_call(struct CodeList *list, struct expr *expr)
+void add_call(struct CodeList *list, struct expr *expr)
 {
     char *name = get_empty_register();
     strcat(name, "temp");
     set_register_varible(name);
-    struct expr *new_expr = expr_create_identifier(name);
     char *A = get_reg(expr->data->operator_args);
     char *B = get_reg(expr->data->operator_args->next);
     char *WYNIK = get_register_index(name);
     add_line(list, "LOAD", A);
     add_line(list, "ADD", B);
     add_line(list, "STORE", WYNIK);
-    expr_free_oper(expr);
-    return new_expr;
+    expr_free_oper(expr->data->func_and_args);
+    expr->kind = EXPR_IDENT;
+    expr->data->ident_name = name;
 }
 
-struct expr *sub_call(struct CodeList *list, struct expr *expr)
+void sub_call(struct CodeList *list, struct expr *expr)
 {
     char *name = get_empty_register();
     strcat(name, "temp");
     set_register_varible(name);
-    struct expr *new_expr = expr_create_identifier(name);
     char *A = get_reg(expr->data->operator_args);
     char *B = get_reg(expr->data->operator_args->next);
     char *WYNIK = get_register_index(name);
     add_line(list, "LOAD", A);
     add_line(list, "SUB", B);
     add_line(list, "STORE", WYNIK);
+    expr->kind = EXPR_IDENT;
+    expr->data->ident_name = name;
+    expr_free_oper(expr->data->func_and_args);
+    expr_free_oper(expr->data->func_and_args->next);
+}
+
+void asg_call(struct CodeList *list, struct expr *expr)
+{
+    char *A = get_reg(expr->data->operator_args);
+    char *B = get_reg(expr->data->operator_args->next);
+    add_line(list, "LOAD", B);
+    add_line(list, "STORE", A);
     expr_free_oper(expr);
-    return new_expr;
 }

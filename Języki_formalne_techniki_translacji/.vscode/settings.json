@@ -36,7 +36,8 @@
         "expr.h": "c",
         "code.h": "c",
         "registerhandler.h": "c",
-        "calloperation.h": "c"
+        "calloperation.h": "c",
+        "addoperation.h": "c"
     },
     "cmake.parseBuildDiagnostics": false
 }

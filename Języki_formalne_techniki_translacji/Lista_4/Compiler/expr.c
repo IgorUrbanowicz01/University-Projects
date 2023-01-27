@@ -44,6 +44,8 @@ struct expr *expr_create_identifier(char *ident)
 {
     union expr_data *d = malloc(sizeof(*d));
     d->ident_name = ident;
+    // d->operator_args = NULL;
+    // d->func_and_args = NULL;
     return expr_create(EXPR_IDENT, d);
 }
 
@@ -89,9 +91,11 @@ void expr_print(struct expr *e)
     default:
         // operators
         /* this printing code is made elegant by allowing the AST to have empty nodes */
-        expr_print_subexpr(e->data->operator_args, e->kind, false);
+        if (e->data->operator_args)
+            expr_print_subexpr(e->data->operator_args, e->kind, false);
         fputs(oper_to_str(e->kind), stdout);
-        expr_print_subexpr(e->data->operator_args->next, e->kind, true);
+        if (e->data->operator_args->next)
+            expr_print_subexpr(e->data->operator_args->next, e->kind, true);
         break;
     }
 }

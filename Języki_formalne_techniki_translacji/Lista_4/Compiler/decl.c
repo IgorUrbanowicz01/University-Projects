@@ -69,6 +69,7 @@ void resolveProcedures(struct decl *d)
     if (!d)
         return;
     addparameters(d->ident, d->next);
+    addparameters(d->ident, d->type->params);
     resolveProcedures(d->next_procedure);
 }
 
@@ -76,6 +77,7 @@ void addparameters(char *name, struct decl *p)
 {
     if (!p)
         return;
+    strcat(p->ident, "_-_");
     strcat(p->ident, name);
     set_register_varible(p->ident);
     addparameters(name, p->next);

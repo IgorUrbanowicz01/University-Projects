@@ -46,25 +46,44 @@ void generate_repeat_loop_code_from_expr(struct CodeList *list, struct stmt *s)
 
 void generate_from_expr(struct CodeList *list, struct expr *e)
 {
-    struct stmt *procedure = stmt_create(STMT_EXPR, NULL, NULL, NULL, NULL);
+    if (!e)
+        return;
     switch (e->kind)
     {
-
+    case EXPR_IDENT:
+        return;
+        break;
+    case INT_LIT:
+        return;
         break;
     case EXPR_ADD:
+        generate_from_expr(list, e->data->func_and_args);
+        generate_from_expr(list, e->data->func_and_args->next);
         add_call(list, e);
         break;
     case EXPR_SUB:
+        generate_from_expr(list, e->data->func_and_args);
+        generate_from_expr(list, e->data->func_and_args->next);
         sub_call(list, e);
         break;
     case EXPR_MUL:
+        generate_from_expr(list, e->data->func_and_args);
+        generate_from_expr(list, e->data->func_and_args->next);
         mul_call(list, e);
         break;
     case EXPR_DIV:
+        generate_from_expr(list, e->data->func_and_args);
+        generate_from_expr(list, e->data->func_and_args->next);
         div_call(list, e);
         break;
     case EXPR_MOD:
+        generate_from_expr(list, e->data->func_and_args);
+        generate_from_expr(list, e->data->func_and_args->next);
         mod_call(list, e);
+        break;
+    case EXPR_ASGN:
+        generate_from_expr(list, e->data->func_and_args->next);
+        asg_call(list, e);
         break;
     default:
         printf("ERROR|Wrong operation expresion\n");

@@ -192,7 +192,7 @@ expr : expr6
      { $$ = $1; }
      ;
 
-expr6: expr5 ASSIGN expr5 SEMICOLON
+expr6: atom ASSIGN expr5 SEMICOLON
       { $$ = expr_create_oper(EXPR_ASGN, $1, $3);}
       | expr5
       { $$ = $1; }

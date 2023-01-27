@@ -9,10 +9,11 @@
 #include "../expr.h"
 
 char *get_reg(struct expr *expr);
-struct expr *mul_call(struct CodeList *list, struct expr *expr);
-struct expr *div_call(struct CodeList *list, struct expr *expr);
-struct expr *mod_call(struct CodeList *list, struct expr *expr);
-struct expr *add_call(struct CodeList *list, struct expr *expr);
-struct expr *sub_call(struct CodeList *list, struct expr *expr);
+void mul_call(struct CodeList *list, struct expr *expr);
+void div_call(struct CodeList *list, struct expr *expr);
+void mod_call(struct CodeList *list, struct expr *expr);
+void add_call(struct CodeList *list, struct expr *expr);
+void sub_call(struct CodeList *list, struct expr *expr);
+void asg_call(struct CodeList *list, struct expr *expr);
 
 #endif

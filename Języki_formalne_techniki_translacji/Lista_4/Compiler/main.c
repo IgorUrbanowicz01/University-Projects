@@ -2,6 +2,9 @@
 #include "parser.h"
 #include "decl.h"
 #include "./codeGen/registerHandler.h"
+#include "./codeGen/declGen.h"
+#include "./codeGen/code.h"
+#include "./operations/addOperation.h"
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -57,9 +60,21 @@ int main(int argc, char *argv[])
     }
 
     yyin = fin;
+    struct CodeList *list = (struct CodeList *)malloc(sizeof(struct CodeList));
+    init_code_list(list);
+    add_line(list, "JUMP", "116");
+    add_Operation_to_list(list, "./operations/div");
+    add_Operation_to_list(list, "./operations/mod");
+    add_Operation_to_list(list, "./operations/mul");
+    set_register_varible("10");
+    add_line(list, "SET", "10");
+    add_line(list, "STORE", "11");
     yyparse();
-    resolveProcedures(procedure);
     print_registers();
+    decl_generator(list, ast);
+    add_line(list, "HALT", NULL);
+    print_code_list(list);
+    resolveProcedures(procedure);
     print_procedure(procedure);
     printf("\n");
     print_ast(ast);

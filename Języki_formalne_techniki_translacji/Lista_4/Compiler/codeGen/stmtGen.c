@@ -1,9 +1,6 @@
-#include "../stmt.h"
-#include "registerHandler.h"
-#include "code.h"
-#include "exprGen.h"
+#include "stmtGen.h"
 
-void generateode_from_expr(struct CodeList *list, struct stmt *s)
+void stmt_generator(struct CodeList *list, struct stmt *s)
 {
     if (!s)
         return;
@@ -36,4 +33,5 @@ void generateode_from_expr(struct CodeList *list, struct stmt *s)
         // TO DO
         break;
     }
+    stmt_generator(list, s->next);
 }
