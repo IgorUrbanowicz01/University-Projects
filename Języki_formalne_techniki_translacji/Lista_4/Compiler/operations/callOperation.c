@@ -1,6 +1,4 @@
 #include "callOperation.h"
-#include "../expr.h"
-#include "../codeGen/registerHandler.h"
 
 /*
 1 <--- line where divide starts
@@ -21,9 +19,6 @@ char *get_reg(struct expr *expr)
     case EXPR_INT_LIT:
         return get_register_index(expr->data->ident_name);
         break;
-    case EXPR_TEMP:
-        return "3";
-        break;
 
     default:
         printf("[FATAL|ERROR]WRONG EXPRESION PASSED");
@@ -34,9 +29,13 @@ char *get_reg(struct expr *expr)
 
 struct expr *mul_call(struct CodeList *list, struct expr *expr)
 {
-    struct expr *new_expr = expr_create(EXPR_TEMP, NULL);
+    char *name = get_empty_register();
+    strcat(name, "temp");
+    set_register_varible(name);
+    struct expr *new_expr = expr_create_identifier(name);
     char *A = get_reg(expr->data->operator_args);
     char *B = get_reg(expr->data->operator_args->next);
+    char *WYNIK = get_register_index(name);
     char buffer[20];
     add_line(list, "LOAD", A);
     add_line(list, "STORE", "1");
@@ -47,15 +46,20 @@ struct expr *mul_call(struct CodeList *list, struct expr *expr)
     add_line(list, "SET", buffer);
     add_line(list, "STORE", "8");
     add_line(list, "JUMP", "87");
+    add_line(list, "STORE", WYNIK);
     expr_free_oper(expr);
     return new_expr;
 }
 
 struct expr *div_call(struct CodeList *list, struct expr *expr)
 {
-    struct expr *new_expr = expr_create(EXPR_TEMP, NULL);
+    char *name = get_empty_register();
+    strcat(name, "temp");
+    set_register_varible(name);
+    struct expr *new_expr = expr_create_identifier(name);
     char *A = get_reg(expr->data->operator_args);
     char *B = get_reg(expr->data->operator_args->next);
+    char *WYNIK = get_register_index(name);
     char buffer[20];
     add_line(list, "LOAD", A);
     add_line(list, "STORE", "1");
@@ -66,15 +70,21 @@ struct expr *div_call(struct CodeList *list, struct expr *expr)
     add_line(list, "SET", buffer);
     add_line(list, "STORE", "8");
     add_line(list, "JUMP", "1");
+    add_line(list, "LOAD", "3");
+    add_line(list, "STORE", WYNIK);
     expr_free_oper(expr);
     return new_expr;
 }
 
 struct expr *mod_call(struct CodeList *list, struct expr *expr)
 {
-    struct expr *new_expr = expr_create(EXPR_TEMP, NULL);
+    char *name = get_empty_register();
+    strcat(name, "temp");
+    set_register_varible(name);
+    struct expr *new_expr = expr_create_identifier(name);
     char *A = get_reg(expr->data->operator_args);
     char *B = get_reg(expr->data->operator_args->next);
+    char *WYNIK = get_register_index(name);
     char buffer[20];
     add_line(list, "LOAD", A);
     add_line(list, "STORE", "1");
@@ -85,30 +95,39 @@ struct expr *mod_call(struct CodeList *list, struct expr *expr)
     add_line(list, "SET", buffer);
     add_line(list, "STORE", "8");
     add_line(list, "JUMP", "44");
+    add_line(list, "STORE", WYNIK);
     expr_free_oper(expr);
     return new_expr;
 }
 
 struct expr *add_call(struct CodeList *list, struct expr *expr)
 {
-    struct expr *new_expr = expr_create(EXPR_TEMP, NULL);
+    char *name = get_empty_register();
+    strcat(name, "temp");
+    set_register_varible(name);
+    struct expr *new_expr = expr_create_identifier(name);
     char *A = get_reg(expr->data->operator_args);
     char *B = get_reg(expr->data->operator_args->next);
+    char *WYNIK = get_register_index(name);
     add_line(list, "LOAD", A);
     add_line(list, "ADD", B);
-    add_line(list, "STORE", "3");
+    add_line(list, "STORE", WYNIK);
     expr_free_oper(expr);
     return new_expr;
 }
 
 struct expr *sub_call(struct CodeList *list, struct expr *expr)
 {
-    struct expr *new_expr = expr_create(EXPR_TEMP, NULL);
+    char *name = get_empty_register();
+    strcat(name, "temp");
+    set_register_varible(name);
+    struct expr *new_expr = expr_create_identifier(name);
     char *A = get_reg(expr->data->operator_args);
     char *B = get_reg(expr->data->operator_args->next);
+    char *WYNIK = get_register_index(name);
     add_line(list, "LOAD", A);
     add_line(list, "SUB", B);
-    add_line(list, "STORE", "3");
+    add_line(list, "STORE", WYNIK);
     expr_free_oper(expr);
     return new_expr;
 }

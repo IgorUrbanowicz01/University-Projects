@@ -2,7 +2,7 @@
 
 struct Node *head = NULL;
 
-void set_register_varible(struct CodeList *list, char *varible)
+void set_register_varible(char *varible)
 {
     struct Node *new_node = (struct Node *)malloc(sizeof(struct Node));
     new_node->varible = strdup(varible);
@@ -37,7 +37,7 @@ char *get_register_index(char *varible)
         }
         current = current->next;
     }
-    printf("ERROR| cant find verible %s", varible);
+    printf("ERROR| cant find verible %s\n", varible);
     return strdup("-1");
 }
 
@@ -53,6 +53,11 @@ void print_registers()
 
 char *get_empty_register()
 {
+    if (head == NULL)
+    {
+        return strdup("11");
+    }
+
     struct Node *current = head;
     while (current->next != NULL)
     {

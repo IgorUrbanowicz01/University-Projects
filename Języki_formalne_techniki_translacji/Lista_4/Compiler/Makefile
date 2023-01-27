@@ -1,6 +1,6 @@
 FLAGS := -g -Wall -std=gnu99 -ggdb
 
-SOURCES = $(wildcard *.c codeGen/*.c)
+SOURCES = $(wildcard *.c codeGen/*.c operations/addOperation.c operations/callOperation.c)
 HEADERS = $(wildcard *.h)
 OBJECTS = $(SOURCES:.c=.o)
 
