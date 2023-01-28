@@ -94,6 +94,7 @@ void mod_call(struct CodeList *list, struct expr *expr)
     add_line(list, "SET", buffer);
     add_line(list, "STORE", "8");
     add_line(list, "JUMP", "44");
+    add_line(list, "LOAD", "3");
     add_line(list, "STORE", WYNIK);
     expr_free_oper(expr->data->operator_args);
     expr->kind = EXPR_IDENT;

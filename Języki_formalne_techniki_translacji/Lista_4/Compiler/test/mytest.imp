@@ -8,18 +8,15 @@ WRITE c;
 END
 
 PROGRAM IS
-VAR a,b
+VAR a,b,c
 BEGIN
+b := 1;
 READ a;
-b := 15 + 30 * 5 / 200;
-IF a > 10 THEN
-    b := 10 + b;
-    WRITE a;
-    a := a / b;
-ELSE
-    WRITE b;
-    b := 10 + b * 10;
-ENDIF
+WHILE a>=b DO
+c := a%b;
+WRITE c;
+b := b + 1;
+ENDWHILE
 WRITE a;
 WRITE b;
 END
