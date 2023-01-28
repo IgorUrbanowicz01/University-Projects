@@ -1,10 +1,6 @@
-PROCEDURE hah (a,b) IS
-VAR c,d
+PROCEDURE hah (a) IS
 BEGIN
-c := a;
-d := b;
-c := 2-a*b+10;
-WRITE c;
+a := a * a;
 END
 
 PROGRAM IS
@@ -12,11 +8,7 @@ VAR a,b,c
 BEGIN
 b := 1;
 READ a;
-WHILE a>=b DO
-c := a%b;
-WRITE c;
-b := b + 1;
-ENDWHILE
+hah(a);
 WRITE a;
 WRITE b;
 END

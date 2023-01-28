@@ -10,8 +10,8 @@ void generate_while_loop_code_from_expr(struct CodeList *list, struct stmt *s)
     generate_from_expr(list, s->expr_list->data->operator_args->next);
     char *A = get_reg(s->expr_list->data->operator_args);
     char *B = get_reg(s->expr_list->data->operator_args->next);
-    bool is_A_param = is_parameter(A);
-    bool is_B_param = is_parameter(B);
+    bool is_A_param = is_parameter(s->expr_list->data->operator_args->data->ident_name);
+    bool is_B_param = is_parameter(s->expr_list->data->operator_args->next->data->ident_name);
     struct CodeList *while_list = (struct CodeList *)malloc(sizeof(struct CodeList));
 
     switch (s->expr_list->kind)
@@ -264,8 +264,8 @@ void generate_repeat_loop_code_from_expr(struct CodeList *list, struct stmt *s)
     generate_from_expr(list, s->expr_list->data->operator_args->next);
     char *A = get_reg(s->expr_list->data->operator_args);
     char *B = get_reg(s->expr_list->data->operator_args->next);
-    bool is_A_param = is_parameter(A);
-    bool is_B_param = is_parameter(B);
+    bool is_A_param = is_parameter(s->expr_list->data->operator_args->data->ident_name);
+    bool is_B_param = is_parameter(s->expr_list->data->operator_args->next->data->ident_name);
 
     switch (s->expr_list->kind)
     {
@@ -472,8 +472,8 @@ void generate_if_code_from_expr(struct CodeList *list, struct stmt *s)
     generate_from_expr(list, s->expr_list->data->operator_args->next);
     char *A = get_reg(s->expr_list->data->operator_args);
     char *B = get_reg(s->expr_list->data->operator_args->next);
-    bool is_A_param = is_parameter(A);
-    bool is_B_param = is_parameter(B);
+    bool is_A_param = is_parameter(s->expr_list->data->operator_args->data->ident_name);
+    bool is_B_param = is_parameter(s->expr_list->data->operator_args->next->data->ident_name);
     struct CodeList *if_list = (struct CodeList *)malloc(sizeof(struct CodeList));
     struct CodeList *else_list = (struct CodeList *)malloc(sizeof(struct CodeList));
 
@@ -855,6 +855,45 @@ void resolve_expr_int(struct expr *e)
         e->kind = EXPR_INT_LIT;
         e->data->ident_name = strdup(buffer);
         // free(buffer);
+    }
+}
+
+void expr_change_name(char *name, struct expr *e)
+{
+    if (!e)
+        return;
+    if (e->kind == EXPR_IDENT)
+    {
+        strcat(e->data->ident_name, "_-_");
+        strcat(e->data->ident_name, name);
+        return;
+    }
+    if (e->kind == EXPR_INT_LIT)
+    {
+        return;
+    }
+    expr_change_name(name, e->data->operator_args);
+    expr_change_name(name, e->data->operator_args->next);
+    switch (e->kind)
+    {
+    case EXPR_ADD:
+        return;
+        break;
+    case EXPR_SUB:
+        return;
+        break;
+    case EXPR_MUL:
+        return;
+        break;
+    case EXPR_DIV:
+        return;
+        break;
+    case EXPR_MOD:
+        return;
+        break;
+    default:
+        return;
+        break;
     }
 }
 

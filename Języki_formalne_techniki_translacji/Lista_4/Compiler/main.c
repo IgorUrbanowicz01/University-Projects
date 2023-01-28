@@ -60,16 +60,29 @@ int main(int argc, char *argv[])
     }
 
     yyin = fin;
+    char buffer[20];
     struct CodeList *list = (struct CodeList *)malloc(sizeof(struct CodeList));
+    struct CodeList *parameter = (struct CodeList *)malloc(sizeof(struct CodeList));
+    struct CodeList *varibles = (struct CodeList *)malloc(sizeof(struct CodeList));
+    init_code_list(varibles, 0);
     init_code_list(list, 0);
-    add_line(list, "JUMP", "116");
-    add_Operation_to_list(list, "./operations/div");
-    add_Operation_to_list(list, "./operations/mod");
-    add_Operation_to_list(list, "./operations/mul");
+    init_code_list(parameter, 1);
+    add_Operation_to_list(parameter, "./operations/div");
+    add_Operation_to_list(parameter, "./operations/mod");
+    add_Operation_to_list(parameter, "./operations/mul");
+    // print_code_list(parameter);
     yyparse();
-    decl_resolve_int(list, ast);
+    decl_resolve_int(varibles, procedure);
+    decl_resolve_int(varibles, ast);
     resolveProcedures(procedure);
     print_registers();
+    long long firstline = decl_generator_procedure(parameter, procedure) + 1;
+    sprintf(buffer, "%llu", firstline);
+    add_line(list, "JUMP", buffer);
+    copy_code_list(list, parameter);
+    copy_code_list(list, varibles);
+    add_line(list, "SET", "1");
+    add_line(list, "STORE", "10");
     decl_generator(list, ast);
     add_line(list, "HALT", NULL);
     print_code_list(list);

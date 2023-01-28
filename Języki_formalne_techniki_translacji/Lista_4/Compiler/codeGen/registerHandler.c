@@ -10,7 +10,7 @@ void set_register_varible(char *varible)
     new_node->param = false;
     if (head == NULL)
     {
-        new_node->reg = 11;
+        new_node->reg = 12;
         head = new_node;
     }
     else
@@ -33,7 +33,7 @@ void set_register_parameter(char *varible)
     new_node->param = true;
     if (head == NULL)
     {
-        new_node->reg = 11;
+        new_node->reg = 12;
         head = new_node;
     }
     else
@@ -111,7 +111,7 @@ bool is_parameter(char *varible)
     struct Node *current = head;
     while (current != NULL)
     {
-        if (strcmp(current->varible, varible))
+        if (strcmp(current->varible, varible) == 0)
         {
             return current->param;
         }

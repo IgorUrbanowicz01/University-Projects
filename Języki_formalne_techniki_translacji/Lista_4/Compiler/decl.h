@@ -9,6 +9,7 @@
 #include "stmt.h"
 #include "expr.h"
 #include "./codeGen/registerHandler.h"
+#include "./codeGen/stmtGen.h"
 
 struct decl
 {

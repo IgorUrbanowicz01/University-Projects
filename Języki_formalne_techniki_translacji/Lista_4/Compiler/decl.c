@@ -66,6 +66,7 @@ void resolveProcedures(struct decl *d)
         return;
     add_verible(d->ident, d->next);
     addparameters(d->ident, d->type->params);
+    stmt_change_name(d->ident, d->func_body);
     resolveProcedures(d->next_procedure);
 }
 
