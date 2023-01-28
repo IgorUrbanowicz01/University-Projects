@@ -7,5 +7,6 @@
 #include "exprGen.h"
 
 void stmt_generator(struct CodeList *list, struct stmt *s);
+void stmt_resolve_int(struct CodeList *list, struct stmt *s);
 
 #endif

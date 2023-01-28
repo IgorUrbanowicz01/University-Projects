@@ -1,11 +1,14 @@
-
-
 #ifndef DECL_H
 #define DECL_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
 #include "type.h"
 #include "stmt.h"
 #include "expr.h"
+#include "./codeGen/registerHandler.h"
 
 struct decl
 {

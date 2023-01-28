@@ -1,8 +1,4 @@
 #include "decl.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
 
 #define MAX_SIZE 100
 char *arr[MAX_SIZE];

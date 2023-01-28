@@ -1346,7 +1346,7 @@ yyreduce:
 
   case 23: /* if_stmt: IF expr THEN maybe_stmts ELSE maybe_stmts ENDIF  */
 #line 158 "parser.bison"
-        { (yyvsp[-3].stmt)->next = (yyvsp[-1].stmt); (yyval.stmt) = stmt_create(STMT_IF_ELSE, NULL, (yyvsp[-5].expr), (yyvsp[-3].stmt), (yyvsp[-1].stmt)); }
+        { (yyval.stmt) = stmt_create(STMT_IF_ELSE, NULL, (yyvsp[-5].expr), (yyvsp[-3].stmt), (yyvsp[-1].stmt)); }
 #line 1351 "parser.c"
     break;
 
@@ -1514,7 +1514,7 @@ yyreduce:
 
   case 51: /* atom: INT_LIT  */
 #line 247 "parser.bison"
-     { (yyval.expr) = expr_create_identifier(last_int_literal); /*printf("%d <-- \n", last_int_literal);*/}
+     { (yyval.expr) = expr_create_integer_literal(last_int_literal); /*printf("%d <-- \n", last_int_literal);*/}
 #line 1519 "parser.c"
     break;
 

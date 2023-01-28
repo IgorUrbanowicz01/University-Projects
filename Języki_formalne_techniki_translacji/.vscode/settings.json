@@ -37,7 +37,9 @@
         "code.h": "c",
         "registerhandler.h": "c",
         "calloperation.h": "c",
-        "addoperation.h": "c"
+        "addoperation.h": "c",
+        "stdio.h": "c",
+        "stdlib.h": "c"
     },
     "cmake.parseBuildDiagnostics": false
 }

@@ -6,5 +6,7 @@
 #include "stmtGen.h"
 
 void decl_generator(struct CodeList *list, struct decl *d);
+void decl_generator_procedure(struct CodeList *list, struct decl *d);
+void decl_resolve_int(struct CodeList *list, struct decl *d);
 
 #endif

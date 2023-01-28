@@ -67,3 +67,17 @@ char *get_empty_register()
     snprintf(reg_str, 20, "%lld", current->reg + 1);
     return strdup(reg_str);
 }
+
+int check_if_initialized(char *varible)
+{
+    struct Node *current = head;
+    while (current != NULL)
+    {
+        if (strcmp(current->varible, varible) == 0)
+        {
+            return 1;
+        }
+        current = current->next;
+    }
+    return 0;
+}

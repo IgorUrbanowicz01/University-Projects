@@ -19,5 +19,6 @@ void set_register_varible(char *varible);
 char *get_register_index(char *varible);
 char *get_empty_register();
 void print_registers();
+int check_if_initialized(char *varible);
 
 #endif

@@ -1,8 +1,25 @@
+PROCEDURE hah (a,b) IS
+VAR c,d
+BEGIN
+c := a;
+d := b;
+c := 2-a*b+10;
+WRITE c;
+END
+
 PROGRAM IS
 VAR a,b
 BEGIN
 READ a;
-b := 10;
-a := a * b + 10;
+b := 15 + 30 * 5 / 200;
+IF a > 10 THEN
+    b := 10 + b;
+    WRITE a;
+    a := a / b;
+ELSE
+    WRITE b;
+    b := 10 + b * 10;
+ENDIF
 WRITE a;
+WRITE b;
 END

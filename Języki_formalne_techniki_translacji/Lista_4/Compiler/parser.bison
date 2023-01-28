@@ -155,8 +155,8 @@ stmt : expr
 
 
 if_stmt : IF expr THEN maybe_stmts ELSE maybe_stmts ENDIF
-        { $4->next = $6; $$ = stmt_create(STMT_IF_ELSE, NULL, $2, $4, $6); }
-        | IF  expr THEN maybe_stmts ENDIF
+        { $$ = stmt_create(STMT_IF_ELSE, NULL, $2, $4, $6); }
+        | IF expr THEN maybe_stmts ENDIF
         { $$ = stmt_create(STMT_IF_ELSE, NULL, $2, $4, NULL); }
         ;
 
@@ -244,7 +244,7 @@ expr1 : atom
 atom : identE
      { $$ = expr_create_identifier($1); /*printf("%s <-- \n", $1);*/ }
      | INT_LIT
-     { $$ = expr_create_identifier(last_int_literal); /*printf("%d <-- \n", last_int_literal);*/}
+     { $$ = expr_create_integer_literal(last_int_literal); /*printf("%d <-- \n", last_int_literal);*/}
      ;
 
 ident: IDENT

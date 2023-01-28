@@ -44,15 +44,17 @@ struct expr *expr_create_identifier(char *ident)
 {
     union expr_data *d = malloc(sizeof(*d));
     d->ident_name = ident;
-    // d->operator_args = NULL;
-    // d->func_and_args = NULL;
     return expr_create(EXPR_IDENT, d);
 }
 
-struct expr *expr_create_integer_literal(int i)
+struct expr *expr_create_integer_literal(char *int_lit)
 {
+    // unsigned long long num;
+    // num = strtoull(int_lit, NULL, 10);
     union expr_data *d = malloc(sizeof(*d));
-    d->int_data = i;
+    d->ident_name = strdup(int_lit);
+    // d->int_data = num;
+
     return expr_create(EXPR_INT_LIT, d);
 }
 
@@ -86,16 +88,14 @@ void expr_print(struct expr *e)
         fputs(e->data->ident_name, stdout);
         break;
     case EXPR_INT_LIT:
-        printf("%d", e->data->int_data);
+        printf("%llu", e->data->int_data);
         break;
     default:
         // operators
         /* this printing code is made elegant by allowing the AST to have empty nodes */
-        if (e->data->operator_args)
-            expr_print_subexpr(e->data->operator_args, e->kind, false);
+        expr_print_subexpr(e->data->operator_args, e->kind, false);
         fputs(oper_to_str(e->kind), stdout);
-        if (e->data->operator_args->next)
-            expr_print_subexpr(e->data->operator_args->next, e->kind, true);
+        expr_print_subexpr(e->data->operator_args->next, e->kind, true);
         break;
     }
 }
@@ -223,6 +223,9 @@ void expr_free_oper(struct expr *e)
     case EXPR_TEMP:
         break;
     case EXPR_IDENT:
+        free(e->data);
+        break;
+    case EXPR_INT_LIT:
         free(e->data);
         break;
     default:

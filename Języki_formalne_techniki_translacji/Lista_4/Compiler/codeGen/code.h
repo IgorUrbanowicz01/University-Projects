@@ -11,11 +11,12 @@ struct Line
 
 struct CodeList
 {
+    unsigned long long starting_line;
     struct Line *head;
     struct Line *tail;
 };
 
-void init_code_list(struct CodeList *list);
+void init_code_list(struct CodeList *list, unsigned long long starting_line);
 void add_line(struct CodeList *list, char *command, char *arg1);
 void print_code_list(struct CodeList *list);
 void copy_code_list(struct CodeList *a, struct CodeList *b);

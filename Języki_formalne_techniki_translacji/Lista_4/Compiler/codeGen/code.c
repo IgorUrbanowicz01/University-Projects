@@ -5,8 +5,9 @@
 #include "registerHandler.h"
 
 // Initialize an empty code list
-void init_code_list(struct CodeList *list)
+void init_code_list(struct CodeList *list, unsigned long long starting_line)
 {
+    list->starting_line = starting_line;
     list->head = NULL;
     list->tail = NULL;
 }
@@ -24,7 +25,7 @@ void add_line(struct CodeList *list, char *command, char *arg1)
     {
         list->head = newLine;
         list->tail = newLine;
-        newLine->line_number = 0;
+        newLine->line_number = list->starting_line;
     }
     else
     {
@@ -37,9 +38,10 @@ void add_line(struct CodeList *list, char *command, char *arg1)
 long long get_last_line_index(struct CodeList *list)
 {
     if (!list->tail)
-        return -1;
+        return list->starting_line - 1;
     return list->tail->line_number;
 }
+
 // Print the code list
 void print_code_list(struct CodeList *list)
 {
@@ -54,7 +56,7 @@ void print_code_list(struct CodeList *list)
     }
 }
 
-void copy_code_list(struct CodeList *a, struct CodeList *b)
+void copy_code_list(struct CodeList *b, struct CodeList *a)
 {
     struct Line *currentLine = a->head;
     while (currentLine != NULL)
