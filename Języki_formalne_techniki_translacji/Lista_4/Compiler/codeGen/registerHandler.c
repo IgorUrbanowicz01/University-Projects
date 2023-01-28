@@ -7,6 +7,30 @@ void set_register_varible(char *varible)
     struct Node *new_node = (struct Node *)malloc(sizeof(struct Node));
     new_node->varible = strdup(varible);
     new_node->next = NULL;
+    new_node->param = false;
+    if (head == NULL)
+    {
+        new_node->reg = 11;
+        head = new_node;
+    }
+    else
+    {
+        struct Node *current = head;
+        while (current->next != NULL)
+        {
+            current = current->next;
+        }
+        new_node->reg = current->reg + 1;
+        current->next = new_node;
+    }
+}
+
+void set_register_parameter(char *varible)
+{
+    struct Node *new_node = (struct Node *)malloc(sizeof(struct Node));
+    new_node->varible = strdup(varible);
+    new_node->next = NULL;
+    new_node->param = true;
     if (head == NULL)
     {
         new_node->reg = 11;
@@ -46,7 +70,7 @@ void print_registers()
     struct Node *current = head;
     while (current != NULL)
     {
-        printf("Register index: %llu, Variable: %s\n", current->reg, current->varible);
+        printf("Register index: %llu, Variable: %s Parameter: %d\n", current->reg, current->varible, current->param);
         current = current->next;
     }
 }
@@ -79,5 +103,20 @@ int check_if_initialized(char *varible)
         }
         current = current->next;
     }
+    return 0;
+}
+
+bool is_parameter(char *varible)
+{
+    struct Node *current = head;
+    while (current != NULL)
+    {
+        if (strcmp(current->varible, varible))
+        {
+            return current->param;
+        }
+        current = current->next;
+    }
+    printf("Veribe not found: %s\n", varible);
     return 0;
 }

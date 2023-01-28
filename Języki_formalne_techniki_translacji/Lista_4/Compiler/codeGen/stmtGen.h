@@ -8,6 +8,5 @@
 
 void stmt_generator(struct CodeList *list, struct stmt *s);
 void stmt_resolve_int(struct CodeList *list, struct stmt *s);
-void decl_generator_procedure(struct CodeList *list, struct stmt *s);
 
 #endif

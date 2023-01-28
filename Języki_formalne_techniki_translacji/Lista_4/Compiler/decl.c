@@ -64,7 +64,7 @@ void resolveProcedures(struct decl *d)
 {
     if (!d)
         return;
-    addparameters(d->ident, d->next);
+    add_verible(d->ident, d->next);
     addparameters(d->ident, d->type->params);
     resolveProcedures(d->next_procedure);
 }
@@ -75,8 +75,18 @@ void addparameters(char *name, struct decl *p)
         return;
     strcat(p->ident, "_-_");
     strcat(p->ident, name);
-    set_register_varible(p->ident);
+    set_register_parameter(p->ident);
     addparameters(name, p->next);
+}
+
+void add_verible(char *name, struct decl *p)
+{
+    if (!p)
+        return;
+    strcat(p->ident, "_-_");
+    strcat(p->ident, name);
+    set_register_varible(p->ident);
+    add_verible(name, p->next);
 }
 
 /*int contains(char *str, int index)

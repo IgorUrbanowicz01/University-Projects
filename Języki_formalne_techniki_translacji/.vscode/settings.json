@@ -39,7 +39,8 @@
         "calloperation.h": "c",
         "addoperation.h": "c",
         "stdio.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "stdbool.h": "c"
     },
     "cmake.parseBuildDiagnostics": false
 }

@@ -35,10 +35,26 @@ void mul_call(struct CodeList *list, struct expr *expr)
     char *A = get_reg(expr->data->operator_args);
     char *B = get_reg(expr->data->operator_args->next);
     char *WYNIK = get_register_index(name);
+    bool is_A_param = is_parameter(A);
+    bool is_B_param = is_parameter(B);
     char buffer[20];
-    add_line(list, "LOAD", A);
+    if (is_A_param)
+    {
+        add_line(list, "LOADI", A);
+    }
+    else
+    {
+        add_line(list, "LOAD", A);
+    }
     add_line(list, "STORE", "1");
-    add_line(list, "LOAD", B);
+    if (is_B_param)
+    {
+        add_line(list, "LOADI", B);
+    }
+    else
+    {
+        add_line(list, "LOAD", B);
+    }
     add_line(list, "STORE", "2");
     unsigned long long line = get_last_line_index(list) + 4;
     sprintf(buffer, "%llu", line);
@@ -59,10 +75,26 @@ void div_call(struct CodeList *list, struct expr *expr)
     char *A = get_reg(expr->data->operator_args);
     char *B = get_reg(expr->data->operator_args->next);
     char *WYNIK = get_register_index(name);
+    bool is_A_param = is_parameter(A);
+    bool is_B_param = is_parameter(B);
     char buffer[20];
-    add_line(list, "LOAD", A);
+    if (is_A_param)
+    {
+        add_line(list, "LOADI", A);
+    }
+    else
+    {
+        add_line(list, "LOAD", A);
+    }
     add_line(list, "STORE", "1");
-    add_line(list, "LOAD", B);
+    if (is_B_param)
+    {
+        add_line(list, "LOADI", B);
+    }
+    else
+    {
+        add_line(list, "LOAD", B);
+    }
     add_line(list, "STORE", "2");
     unsigned long long line = get_last_line_index(list) + 4;
     sprintf(buffer, "%llu", line);
@@ -84,10 +116,26 @@ void mod_call(struct CodeList *list, struct expr *expr)
     char *A = get_reg(expr->data->operator_args);
     char *B = get_reg(expr->data->operator_args->next);
     char *WYNIK = get_register_index(name);
+    bool is_A_param = is_parameter(A);
+    bool is_B_param = is_parameter(B);
     char buffer[20];
-    add_line(list, "LOAD", A);
+    if (is_A_param)
+    {
+        add_line(list, "LOADI", A);
+    }
+    else
+    {
+        add_line(list, "LOAD", A);
+    }
     add_line(list, "STORE", "1");
-    add_line(list, "LOAD", B);
+    if (is_B_param)
+    {
+        add_line(list, "LOADI", B);
+    }
+    else
+    {
+        add_line(list, "LOAD", B);
+    }
     add_line(list, "STORE", "2");
     unsigned long long line = get_last_line_index(list) + 4;
     sprintf(buffer, "%llu", line);
@@ -109,8 +157,24 @@ void add_call(struct CodeList *list, struct expr *expr)
     char *A = get_reg(expr->data->operator_args);
     char *B = get_reg(expr->data->operator_args->next);
     char *WYNIK = get_register_index(name);
-    add_line(list, "LOAD", A);
-    add_line(list, "ADD", B);
+    bool is_A_param = is_parameter(A);
+    bool is_B_param = is_parameter(B);
+    if (is_A_param)
+    {
+        add_line(list, "LOADI", A);
+    }
+    else
+    {
+        add_line(list, "LOAD", A);
+    }
+    if (is_B_param)
+    {
+        add_line(list, "ADDI", B);
+    }
+    else
+    {
+        add_line(list, "ADD", B);
+    }
     add_line(list, "STORE", WYNIK);
     expr_free_oper(expr->data->operator_args);
     expr->kind = EXPR_IDENT;
@@ -125,8 +189,24 @@ void sub_call(struct CodeList *list, struct expr *expr)
     char *A = get_reg(expr->data->operator_args);
     char *B = get_reg(expr->data->operator_args->next);
     char *WYNIK = get_register_index(name);
-    add_line(list, "LOAD", A);
-    add_line(list, "SUB", B);
+    bool is_A_param = is_parameter(A);
+    bool is_B_param = is_parameter(B);
+    if (is_A_param)
+    {
+        add_line(list, "LOADI", A);
+    }
+    else
+    {
+        add_line(list, "LOAD", A);
+    }
+    if (is_B_param)
+    {
+        add_line(list, "SUBI", B);
+    }
+    else
+    {
+        add_line(list, "SUB", B);
+    }
     add_line(list, "STORE", WYNIK);
     expr->kind = EXPR_IDENT;
     expr->data->ident_name = name;

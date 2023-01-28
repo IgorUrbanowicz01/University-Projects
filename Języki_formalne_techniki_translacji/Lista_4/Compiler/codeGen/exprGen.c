@@ -1,9 +1,4 @@
 #include "exprGen.h"
-#include "../expr.h"
-#include "../stmt.h"
-#include "../operations/callOperation.h"
-#include "registerHandler.h"
-#include "code.h"
 
 void generate_while_loop_code_from_expr(struct CodeList *list, struct stmt *s)
 {
@@ -15,16 +10,46 @@ void generate_while_loop_code_from_expr(struct CodeList *list, struct stmt *s)
     generate_from_expr(list, s->expr_list->data->operator_args->next);
     char *A = get_reg(s->expr_list->data->operator_args);
     char *B = get_reg(s->expr_list->data->operator_args->next);
+    bool is_A_param = is_parameter(A);
+    bool is_B_param = is_parameter(B);
     struct CodeList *while_list = (struct CodeList *)malloc(sizeof(struct CodeList));
 
     switch (s->expr_list->kind)
     {
     case EXPR_EQ:
-        add_line(list, "LOAD", A);
-        add_line(list, "SUB", B);
+        if (is_A_param)
+        {
+            add_line(list, "LOADI", A);
+        }
+        else
+        {
+            add_line(list, "LOAD", A);
+        }
+        if (is_B_param)
+        {
+            add_line(list, "SUBI", B);
+        }
+        else
+        {
+            add_line(list, "SUB", B);
+        }
         add_line(list, "STORE", "9");
-        add_line(list, "LOAD", B);
-        add_line(list, "SUB", A);
+        if (is_B_param)
+        {
+            add_line(list, "LOADI", B);
+        }
+        else
+        {
+            add_line(list, "LOAD", B);
+        }
+        if (is_A_param)
+        {
+            add_line(list, "SUBI", A);
+        }
+        else
+        {
+            add_line(list, "SUB", A);
+        }
         add_line(list, "ADD", "9");
         init_code_list(while_list, get_last_line_index(list) + 2);
         stmt_generator(while_list, s->body);
@@ -36,11 +61,39 @@ void generate_while_loop_code_from_expr(struct CodeList *list, struct stmt *s)
         copy_code_list(list, while_list);
         break;
     case EXPR_NOT_EQ:
-        add_line(list, "LOAD", A);
-        add_line(list, "SUB", B);
+        if (is_A_param)
+        {
+            add_line(list, "LOADI", A);
+        }
+        else
+        {
+            add_line(list, "LOAD", A);
+        }
+        if (is_B_param)
+        {
+            add_line(list, "SUBI", B);
+        }
+        else
+        {
+            add_line(list, "SUB", B);
+        }
         add_line(list, "STORE", "9");
-        add_line(list, "LOAD", B);
-        add_line(list, "SUB", A);
+        if (is_B_param)
+        {
+            add_line(list, "LOADI", B);
+        }
+        else
+        {
+            add_line(list, "LOAD", B);
+        }
+        if (is_A_param)
+        {
+            add_line(list, "SUBI", A);
+        }
+        else
+        {
+            add_line(list, "SUB", A);
+        }
         add_line(list, "ADD", "9");
         init_code_list(while_list, get_last_line_index(list) + 2);
         stmt_generator(while_list, s->body);
@@ -52,8 +105,22 @@ void generate_while_loop_code_from_expr(struct CodeList *list, struct stmt *s)
         copy_code_list(list, while_list);
         break;
     case EXPR_LT:
-        add_line(list, "LOAD", B);
-        add_line(list, "SUB", A);
+        if (is_B_param)
+        {
+            add_line(list, "LOADI", B);
+        }
+        else
+        {
+            add_line(list, "LOAD", B);
+        }
+        if (is_A_param)
+        {
+            add_line(list, "SUBI", A);
+        }
+        else
+        {
+            add_line(list, "SUB", A);
+        }
         init_code_list(while_list, get_last_line_index(list) + 2);
         stmt_generator(while_list, s->body);
         add_line(while_list, "JUMP", buffer);
@@ -64,11 +131,39 @@ void generate_while_loop_code_from_expr(struct CodeList *list, struct stmt *s)
         copy_code_list(list, while_list);
         break;
     case EXPR_LT_EQ:
-        add_line(list, "LOAD", B);
-        add_line(list, "SUB", A);
+        if (is_B_param)
+        {
+            add_line(list, "LOADI", B);
+        }
+        else
+        {
+            add_line(list, "LOAD", B);
+        }
+        if (is_A_param)
+        {
+            add_line(list, "SUBI", A);
+        }
+        else
+        {
+            add_line(list, "SUB", A);
+        }
         add_line(list, "STORE", "9");
-        add_line(list, "LOAD", A);
-        add_line(list, "SUB", B);
+        if (is_A_param)
+        {
+            add_line(list, "LOADI", A);
+        }
+        else
+        {
+            add_line(list, "LOAD", A);
+        }
+        if (is_B_param)
+        {
+            add_line(list, "SUBI", B);
+        }
+        else
+        {
+            add_line(list, "SUB", B);
+        }
         add_line(list, "SUB", "9");
         init_code_list(while_list, get_last_line_index(list) + 2);
         stmt_generator(while_list, s->body);
@@ -79,8 +174,22 @@ void generate_while_loop_code_from_expr(struct CodeList *list, struct stmt *s)
         add_line(list, "JPOS", buffer);
         break;
     case EXPR_GT:
-        add_line(list, "LOAD", A);
-        add_line(list, "SUB", B);
+        if (is_A_param)
+        {
+            add_line(list, "LOADI", A);
+        }
+        else
+        {
+            add_line(list, "LOAD", A);
+        }
+        if (is_B_param)
+        {
+            add_line(list, "SUBI", B);
+        }
+        else
+        {
+            add_line(list, "SUB", B);
+        }
         init_code_list(while_list, get_last_line_index(list) + 2);
         stmt_generator(while_list, s->body);
         add_line(while_list, "JUMP", buffer);
@@ -91,11 +200,39 @@ void generate_while_loop_code_from_expr(struct CodeList *list, struct stmt *s)
         copy_code_list(list, while_list);
         break;
     case EXPR_GT_EQ:
-        add_line(list, "LOAD", A);
-        add_line(list, "SUB", B);
+        if (is_A_param)
+        {
+            add_line(list, "LOADI", A);
+        }
+        else
+        {
+            add_line(list, "LOAD", A);
+        }
+        if (is_B_param)
+        {
+            add_line(list, "SUBI", B);
+        }
+        else
+        {
+            add_line(list, "SUB", B);
+        }
         add_line(list, "STORE", "9");
-        add_line(list, "LOAD", B);
-        add_line(list, "SUB", A);
+        if (is_B_param)
+        {
+            add_line(list, "LOADI", B);
+        }
+        else
+        {
+            add_line(list, "LOAD", B);
+        }
+        if (is_A_param)
+        {
+            add_line(list, "SUBI", A);
+        }
+        else
+        {
+            add_line(list, "SUB", A);
+        }
         add_line(list, "SUB", "9");
         init_code_list(while_list, get_last_line_index(list) + 2);
         stmt_generator(while_list, s->body);
@@ -127,52 +264,195 @@ void generate_repeat_loop_code_from_expr(struct CodeList *list, struct stmt *s)
     generate_from_expr(list, s->expr_list->data->operator_args->next);
     char *A = get_reg(s->expr_list->data->operator_args);
     char *B = get_reg(s->expr_list->data->operator_args->next);
+    bool is_A_param = is_parameter(A);
+    bool is_B_param = is_parameter(B);
 
     switch (s->expr_list->kind)
     {
     case EXPR_EQ:
-        add_line(list, "LOAD", A);
-        add_line(list, "SUB", B);
+
+        if (is_A_param)
+        {
+            add_line(list, "LOADI", A);
+        }
+        else
+        {
+            add_line(list, "LOAD", A);
+        }
+        if (is_B_param)
+        {
+            add_line(list, "SUBI", B);
+        }
+        else
+        {
+            add_line(list, "SUB", B);
+        }
         add_line(list, "STORE", "9");
-        add_line(list, "LOAD", B);
-        add_line(list, "SUB", A);
+        if (is_B_param)
+        {
+            add_line(list, "LOADI", B);
+        }
+        else
+        {
+            add_line(list, "LOAD", B);
+        }
+        if (is_A_param)
+        {
+            add_line(list, "SUBI", A);
+        }
+        else
+        {
+            add_line(list, "SUB", A);
+        }
         add_line(list, "ADD", "9");
         add_line(list, "JZERO", buffer);
         break;
     case EXPR_NOT_EQ:
-        add_line(list, "LOAD", A);
-        add_line(list, "SUB", B);
+        if (is_A_param)
+        {
+            add_line(list, "LOADI", A);
+        }
+        else
+        {
+            add_line(list, "LOAD", A);
+        }
+        if (is_B_param)
+        {
+            add_line(list, "SUBI", B);
+        }
+        else
+        {
+            add_line(list, "SUB", B);
+        }
         add_line(list, "STORE", "9");
-        add_line(list, "LOAD", B);
-        add_line(list, "SUB", A);
+        if (is_B_param)
+        {
+            add_line(list, "LOADI", B);
+        }
+        else
+        {
+            add_line(list, "LOAD", B);
+        }
+        if (is_A_param)
+        {
+            add_line(list, "SUBI", A);
+        }
+        else
+        {
+            add_line(list, "SUB", A);
+        }
         add_line(list, "ADD", "9");
         add_line(list, "JPOS", buffer);
         break;
     case EXPR_LT:
-        add_line(list, "LOAD", B);
-        add_line(list, "SUB", A);
+        if (is_B_param)
+        {
+            add_line(list, "LOADI", B);
+        }
+        else
+        {
+            add_line(list, "LOAD", B);
+        }
+        if (is_A_param)
+        {
+            add_line(list, "SUBI", A);
+        }
+        else
+        {
+            add_line(list, "SUB", A);
+        }
         add_line(list, "JPOS", buffer);
         break;
     case EXPR_LT_EQ:
-        add_line(list, "LOAD", B);
-        add_line(list, "SUB", A);
+        if (is_B_param)
+        {
+            add_line(list, "LOADI", B);
+        }
+        else
+        {
+            add_line(list, "LOAD", B);
+        }
+        if (is_A_param)
+        {
+            add_line(list, "SUBI", A);
+        }
+        else
+        {
+            add_line(list, "SUB", A);
+        }
         add_line(list, "STORE", "9");
-        add_line(list, "LOAD", A);
-        add_line(list, "SUB", B);
+        if (is_A_param)
+        {
+            add_line(list, "LOADI", A);
+        }
+        else
+        {
+            add_line(list, "LOAD", A);
+        }
+        if (is_B_param)
+        {
+            add_line(list, "SUBI", B);
+        }
+        else
+        {
+            add_line(list, "SUB", B);
+        }
         add_line(list, "SUB", "9");
         add_line(list, "JZERO", buffer);
         break;
     case EXPR_GT:
-        add_line(list, "LOAD", A);
-        add_line(list, "SUB", B);
+        if (is_A_param)
+        {
+            add_line(list, "LOADI", A);
+        }
+        else
+        {
+            add_line(list, "LOAD", A);
+        }
+        if (is_B_param)
+        {
+            add_line(list, "SUBI", B);
+        }
+        else
+        {
+            add_line(list, "SUB", B);
+        }
         add_line(list, "JPOS", buffer);
         break;
     case EXPR_GT_EQ:
-        add_line(list, "LOAD", A);
-        add_line(list, "SUB", B);
+        if (is_A_param)
+        {
+            add_line(list, "LOADI", A);
+        }
+        else
+        {
+            add_line(list, "LOAD", A);
+        }
+        if (is_B_param)
+        {
+            add_line(list, "SUBI", B);
+        }
+        else
+        {
+            add_line(list, "SUB", B);
+        }
         add_line(list, "STORE", "9");
-        add_line(list, "LOAD", B);
-        add_line(list, "SUB", A);
+        if (is_B_param)
+        {
+            add_line(list, "LOADI", B);
+        }
+        else
+        {
+            add_line(list, "LOAD", B);
+        }
+        if (is_A_param)
+        {
+            add_line(list, "SUBI", A);
+        }
+        else
+        {
+            add_line(list, "SUB", A);
+        }
         add_line(list, "SUB", "9");
         add_line(list, "JZERO", buffer);
         break;
@@ -192,17 +472,47 @@ void generate_if_code_from_expr(struct CodeList *list, struct stmt *s)
     generate_from_expr(list, s->expr_list->data->operator_args->next);
     char *A = get_reg(s->expr_list->data->operator_args);
     char *B = get_reg(s->expr_list->data->operator_args->next);
+    bool is_A_param = is_parameter(A);
+    bool is_B_param = is_parameter(B);
     struct CodeList *if_list = (struct CodeList *)malloc(sizeof(struct CodeList));
     struct CodeList *else_list = (struct CodeList *)malloc(sizeof(struct CodeList));
 
     switch (s->expr_list->kind)
     {
     case EXPR_EQ:
-        add_line(list, "LOAD", A);
-        add_line(list, "SUB", B);
+        if (is_A_param)
+        {
+            add_line(list, "LOADI", A);
+        }
+        else
+        {
+            add_line(list, "LOAD", A);
+        }
+        if (is_B_param)
+        {
+            add_line(list, "SUBI", B);
+        }
+        else
+        {
+            add_line(list, "SUB", B);
+        }
         add_line(list, "STORE", "9");
-        add_line(list, "LOAD", B);
-        add_line(list, "SUB", A);
+        if (is_B_param)
+        {
+            add_line(list, "LOADI", B);
+        }
+        else
+        {
+            add_line(list, "LOAD", B);
+        }
+        if (is_A_param)
+        {
+            add_line(list, "SUBI", A);
+        }
+        else
+        {
+            add_line(list, "SUB", A);
+        }
         add_line(list, "ADD", "9");
         init_code_list(if_list, get_last_line_index(list) + 2);
         stmt_generator(if_list, s->body);
@@ -219,11 +529,39 @@ void generate_if_code_from_expr(struct CodeList *list, struct stmt *s)
         copy_code_list(list, else_list);
         break;
     case EXPR_NOT_EQ:
-        add_line(list, "LOAD", A);
-        add_line(list, "SUB", B);
+        if (is_A_param)
+        {
+            add_line(list, "LOADI", A);
+        }
+        else
+        {
+            add_line(list, "LOAD", A);
+        }
+        if (is_B_param)
+        {
+            add_line(list, "SUBI", B);
+        }
+        else
+        {
+            add_line(list, "SUB", B);
+        }
         add_line(list, "STORE", "9");
-        add_line(list, "LOAD", B);
-        add_line(list, "SUB", A);
+        if (is_B_param)
+        {
+            add_line(list, "LOADI", B);
+        }
+        else
+        {
+            add_line(list, "LOAD", B);
+        }
+        if (is_A_param)
+        {
+            add_line(list, "SUBI", A);
+        }
+        else
+        {
+            add_line(list, "SUB", A);
+        }
         add_line(list, "ADD", "9");
         init_code_list(if_list, get_last_line_index(list) + 2);
         stmt_generator(if_list, s->body);
@@ -240,8 +578,22 @@ void generate_if_code_from_expr(struct CodeList *list, struct stmt *s)
         copy_code_list(list, else_list);
         break;
     case EXPR_LT:
-        add_line(list, "LOAD", B);
-        add_line(list, "SUB", A);
+        if (is_B_param)
+        {
+            add_line(list, "LOADI", B);
+        }
+        else
+        {
+            add_line(list, "LOAD", B);
+        }
+        if (is_A_param)
+        {
+            add_line(list, "SUBI", A);
+        }
+        else
+        {
+            add_line(list, "SUB", A);
+        }
         init_code_list(if_list, get_last_line_index(list) + 2);
         stmt_generator(if_list, s->body);
         line_index_post_if = get_last_line_index(if_list) + 2;
@@ -257,11 +609,39 @@ void generate_if_code_from_expr(struct CodeList *list, struct stmt *s)
         copy_code_list(list, else_list);
         break;
     case EXPR_LT_EQ:
-        add_line(list, "LOAD", B);
-        add_line(list, "SUB", A);
+        if (is_B_param)
+        {
+            add_line(list, "LOADI", B);
+        }
+        else
+        {
+            add_line(list, "LOAD", B);
+        }
+        if (is_A_param)
+        {
+            add_line(list, "SUBI", A);
+        }
+        else
+        {
+            add_line(list, "SUB", A);
+        }
         add_line(list, "STORE", "9");
-        add_line(list, "LOAD", A);
-        add_line(list, "SUB", B);
+        if (is_A_param)
+        {
+            add_line(list, "LOADI", A);
+        }
+        else
+        {
+            add_line(list, "LOAD", A);
+        }
+        if (is_B_param)
+        {
+            add_line(list, "SUBI", B);
+        }
+        else
+        {
+            add_line(list, "SUB", B);
+        }
         add_line(list, "SUB", "9");
         init_code_list(if_list, get_last_line_index(list) + 2);
         stmt_generator(if_list, s->body);
@@ -278,8 +658,22 @@ void generate_if_code_from_expr(struct CodeList *list, struct stmt *s)
         copy_code_list(list, else_list);
         break;
     case EXPR_GT:
-        add_line(list, "LOAD", A);
-        add_line(list, "SUB", B);
+        if (is_A_param)
+        {
+            add_line(list, "LOADI", A);
+        }
+        else
+        {
+            add_line(list, "LOAD", A);
+        }
+        if (is_B_param)
+        {
+            add_line(list, "SUBI", B);
+        }
+        else
+        {
+            add_line(list, "SUB", B);
+        }
         init_code_list(if_list, get_last_line_index(list) + 2);
         stmt_generator(if_list, s->body);
         line_index_post_if = get_last_line_index(if_list) + 2;
@@ -295,11 +689,39 @@ void generate_if_code_from_expr(struct CodeList *list, struct stmt *s)
         copy_code_list(list, else_list);
         break;
     case EXPR_GT_EQ:
-        add_line(list, "LOAD", A);
-        add_line(list, "SUB", B);
+        if (is_A_param)
+        {
+            add_line(list, "LOADI", A);
+        }
+        else
+        {
+            add_line(list, "LOAD", A);
+        }
+        if (is_B_param)
+        {
+            add_line(list, "SUBI", B);
+        }
+        else
+        {
+            add_line(list, "SUB", B);
+        }
         add_line(list, "STORE", "9");
-        add_line(list, "LOAD", B);
-        add_line(list, "SUB", A);
+        if (is_B_param)
+        {
+            add_line(list, "LOADI", B);
+        }
+        else
+        {
+            add_line(list, "LOAD", B);
+        }
+        if (is_A_param)
+        {
+            add_line(list, "SUBI", A);
+        }
+        else
+        {
+            add_line(list, "SUB", A);
+        }
         add_line(list, "SUB", "9");
         init_code_list(if_list, get_last_line_index(list) + 2);
         stmt_generator(if_list, s->body);

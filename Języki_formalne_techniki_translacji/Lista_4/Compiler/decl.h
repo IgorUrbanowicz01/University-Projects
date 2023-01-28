@@ -25,6 +25,7 @@ void decl_print_list(struct decl *d, int indents, char *term, char *delim);
 bool decl_find(struct decl *d, char *i_find);
 void resolveProcedures(struct decl *d);
 void addparameters(char *name, struct decl *p);
+void add_verible(char *name, struct decl *p);
 
 struct scope;
 
