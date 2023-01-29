@@ -11,6 +11,7 @@ struct Node
     unsigned long long reg;
     char *varible;
     bool param;
+    bool initialized;
     struct Node *next;
 };
 
@@ -24,5 +25,7 @@ char *get_empty_register();
 void print_registers();
 int check_if_initialized(char *varible);
 bool is_parameter(char *varible);
+bool is_initialized(char *varible);
+void initialize_verible(char *varible);
 
 #endif

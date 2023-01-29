@@ -5,6 +5,7 @@
 #include "code.h"
 #include "stmtGen.h"
 #include "procedure.h"
+#include "registerHandler.h"
 
 void decl_generator(struct CodeList *list, struct decl *d);
 long long decl_generator_procedure(struct CodeList *list, struct decl *d);

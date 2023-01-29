@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
     decl_resolve_int(varibles, procedure);
     decl_resolve_int(varibles, ast);
     resolveProcedures(procedure);
-    print_registers();
+    // print_registers();
     long long firstline = decl_generator_procedure(parameter, procedure) + 1;
     sprintf(buffer, "%llu", firstline);
     add_line(list, "JUMP", buffer);
@@ -85,52 +85,12 @@ int main(int argc, char *argv[])
     add_line(list, "STORE", "10");
     decl_generator(list, ast);
     add_line(list, "HALT", NULL);
-    print_code_list(list);
-    print_procedure(procedure);
-    printf("\n");
-    print_ast(ast);
+    // print_code_list(list);
+    // print_procedure(procedure);
+    // printf("\n");
+    // print_ast(ast);
 
     return EXIT_SUCCESS;
 }
 void print_procedure(struct decl *procedure) { decl_print_list(procedure, 0, ";", "\n"); }
 void print_ast(struct decl *ast) { decl_print_list(ast, 0, ";", "\n"); }
-
-/*int resolve_ast(struct decl *ast, bool verbose)
-{
-    struct scope *sc = scope_enter(NULL);
-    int err_count = decl_resolve(ast, sc, false, verbose);
-    scope_exit(sc);
-    return err_count;
-}
-
-int parse_file(char *filename)
-{
-    yyin = fopen(filename, "r");
-    if (!yyin)
-    {
-        printf("[ERROR|file] Could not open %s! %s\n", filename, strerror(errno));
-        return 1;
-    }
-    // 0 for success, 1 for failure
-    int to_return = yyparse();
-    fclose(yyin);
-    return to_return;
-}
-
-int scan_file(char *filename)
-{
-
-/* An array of strings, where token_strs[<token>] = "<token name as str>", where <token> is a value of the enum token_t and <token name as str> is the symbolic name given to <token> in the enum token_t. Substituted by the Makefile via sed, ensuring the array is up to date with token.h */
-/*
-    yyin = fopen(filename, "r");
-    int t = yylex();
-
-    return t;
-}
-
-void indent(int indents)
-{
-    for (int i = 0; i < indents; i++)
-        fputs("\t", stdout);
-}
-*/

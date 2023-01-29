@@ -1222,13 +1222,13 @@ yyreduce:
 
   case 3: /* procedures_decl: procedures_decl PROCEDURE ident proc_head IS VAR decl X_BEGIN maybe_stmts END  */
 #line 90 "parser.bison"
-            {  (yyval.decl) = decl_create((yyvsp[-7].ident), (yyvsp[-6].type), (yyvsp[-1].stmt), (yyvsp[-3].decl), (yyvsp[-9].decl)); }
+            {  (yyval.decl) = decl_create((yyvsp[-7].ident), (yyvsp[-6].type), (yyvsp[-1].stmt), (yyvsp[-3].decl), NULL); (yyval.decl)->next_procedure = (yyvsp[-9].decl);}
 #line 1227 "parser.c"
     break;
 
   case 4: /* procedures_decl: procedures_decl PROCEDURE ident proc_head IS X_BEGIN maybe_stmts END  */
 #line 92 "parser.bison"
-            { (yyval.decl) = decl_create((yyvsp[-5].ident), (yyvsp[-4].type), (yyvsp[-1].stmt), NULL, (yyvsp[-7].decl)); }
+            { (yyval.decl) = decl_create((yyvsp[-5].ident), (yyvsp[-4].type), (yyvsp[-1].stmt), NULL, NULL); (yyval.decl)->next_procedure = (yyvsp[-7].decl);}
 #line 1233 "parser.c"
     break;
 

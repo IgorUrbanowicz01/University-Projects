@@ -87,9 +87,9 @@ program : procedures_decl main
 /* END PROGRAM ================================= BEGIN PROCEDURE */
 
 procedures_decl : procedures_decl PROCEDURE ident proc_head IS VAR decl X_BEGIN maybe_stmts END
-            {  $$ = decl_create($3, $4, $9, $7, $1); }
+            {  $$ = decl_create($3, $4, $9, $7, NULL); $$->next_procedure = $1;}
             | procedures_decl PROCEDURE ident proc_head IS X_BEGIN maybe_stmts END
-            { $$ = decl_create($3, $4, $7, NULL, $1); }
+            { $$ = decl_create($3, $4, $7, NULL, NULL); $$->next_procedure = $1;}
             |
             { $$ = NULL; }
             ;

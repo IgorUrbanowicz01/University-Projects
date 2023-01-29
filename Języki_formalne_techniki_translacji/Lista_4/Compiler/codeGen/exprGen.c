@@ -55,7 +55,7 @@ void generate_while_loop_code_from_expr(struct CodeList *list, struct stmt *s)
         stmt_generator(while_list, s->body);
         add_line(while_list, "JUMP", buffer);
         line_index_post_oper = get_last_line_index(while_list) + 1;
-        printf("this is last index in while %llu<--\n", line_index_post_oper);
+        // printf("this is last index in while %llu<--\n", line_index_post_oper);
         sprintf(buffer, "%llu", line_index_post_oper);
         add_line(list, "JPOS", buffer);
         copy_code_list(list, while_list);
@@ -99,7 +99,7 @@ void generate_while_loop_code_from_expr(struct CodeList *list, struct stmt *s)
         stmt_generator(while_list, s->body);
         add_line(while_list, "JUMP", buffer);
         line_index_post_oper = get_last_line_index(while_list) + 1;
-        printf("this is last index in while %llu<--\n", line_index_post_oper);
+        // printf("this is last index in while %llu<--\n", line_index_post_oper);
         sprintf(buffer, "%llu", line_index_post_oper);
         add_line(list, "JZERO", buffer);
         copy_code_list(list, while_list);
@@ -125,7 +125,7 @@ void generate_while_loop_code_from_expr(struct CodeList *list, struct stmt *s)
         stmt_generator(while_list, s->body);
         add_line(while_list, "JUMP", buffer);
         line_index_post_oper = get_last_line_index(while_list) + 1;
-        printf("this is last index in while %llu<--\n", line_index_post_oper);
+        // printf("this is last index in while %llu<--\n", line_index_post_oper);
         sprintf(buffer, "%llu", line_index_post_oper);
         add_line(list, "JZERO", buffer);
         copy_code_list(list, while_list);
@@ -169,9 +169,10 @@ void generate_while_loop_code_from_expr(struct CodeList *list, struct stmt *s)
         stmt_generator(while_list, s->body);
         add_line(while_list, "JUMP", buffer);
         line_index_post_oper = get_last_line_index(while_list) + 1;
-        printf("this is last index in while %llu<--\n", line_index_post_oper);
+        // printf("this is last index in while %llu<--\n", line_index_post_oper);
         sprintf(buffer, "%llu", line_index_post_oper);
         add_line(list, "JPOS", buffer);
+        copy_code_list(list, while_list);
         break;
     case EXPR_GT:
         if (is_A_param)
@@ -194,7 +195,7 @@ void generate_while_loop_code_from_expr(struct CodeList *list, struct stmt *s)
         stmt_generator(while_list, s->body);
         add_line(while_list, "JUMP", buffer);
         line_index_post_oper = get_last_line_index(while_list) + 1;
-        printf("this is last index in while %llu<--\n", line_index_post_oper);
+        // printf("this is last index in while %llu<--\n", line_index_post_oper);
         sprintf(buffer, "%llu", line_index_post_oper);
         add_line(list, "JZERO", buffer);
         copy_code_list(list, while_list);
@@ -238,7 +239,7 @@ void generate_while_loop_code_from_expr(struct CodeList *list, struct stmt *s)
         stmt_generator(while_list, s->body);
         add_line(while_list, "JUMP", buffer);
         line_index_post_oper = get_last_line_index(while_list) + 1;
-        printf("this is last index in while %llu<--\n", line_index_post_oper);
+        // printf("this is last index in while %llu<--\n", line_index_post_oper);
         sprintf(buffer, "%llu", line_index_post_oper);
         add_line(list, "JPOS", buffer);
         copy_code_list(list, while_list);
@@ -255,8 +256,7 @@ void generate_while_loop_code_from_expr(struct CodeList *list, struct stmt *s)
 void generate_repeat_loop_code_from_expr(struct CodeList *list, struct stmt *s)
 {
     long long line_index = get_last_line_index(list) + 1;
-    printf("this is the start of reapet %llu<--\n", line_index);
-    long long line_index_post_oper;
+    // printf("this is the start of reapet %llu<--\n", line_index);
     char buffer[20];
     sprintf(buffer, "%llu", line_index);
     stmt_generator(list, s->body);
@@ -521,10 +521,10 @@ void generate_if_code_from_expr(struct CodeList *list, struct stmt *s)
         add_line(list, "JPOS", buffer);
         init_code_list(else_list, get_last_line_index(if_list) + 2);
         stmt_generator(else_list, s->else_body);
-        line_index_post_else = get_last_line_index(if_list) + 1;
+        line_index_post_else = get_last_line_index(else_list) + 1;
         sprintf(buffer, "%llu", line_index_post_else);
         add_line(if_list, "JUMP", buffer);
-        printf("this is last line of if %llu<--\n", line_index_post_if);
+        // printf("this is last line of if %llu<--\n", line_index_post_if);
         copy_code_list(list, if_list);
         copy_code_list(list, else_list);
         break;
@@ -570,10 +570,10 @@ void generate_if_code_from_expr(struct CodeList *list, struct stmt *s)
         add_line(list, "JZERO", buffer);
         init_code_list(else_list, get_last_line_index(if_list) + 2);
         stmt_generator(else_list, s->else_body);
-        line_index_post_else = get_last_line_index(if_list) + 1;
+        line_index_post_else = get_last_line_index(else_list) + 1;
         sprintf(buffer, "%llu", line_index_post_else);
         add_line(if_list, "JUMP", buffer);
-        printf("this is last line of if %llu<--\n", line_index_post_if);
+        // printf("this is last line of if %llu<--\n", line_index_post_if);
         copy_code_list(list, if_list);
         copy_code_list(list, else_list);
         break;
@@ -601,10 +601,10 @@ void generate_if_code_from_expr(struct CodeList *list, struct stmt *s)
         add_line(list, "JZERO", buffer);
         init_code_list(else_list, get_last_line_index(if_list) + 2);
         stmt_generator(else_list, s->else_body);
-        line_index_post_else = get_last_line_index(if_list) + 1;
+        line_index_post_else = get_last_line_index(else_list) + 1;
         sprintf(buffer, "%llu", line_index_post_else);
         add_line(if_list, "JUMP", buffer);
-        printf("this is last line of if %llu<--\n", line_index_post_if);
+        // printf("this is last line of if %llu<--\n", line_index_post_if);
         copy_code_list(list, if_list);
         copy_code_list(list, else_list);
         break;
@@ -650,10 +650,10 @@ void generate_if_code_from_expr(struct CodeList *list, struct stmt *s)
         add_line(list, "JPOS", buffer);
         init_code_list(else_list, get_last_line_index(if_list) + 2);
         stmt_generator(else_list, s->else_body);
-        line_index_post_else = get_last_line_index(if_list) + 1;
+        line_index_post_else = get_last_line_index(else_list) + 1;
         sprintf(buffer, "%llu", line_index_post_else);
         add_line(if_list, "JUMP", buffer);
-        printf("this is last line of if %llu<--\n", line_index_post_if);
+        // printf("this is last line of if %llu<--\n", line_index_post_if);
         copy_code_list(list, if_list);
         copy_code_list(list, else_list);
         break;
@@ -684,7 +684,7 @@ void generate_if_code_from_expr(struct CodeList *list, struct stmt *s)
         line_index_post_else = get_last_line_index(else_list) + 1;
         sprintf(buffer, "%llu", line_index_post_else);
         add_line(if_list, "JUMP", buffer);
-        printf("this is last line of if %llu<--\n", line_index_post_if);
+        // printf("this is last line of if %llu<--\n", line_index_post_if);
         copy_code_list(list, if_list);
         copy_code_list(list, else_list);
         break;
@@ -730,10 +730,10 @@ void generate_if_code_from_expr(struct CodeList *list, struct stmt *s)
         add_line(list, "JPOS", buffer);
         init_code_list(else_list, get_last_line_index(if_list) + 2);
         stmt_generator(else_list, s->else_body);
-        line_index_post_else = get_last_line_index(if_list) + 1;
+        line_index_post_else = get_last_line_index(else_list) + 1;
         sprintf(buffer, "%llu", line_index_post_else);
         add_line(if_list, "JUMP", buffer);
-        printf("this is last line of if %llu<--\n", line_index_post_if);
+        // printf("this is last line of if %llu<--\n", line_index_post_if);
         copy_code_list(list, if_list);
         copy_code_list(list, else_list);
         break;
@@ -782,6 +782,7 @@ void generate_from_expr(struct CodeList *list, struct expr *e)
         mod_call(list, e);
         break;
     case EXPR_ASGN:
+        initialize_verible(e->data->operator_args->data->ident_name);
         generate_from_expr(list, e->data->func_and_args->next);
         asg_call(list, e);
         break;

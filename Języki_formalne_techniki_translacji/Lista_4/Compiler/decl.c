@@ -78,6 +78,7 @@ void addparameters(char *name, struct decl *p)
     strcat(p->ident, name);
     set_register_parameter(p->ident);
     addparameters(name, p->next);
+    initialize_verible(p->ident);
 }
 
 void add_verible(char *name, struct decl *p)
@@ -88,6 +89,15 @@ void add_verible(char *name, struct decl *p)
     strcat(p->ident, name);
     set_register_varible(p->ident);
     add_verible(name, p->next);
+}
+
+void change_name(char *name, struct decl *p)
+{
+    if (!p)
+        return;
+    strcat(p->ident, "_-_");
+    strcat(p->ident, name);
+    change_name(name, p->next);
 }
 
 /*int contains(char *str, int index)

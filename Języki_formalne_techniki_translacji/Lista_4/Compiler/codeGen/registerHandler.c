@@ -8,6 +8,7 @@ void set_register_varible(char *varible)
     new_node->varible = strdup(varible);
     new_node->next = NULL;
     new_node->param = false;
+    new_node->initialized = false;
     if (head == NULL)
     {
         new_node->reg = 12;
@@ -31,6 +32,7 @@ void set_register_parameter(char *varible)
     new_node->varible = strdup(varible);
     new_node->next = NULL;
     new_node->param = true;
+    new_node->initialized = false;
     if (head == NULL)
     {
         new_node->reg = 12;
@@ -119,4 +121,35 @@ bool is_parameter(char *varible)
     }
     printf("Veribe not found: %s\n", varible);
     return 0;
+}
+
+bool is_initialized(char *varible)
+{
+    struct Node *current = head;
+    while (current != NULL)
+    {
+        if (strcmp(current->varible, varible) == 0)
+        {
+            return current->initialized;
+        }
+        current = current->next;
+    }
+    printf("Veribe not found: %s\n", varible);
+    return 0;
+}
+
+void initialize_verible(char *varible)
+{
+    struct Node *current = head;
+    while (current != NULL)
+    {
+        if (strcmp(current->varible, varible) == 0)
+        {
+            current->initialized = true;
+            return;
+        }
+        current = current->next;
+    }
+    printf("Veribe not found: %s\n", varible);
+    return;
 }

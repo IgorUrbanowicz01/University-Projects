@@ -29,6 +29,16 @@ char *get_reg(struct expr *expr)
 
 void mul_call(struct CodeList *list, struct expr *expr)
 {
+    if (!is_initialized(expr->data->operator_args->data->ident_name) && expr->data->operator_args->kind == EXPR_IDENT)
+    {
+        printf("ERROR|INITIALIZATION varible %s\n", expr->data->operator_args->data->ident_name);
+        exit(1);
+    }
+    if (!is_initialized(expr->data->operator_args->next->data->ident_name) && expr->data->operator_args->next->kind == EXPR_IDENT)
+    {
+        printf("ERROR|INITIALIZATION varible %s\n", expr->data->operator_args->data->ident_name);
+        exit(1);
+    }
     char *name = get_empty_register();
     strcat(name, "temp");
     set_register_varible(name);
@@ -69,6 +79,16 @@ void mul_call(struct CodeList *list, struct expr *expr)
 
 void div_call(struct CodeList *list, struct expr *expr)
 {
+    if (!is_initialized(expr->data->operator_args->data->ident_name) && expr->data->operator_args->kind == EXPR_IDENT)
+    {
+        printf("ERROR|INITIALIZATION varible %s\n", expr->data->operator_args->data->ident_name);
+        exit(1);
+    }
+    if (!is_initialized(expr->data->operator_args->next->data->ident_name) && expr->data->operator_args->next->kind == EXPR_IDENT)
+    {
+        printf("ERROR|INITIALIZATION varible %s\n", expr->data->operator_args->data->ident_name);
+        exit(1);
+    }
     char *name = get_empty_register();
     strcat(name, "temp");
     set_register_varible(name);
@@ -110,6 +130,17 @@ void div_call(struct CodeList *list, struct expr *expr)
 
 void mod_call(struct CodeList *list, struct expr *expr)
 {
+
+    if (!is_initialized(expr->data->operator_args->data->ident_name) && expr->data->operator_args->kind == EXPR_IDENT)
+    {
+        printf("ERROR|INITIALIZATION varible %s\n", expr->data->operator_args->data->ident_name);
+        exit(1);
+    }
+    if (!is_initialized(expr->data->operator_args->next->data->ident_name) && expr->data->operator_args->next->kind == EXPR_IDENT)
+    {
+        printf("ERROR|INITIALIZATION varible %s\n", expr->data->operator_args->data->ident_name);
+        exit(1);
+    }
     char *name = get_empty_register();
     strcat(name, "temp");
     set_register_varible(name);
@@ -151,6 +182,17 @@ void mod_call(struct CodeList *list, struct expr *expr)
 
 void add_call(struct CodeList *list, struct expr *expr)
 {
+    if (!is_initialized(expr->data->operator_args->data->ident_name) && expr->data->operator_args->kind == EXPR_IDENT)
+    {
+        printf("ERROR|INITIALIZATION varible %s\n", expr->data->operator_args->data->ident_name);
+        exit(1);
+    }
+    if (!is_initialized(expr->data->operator_args->next->data->ident_name) && expr->data->operator_args->next->kind == EXPR_IDENT)
+    {
+        printf("ERROR|INITIALIZATION varible %s\n", expr->data->operator_args->data->ident_name);
+        exit(1);
+    }
+
     char *name = get_empty_register();
     strcat(name, "temp");
     set_register_varible(name);
@@ -183,6 +225,16 @@ void add_call(struct CodeList *list, struct expr *expr)
 
 void sub_call(struct CodeList *list, struct expr *expr)
 {
+    if (!is_initialized(expr->data->operator_args->data->ident_name) && expr->data->operator_args->kind == EXPR_IDENT)
+    {
+        printf("ERROR|INITIALIZATION varible %s\n", expr->data->operator_args->data->ident_name);
+        exit(1);
+    }
+    if (!is_initialized(expr->data->operator_args->next->data->ident_name) && expr->data->operator_args->next->kind == EXPR_IDENT)
+    {
+        printf("ERROR|INITIALIZATION varible %s\n", expr->data->operator_args->data->ident_name);
+        exit(1);
+    }
     char *name = get_empty_register();
     strcat(name, "temp");
     set_register_varible(name);

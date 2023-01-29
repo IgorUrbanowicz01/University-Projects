@@ -16,10 +16,12 @@ void decl_resolve_int(struct CodeList *list, struct decl *d)
 long long decl_generator_procedure(struct CodeList *list, struct decl *d)
 {
     if (!d)
-        return 0;
+        return get_last_line_index(list);
+    decl_generator_procedure(list, d->next_procedure);
+    set_register_varible(d->ident);
     add_procedure_line(d->ident, get_last_line_index(list) + 1);
     stmt_generator(list, d->func_body);
-    add_line(list, "JUMPI", "11");
-    decl_generator_procedure(list, d->next_procedure);
+    char *jump_reg = get_register_index(d->ident);
+    add_line(list, "JUMPI", jump_reg);
     return get_last_line_index(list);
 }
