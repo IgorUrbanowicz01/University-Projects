@@ -9,11 +9,11 @@ OBJECTS = $(SOURCES:.c=.o)
 build: gramar all
 
 all: gramar main.c
-	gcc  $(FLAGS) -o main $(SOURCES) 
+	gcc  $(FLAGS) -o kompilator $(SOURCES) 
 
 
 gramar: parser.bison scanner.flex
-	bison -Wcounterexamples -v -d -o parser.c -d parser.bison
+	bison -v -d -o parser.c -d parser.bison
 	flex -o scanner.c scanner.flex
 
 

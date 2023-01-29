@@ -114,7 +114,7 @@ void generate_stmt_head(struct CodeList *list, struct stmt *s)
             unsigned long long line = get_last_line_index(list) + 4;
             unsigned long long line_procedure_start = get_line_procedure(current->ident);
             sprintf(buffer1, "%llu", line_procedure_start);
-            printf("THIS IS WERE PROCEDURE STARTS; %s\n", buffer1);
+            // printf("THIS IS WERE PROCEDURE STARTS; %s\n", buffer1);
             char *jump_back = get_register_index(current->ident);
             sprintf(buffer, "%llu", line);
             add_line(list, "SET", buffer);

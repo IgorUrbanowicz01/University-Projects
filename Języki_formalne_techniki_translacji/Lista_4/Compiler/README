@@ -1,0 +1,25 @@
+Simple Imperative Language Compiler
+
+A C program that compiles a simple imperative language into virtual machine code. The language specifications, grammar and examples can be found in the labor4.pdf file. The compiler uses Flex and Bison for parsing. Memory management of the virtual machine prototype has been tested with unit tests.
+
+The simple imperative language includes:
+
+    arithmetic operations on natural numbers
+    procedures (no recursive calls, IN-OUT references for formal parameters)
+    IF and IF ELSE conditions, WHILE and REPEAT UNTIL loops
+    READ/WRITE commands for input/output
+    variables and procedure identifiers in the form of [_a-z]+
+    case-sensitive letters
+    single-level comments
+
+How to Run
+
+    Run the Makefile for the compiler and virtual machine.
+    Write code and save it in a file (e.g. "test_file").
+    Run the compiler with ./kompilator {test_file} {output_file} to generate machine code.
+    Run the virtual machine with ./maszyna-wirtualna {output_file}.
+
+Contributors
+
+    Igor Urbanowicz (compiler code)
+    Dr Maciej Gębala (virtual machine and assignment)

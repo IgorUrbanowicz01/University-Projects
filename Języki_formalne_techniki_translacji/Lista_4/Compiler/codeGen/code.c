@@ -1,7 +1,4 @@
 #include "code.h"
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
 #include "registerHandler.h"
 
 // Initialize an empty code list
@@ -64,4 +61,24 @@ void copy_code_list(struct CodeList *b, struct CodeList *a)
         add_line(b, currentLine->command, currentLine->arg1);
         currentLine = currentLine->next;
     }
+}
+
+void write_code_list_to_file(struct CodeList *list, FILE *fp)
+{
+    if (fp == NULL)
+    {
+        printf("Error opening file!\n");
+        return;
+    }
+
+    struct Line *currentLine = list->head;
+    while (currentLine != NULL)
+    {
+        if (!currentLine->arg1)
+            fprintf(fp, "%s\n", currentLine->command);
+        else
+            fprintf(fp, "%s %s\n", currentLine->command, currentLine->arg1);
+        currentLine = currentLine->next;
+    }
+    fclose(fp);
 }

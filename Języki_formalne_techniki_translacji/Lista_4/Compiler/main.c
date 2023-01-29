@@ -51,6 +51,7 @@ void usage(int return_code, char *called_as)
 int main(int argc, char *argv[])
 {
     FILE *fin = fopen(argv[1], "r");
+    FILE *out = fopen(argv[2], "w");
 
     /* scan */
     if (!fin)
@@ -89,6 +90,7 @@ int main(int argc, char *argv[])
     // print_procedure(procedure);
     // printf("\n");
     // print_ast(ast);
+    write_code_list_to_file(list, out);
 
     return EXIT_SUCCESS;
 }
