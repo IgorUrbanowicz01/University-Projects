@@ -50,7 +50,7 @@ end
 println(stderr, "finding solution...")
 @time if classic
     println(stderr, "classic algorithm")
-    x̃ = A\b
+    x̃ = A \ b
 else
     println(stderr, "improved algorithm")
     let pivot
@@ -75,3 +75,4 @@ end
 
 # print relative error
 println("relative error = ", utilities.relativeError(x̃))
+utilities.writexvector(x̃, "Wektor")
