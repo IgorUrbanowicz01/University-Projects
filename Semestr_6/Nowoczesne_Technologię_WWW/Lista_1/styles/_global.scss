@@ -1,0 +1,41 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Fira Sans', sans-serif;
+}
+
+
+
+html{
+    font-size: 62.5%;
+}
+h1 {
+    font-size: $heder1;
+}
+
+li, button, label, input, p, a {
+    font-size: $text;
+}
+p{
+    color: grey;
+    line-height: 3rem;
+}
+
+h2{
+    font-size: $heder2;
+}
+h3{
+    font-size: $heder3;
+    font-weight: normal;
+}
+h4, h5{
+    font-size:$heder4;
+}
+ul{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+    color: #1C1B24;
+}

@@ -1,0 +1,15 @@
+$heder1: 4rem;
+$heder2: 4rem;
+$heder3: 2.5rem;
+$heder4: 2rem;
+$text: 1.8rem;
+
+@mixin flex($justify, $align, $diretion) {
+    display: flex;
+    justify-content: $justify;
+    align-items: $align;
+    flex-direction: $diretion;
+}
+
+@import "global";
+@import "mainPage";

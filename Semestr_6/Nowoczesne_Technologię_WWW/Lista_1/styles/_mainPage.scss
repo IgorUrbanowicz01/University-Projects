@@ -1,0 +1,15 @@
+.main_head{
+    @include flex(space-around, center, column);
+    border-bottom: 2px solid;
+    border-image: linear-gradient(45deg, white, rgb(43, 53, 85),white) 1;
+    nav{
+        background-color: red;
+        min-height: 10vh;
+        width: 60%;
+        @include flex(space-around, stretch, column);
+        ul{
+            margin-top: 2rem;
+            @include flex(space-around, center, row);
+        }
+    }
+}
