@@ -3,6 +3,7 @@ $heder2: 4rem;
 $heder3: 2.5rem;
 $heder4: 2rem;
 $text: 1.8rem;
+$background: rgb(87, 32, 32);
 
 @mixin flex($justify, $align, $diretion) {
     display: flex;

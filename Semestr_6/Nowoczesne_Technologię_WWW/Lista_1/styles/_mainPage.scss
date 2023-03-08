@@ -1,12 +1,14 @@
-
+// header section // 
 
 .main_head{
     height: 100vh;
-    background-color: rgb(87, 32, 32);
+    background-color: $background;
     @include flex(space-between, center, row);
     border-bottom: 2px solid;
     border-image: linear-gradient(45deg, white, rgb(43, 53, 85),white) 1;
 }
+
+// navigation section // 
 
 nav{
     margin-top: 2rem;
@@ -25,10 +27,8 @@ nav{
         }
     }
     span{
-        top: 20px;
-        left: 20px; 
+        cursor: pointer;
         @include flex(center, center, column);
-        border: 2px solid black;
         border-radius: 100%;
         height: 75px;
         width: 75px;
@@ -41,9 +41,26 @@ nav{
             border-radius: 20%;
         }
     }
+
+    span:hover{
+        animation: havering 2s linear;
+        border: solid black;
+    }
 }
 
 #place_holder{
     height: 200vh;
     background-color: beige;
+}
+
+// animation section // 
+
+
+@keyframes havering {
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
 }

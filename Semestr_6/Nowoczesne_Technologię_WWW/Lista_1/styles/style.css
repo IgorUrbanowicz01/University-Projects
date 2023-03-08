@@ -78,13 +78,11 @@ nav ul li a {
   color: red;
 }
 nav span {
-  top: 20px;
-  left: 20px;
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border: 2px solid black;
   border-radius: 100%;
   height: 75px;
   width: 75px;
@@ -96,8 +94,21 @@ nav span .menu {
   margin: 3px 0;
   border-radius: 20%;
 }
+nav span:hover {
+  animation: havering 2s linear;
+  border: solid black;
+}
 
 #place_holder {
   height: 200vh;
   background-color: beige;
+}
+
+@keyframes havering {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }/*# sourceMappingURL=style.css.map */
