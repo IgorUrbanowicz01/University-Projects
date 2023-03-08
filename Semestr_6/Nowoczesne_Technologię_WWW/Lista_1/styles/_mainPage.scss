@@ -11,22 +11,24 @@
 // navigation section // 
 
 nav{
-    margin-top: 2rem;
+    z-index: 1;
+    margin-left: 2rem;
     position: fixed;
     @include flex(space-around, center, column);
     ul{
-        margin-top: 2rem;
-        @include flex(space-around, center, column);
-        
-
+        display: none;
+        position: relative;
         li{
-            margin-top: 10rem;
+            @include flex(space-around, center, column);
+            margin-bottom: 10rem;
             a{
+                text-align: center;
                 color: red;
             }
         }
     }
     span{
+        margin-top: 1rem;
         cursor: pointer;
         @include flex(center, center, column);
         border-radius: 100%;
@@ -41,10 +43,11 @@ nav{
             border-radius: 20%;
         }
     }
+}
 
-    span:hover{
-        animation: havering 2s linear;
-        border: solid black;
+nav:active{
+    ul{
+        display: block;
     }
 }
 
@@ -56,11 +59,22 @@ nav{
 // animation section // 
 
 
-@keyframes havering {
+@keyframes border_in {
     from{
-        opacity: 0;
+        border: solid;
+        border-color: rgba(0, 0, 0, 0);
     }
     to{
-        opacity: 1;
+        border: solid;
+        border: black;
+    }
+}
+
+@keyframes nav_apper {
+    from{
+
+    }
+    to{
+
     }
 }
