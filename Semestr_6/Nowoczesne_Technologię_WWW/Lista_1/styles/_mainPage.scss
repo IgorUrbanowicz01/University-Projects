@@ -1,10 +1,11 @@
 .main_head{
+    height: 100vh;
+    background-color: rgb(87, 32, 32);
     @include flex(space-around, center, column);
     border-bottom: 2px solid;
     border-image: linear-gradient(45deg, white, rgb(43, 53, 85),white) 1;
     nav{
         background-color: red;
-        min-height: 10vh;
         width: 60%;
         @include flex(space-around, stretch, column);
         ul{
@@ -12,4 +13,28 @@
             @include flex(space-around, center, row);
         }
     }
+}
+
+span{
+    position: sticky;
+    top: 20px;
+    left: 20px;
+    @include flex(center, center, column);
+    border: 2px solid black;
+    border-radius: 100%;
+    height: 75px;
+    width: 75px;
+
+    div{
+        width: 35px;
+        height: 3px;
+        background-color: black;
+        margin: 3px 0;
+        border-radius: 20%;
+    }
+}
+
+#place_holder{
+    height: 200vh;
+    background-color: beige;
 }
