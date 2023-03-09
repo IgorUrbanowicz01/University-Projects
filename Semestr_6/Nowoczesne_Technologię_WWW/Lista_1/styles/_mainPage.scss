@@ -3,15 +3,29 @@
 .main_head{
     height: 100vh;
     background-color: $background;
-    @include flex(space-between, center, row);
+    @include flex(space-around, center, column);
     border-bottom: 2px solid;
-    border-image: linear-gradient(45deg, white, rgb(43, 53, 85),white) 1;
+    h1{
+        color: $line;
+        margin: auto;
+    }
+    #name{
+        transform: translate(-10vw,10vh);
+    }
+    #surname{
+        transform: translate(10vw,-10vh);
+
+    }
+    img{
+        width: 20vw;
+        height: auto;
+    }
 }
 
 // navigation section // 
 
 nav{
-    z-index: 1;
+    width: 10vw;
     margin-left: 2rem;
     position: fixed;
     @include flex(space-around, center, column);
@@ -23,7 +37,7 @@ nav{
             margin-bottom: 10rem;
             a{
                 text-align: center;
-                color: red;
+                color: $line;
             }
         }
     }
@@ -38,15 +52,16 @@ nav{
         .menu{
             width: 35px;
             height: 3px;
-            background-color: black;
+            background-color: $line;
             margin: 3px 0;
             border-radius: 20%;
         }
     }
 }
 
-nav:active{
+nav:hover{
     ul{
+        animation: fade_in 1s;
         display: block;
     }
 }
@@ -59,22 +74,11 @@ nav:active{
 // animation section // 
 
 
-@keyframes border_in {
+@keyframes fade_in {
     from{
-        border: solid;
-        border-color: rgba(0, 0, 0, 0);
+        opacity: 0%;
     }
     to{
-        border: solid;
-        border: black;
-    }
-}
-
-@keyframes nav_apper {
-    from{
-
-    }
-    to{
-
+        opacity: 100%;
     }
 }

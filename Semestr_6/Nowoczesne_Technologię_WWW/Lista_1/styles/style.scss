@@ -1,10 +1,11 @@
-$heder1: 4rem;
+$heder1: calc(4rem + 3vw);
 $heder2: 4rem;
 $heder3: 2.5rem;
 $heder4: 2rem;
 $text: 1.8rem;
-$background: rgb(87, 32, 32);
-$line: rgb(0,0,0);
+$background: rgb(25, 25, 27);
+$line: rgb(124, 0, 0);
+
 
 @mixin flex($justify, $align, $diretion) {
     display: flex;
