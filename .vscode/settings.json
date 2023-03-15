@@ -4,6 +4,7 @@
     "declare.h": "c",
     "decl.h": "c",
     "parser.h": "c",
-    "stdbool.h": "c"
+    "stdbool.h": "c",
+    "graph_structure.h": "c"
   }
 }
