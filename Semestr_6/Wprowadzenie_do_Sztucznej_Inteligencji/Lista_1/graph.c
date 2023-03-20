@@ -46,7 +46,7 @@ void printBits(uint64_t *puzzle)
 {
     for (int i = 00; i <= 15; i++) {
         uint8_t temp = getPosition(puzzle, i);
-        printf("%u",temp);
+        printf("%d: %u |",i, temp);
     }
     printf("\n");
 }
