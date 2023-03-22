@@ -66,9 +66,13 @@ nav:hover{
     }
 }
 
-#place_holder{
+main{
     height: 200vh;
     background-color: beige;
+    section{
+        background-color: black;
+        width: 80vw;
+    }
 }
 
 // animation section // 

@@ -32,19 +32,24 @@ void shuffle(int arr[], int n) {
 }
 
 void  intiPuzle(uint64_t *puzzle){
-    int arr[PUZZLE_SIZE] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0};
+    int arr[PUZZLE_SIZE] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
     shuffle(arr, PUZZLE_SIZE);
     *puzzle = 0;
+for (int i = 0; i < PUZZLE_SIZE; i++)
+{
+    printf("%d ", arr[i]);
+}
+printf("\n");
 
 
-     for (int i = 0; i < PUZZLE_SIZE; i++) {
-        *puzzle |= ((uint64_t)arr[i] << (i * 4));
+for (int i = 0; i < PUZZLE_SIZE; i++) {
+        insert_bits(puzzle,(uint8_t)arr[i], i);
     }
 }
 
 void printBits(uint64_t *puzzle)
 {
-    for (int i = 00; i <= 15; i++) {
+    for (int i = 0; i <= 15; i++) {
         uint8_t temp = getPosition(puzzle, i);
         printf("%d: %u |",i, temp);
     }
