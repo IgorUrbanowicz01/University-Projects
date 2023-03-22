@@ -19,11 +19,11 @@ li, button, label, input, p, a {
 }
 
 p {
-  color: grey;
   line-height: 3rem;
 }
 
 h2 {
+  color: rgb(124, 0, 0);
   font-size: 4rem;
 }
 
@@ -46,7 +46,7 @@ a {
 }
 
 .main_head {
-  height: 100vh;
+  min-height: 100vh;
   background-color: rgb(25, 25, 27);
   display: flex;
   justify-content: space-around;
@@ -65,7 +65,7 @@ a {
   transform: translate(10vw, -10vh);
 }
 .main_head img {
-  width: 20vw;
+  width: calc(10vw + 200px);
   height: auto;
 }
 
@@ -117,9 +117,19 @@ nav:hover ul {
   display: block;
 }
 
-#place_holder {
-  height: 200vh;
+main {
   background-color: beige;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+main #about {
+  padding-top: 3rem;
+  min-width: 80vw;
+}
+main #about p {
+  padding: 0.5rem 2rem;
 }
 
 @keyframes fade_in {

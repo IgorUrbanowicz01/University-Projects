@@ -1,7 +1,7 @@
 // header section // 
 
 .main_head{
-    height: 100vh;
+    min-height: 100vh;
     background-color: $background;
     @include flex(space-around, center, column);
     border-bottom: 2px solid;
@@ -17,7 +17,7 @@
 
     }
     img{
-        width: 20vw;
+        width: calc(10vw + 200px);
         height: auto;
     }
 }
@@ -67,11 +67,14 @@ nav:hover{
 }
 
 main{
-    height: 200vh;
-    background-color: beige;
-    section{
-        background-color: black;
-        width: 80vw;
+    background-color: $background-main;
+    @include flex(center, center, column);
+    #about{
+        padding-top: 3rem;
+        min-width: 80vw;
+        p{
+        padding: 0.5rem 2rem;
+        }
     }
 }
 
