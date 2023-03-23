@@ -126,7 +126,7 @@ main {
 }
 main #about {
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: top;
   flex-direction: row;
   padding-top: 3rem;
@@ -142,6 +142,37 @@ main #about p {
 main #about img {
   width: 20vw;
   height: auto;
+}
+main #qualifications {
+  display: flex;
+  justify-content: start;
+  align-items: top;
+  flex-direction: row;
+  padding-top: 3rem;
+  min-width: 80vw;
+}
+main #qualifications h3 {
+  padding: 1rem 2rem;
+}
+main #qualifications ul {
+  padding: 0.5rem 3rem;
+}
+main #qualifications ul li {
+  padding: 0.5rem 0rem;
+}
+main #qualifications p {
+  padding: 0.5rem 3rem;
+}
+main #projects {
+  display: flex;
+  justify-content: start;
+  align-items: top;
+  flex-direction: row;
+  padding-top: 3rem;
+  min-width: 80vw;
+}
+main #projects h3 {
+  padding: 1rem 2rem;
 }
 
 @keyframes fade_in {

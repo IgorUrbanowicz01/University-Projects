@@ -70,7 +70,7 @@ main{
     background-color: $background-main;
     @include flex(center, center, column);
     #about{
-        @include flex(center, top, row);
+        @include flex(start, top, row);
         padding-top: 3rem;
         max-width: 80vw;
         article{
@@ -83,6 +83,32 @@ main{
         img{
             width: 20vw;
             height: auto;
+        }
+    }
+    #qualifications{
+        @include flex(start, top, row);
+        padding-top: 3rem;
+        min-width: 80vw;
+        h3{
+            padding: 1rem 2rem;
+        }
+        ul{
+            padding: 0.5rem 3rem;
+            li{
+                padding: 0.5rem 0rem;
+            }
+        }
+        p{
+            padding: 0.5rem 3rem;
+        }
+
+    }
+    #projects{
+        @include flex(start, top, row);
+        padding-top: 3rem;
+        min-width: 80vw;
+        h3{
+            padding: 1rem 2rem;
         }
     }
 }
