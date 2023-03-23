@@ -130,6 +130,7 @@ main #about {
 }
 main #about p {
   padding: 0.5rem 2rem;
+  max-width: 80vw;
 }
 
 @keyframes fade_in {
