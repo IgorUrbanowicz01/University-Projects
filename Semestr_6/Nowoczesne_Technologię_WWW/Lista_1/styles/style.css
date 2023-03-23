@@ -125,12 +125,23 @@ main {
   flex-direction: column;
 }
 main #about {
+  display: flex;
+  justify-content: center;
+  align-items: top;
+  flex-direction: row;
   padding-top: 3rem;
-  min-width: 80vw;
+  max-width: 80vw;
+}
+main #about article {
+  position: sticky;
+  top: 0;
 }
 main #about p {
   padding: 0.5rem 2rem;
-  max-width: 80vw;
+}
+main #about img {
+  width: 20vw;
+  height: auto;
 }
 
 @keyframes fade_in {
