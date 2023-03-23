@@ -26,7 +26,7 @@
 
 nav{
     width: 10vw;
-    margin-left: 2rem;
+    //margin-left: 2rem;
     position: fixed;
     @include flex(space-around, center, column);
     ul{
@@ -41,7 +41,7 @@ nav{
             }
         }
     }
-    span{
+    section{
         margin-top: 1rem;
         cursor: pointer;
         @include flex(center, center, column);
@@ -67,14 +67,16 @@ nav:hover{
 }
 
 main{
+    section{
+        @include flex(start, center, row);
+        padding-top: 3rem;
+        max-width: 80vw;
+    }
     background-color: $background-main;
     @include flex(center, center, column);
     #about{
-        @include flex(start, top, row);
-        padding-top: 3rem;
-        max-width: 80vw;
         article{
-            position: sticky;
+            //position: sticky;
             top: 0;
         }
         p{
@@ -86,9 +88,6 @@ main{
         }
     }
     #qualifications{
-        @include flex(start, top, row);
-        padding-top: 3rem;
-        min-width: 80vw;
         h3{
             padding: 1rem 2rem;
         }
@@ -104,12 +103,67 @@ main{
 
     }
     #projects{
-        @include flex(start, top, row);
+
+        @include flex(start, start, column);
         padding-top: 3rem;
         min-width: 80vw;
         h3{
-            padding: 1rem 2rem;
+            font-size: 3rem;
+            padding: 6rem 0rem 2rem 2rem;
+
         }
+        #project_1{
+            @include flex(start, start, row);
+            flex-wrap: wrap;
+            pre{
+                flex: 1 1 20rem;
+                border: 1px solid black;
+                padding: 2rem;
+                font-size: $code;
+                background-color: $background-code;
+            }
+            pre:hover{
+                box-shadow: 2px 3px 3px 2px black;
+            }
+            div{
+                flex: 1 1 30vw;                
+            }
+            p{
+                padding: 4rem;
+            }
+        }
+        #project_2{
+            padding-bottom: 3rem;
+        }
+    }
+}
+
+footer{
+    padding: 0rem 5rem;
+    background-color: $background;
+    color: $line;
+    @include flex(center, start, column);
+    min-height: 15vh;
+    flex-wrap: wrap;
+    h2{padding: 2rem 0rem;
+        flex: 1 1 8rem;
+    }
+    ul{
+        flex: 3 1 15rem;
+        @include flex(center, start, column);
+    }
+    li{
+        @include flex(center, center, row);
+        color: $line;
+        a{
+            color: $line;
+        }
+    }
+    img{
+        margin-right: 2rem;
+        width: 3rem;
+        height: auto;
+        object-fit: cover;
     }
 }
 
@@ -124,3 +178,12 @@ main{
         opacity: 100%;
     }
 }
+
+/*Media Section*/
+@media screen and (max-width: 800px){
+    #about{
+        img{
+            display: none;
+        }
+    }
+    }

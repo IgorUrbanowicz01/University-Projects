@@ -12,11 +12,11 @@
 </head>
 <body>
     <nav>
-        <span>
+        <section>
             <div class="menu"></div>
             <div class="menu"></div>
             <div class="menu"></div> 
-        </span>
+        </section>
         <ul>
             <li><a href="#about">About Me</a></li>
             <li><a href="#qualifications">Qualifications</a></li>
@@ -76,15 +76,95 @@
         </article>
         </section>
         <section id="projects">
-            <article id="project_1">
             <h2>My Projects</h2>
             <h3>Compiler</h3>
-            <p>sex2</p>
-            </article>
+            <article id="project_1">
+                <pre>
+    /* END MAIN ============================ BEGIN STATEMENTS */
+
+    stmt : expr
+            { $$ = stmt_create(STMT_EXPR, NULL, $1, NULL, NULL); }
+            | if_stmt
+            { $$ = $1; }
+            | read_stmt
+            { $$ = $1; }
+            | write_stmt
+            { $$ = $1; }
+            | while_stmt
+            { $$ = $1; }
+            | repeat_stmt
+            { $$ = $1; }
+            | function_head_stmt
+            { $$ = $1; }
+            ;
+    
+    
+    if_stmt : IF expr THEN maybe_stmts ELSE maybe_stmts ENDIF
+            { $$ = stmt_create(STMT_IF_ELSE, NULL, $2, $4, $6); }
+            | IF expr THEN maybe_stmts ENDIF
+            { $$ = stmt_create(STMT_IF_ELSE, NULL, $2, $4, NULL); }
+            ;
+    
+    read_stmt : READ atom SEMICOLON
+            { $$ = stmt_create(STMT_READ, NULL, $2, NULL, NULL);}
+            ;
+    
+    write_stmt: WRITE atom SEMICOLON
+            { $$ = stmt_create(STMT_WRITE, NULL, $2, NULL, NULL);}
+            ;
+    
+    while_stmt: WHILE expr DO maybe_stmts ENDWHILE
+            { $$ = stmt_create(STMT_WHILE, NULL, $2, $4, NULL);}
+            ;
+    
+    repeat_stmt: REPEAT maybe_stmts UNTIL expr SEMICOLON 
+            { $$ = stmt_create(STMT_REPEAT, NULL, $4, $2, NULL);}
+            ;
+    function_head_stmt:ident proc_headSTMT SEMICOLON
+            { $$ = stmt_create(STMT_HEAD, decl_create($1, $2, NULL, NULL, NULL), NULL, NULL, NULL);}
+    
+    
+    maybe_stmts : /* empty */
+                { $$ = NULL; }
+                | stmt maybe_stmts
+                { $1->next = $2; $$ = $1; }
+                ;
+    
+    /* END STATEMENTS ============================ BEGIN EXPRESSIONS */
+
+    </pre>
+        <div>
+            <p>One of the largest project I,ve writen is a program that compiles an imperative language into virtual machine code simular to a RAM machine.
+            More detailed language and machine specifications are included in the <a href="./pdf/compiler.pdf">here</a> (In Polish) file with some example code. The compiler is written in C++ and uses Flex and Bison. <br>
+            I wrote it with the help of <a href="https://www3.nd.edu/~dthain/compilerbook/">Introduction to Compilers and Language Design</a>. Additionally i added some bash scripts that checks if the output for the test files is correct.</p>
+            <p>On the right you can see a sinpit of my code in Bison wich usues context free grammar to bulid a AST (Abstract Syntax Tree) upon which we can disect our
+                initial code. My compiler has the ability disern varibles between difrent scopes, tell when a varible is uninitialized and point
+                to a line that has a syntax mistake.
+            </p>    
+        </div>    
+    </article>
+            <h3>Meta Heuristic Algorithms</h3>
+    <article id="project_2">
+        <p>Metaheuristic algorithms are a type of optimization algorithm that is used to find near-optimal solutions to complex problems.
+             Unlike traditional optimization algorithms, metaheuristic algorithms do not require an exact mathematical model of the problem being solved, and are capable of handling a wide range of problem types and structures.</p>
+        <p>The Traveling Salesman Problem (TSP) is a classic optimization problem in computer science. It involves finding the shortest possible route that visits each of a given set of cities exactly once and returns to the starting city.
+            In order to solve the TSP I've implemented several metaheuristic algorithms, such as Genetic Algorithm, Tabu Search, Random k, and Opt-2.
+            Genetic Algorithm is an optimization algorithm inspired by the process of natural selection, which uses a combination of selection, crossover, and mutation to generate new candidate solutions.
+            Tabu Search is a local search-based algorithm that avoids revisiting recently visited solutions.
+            Random k is a simple random algorithm that selects k random solutions and returns the best one.
+            Opt-2 is a heuristic algorithm that attempts to improve an existing solution by swapping two edges.
+            For all of the alorythms metioned above I used Python and the TSP librarie wich helps working with instances of the problem as they can be 
+            presented in a vaiarity of difrent ways. </p>
+            <p>You can find my and my friends basic paper on the genetic algorithm <a href="./pdf/Sprawozdanie_etap3.pdf">here</a></p>
+    </article>
         </section>
     </main>
     <footer id="contacts">
-        <h3>gmail</h3>
+        <h2>Contacts</h2>
+        <ul>
+            <li><a href="https://github.com/IgorUrbanowicz01"><img src="./img/icons/github.png" alt="github-link"></a><a href="https://github.com/IgorUrbanowicz01">IgorUrbanowicz01</a> </li>
+            <li><img src="./img/icons/gmail.png" alt="github-link"> urbanowiczigor95@gmail.com</li>
+        </ul>
     </footer>
 </body>
 </html>
