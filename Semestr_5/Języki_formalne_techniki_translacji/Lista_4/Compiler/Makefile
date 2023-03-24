@@ -24,6 +24,8 @@ clean:
 	@rm -f parse.output
 	@rm -f *_tests/*_tests/*.out
 	@rm -f main
+	@rm -f out
+	@rm -f kompilator
 
 test: test.sh
 	./test.sh

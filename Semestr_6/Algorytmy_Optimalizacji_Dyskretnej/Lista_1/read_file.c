@@ -36,8 +36,6 @@ struct Graph* getGraph(char* fileName){
         addEdge(graph, src, dest);
         //printf("edge: %d , %d \n", src, dest);
     }
-    
-
     return graph;
 }
 
