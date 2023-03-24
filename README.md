@@ -16,13 +16,15 @@ The following courses are included in this repository:
 
 ### Sixth Semester
 
-- Software Engineering
-- Distributed Systems
-- Artificial Intelligence
-- Web Technologies
-- Mobile Computing
-- Information Retrieval
+- Algorytmy Optimalizacji Dyskretnej **C**
+- Aplikacje Mobilne **Kotlin**
+- Kurs Programowania **Java**
+- Nowoczesne Technologie WWW **HTML CSS JacaScipt**
+- Wprowadzenie do Sztucznej Inteligencji **C**
 
 ## Contact
 
 If you have any questions about this repository, please contact me at urbanowiczigor95@gmail.com .
+
+### Warning 
+This repostirory will have some mixed Polish and English.
