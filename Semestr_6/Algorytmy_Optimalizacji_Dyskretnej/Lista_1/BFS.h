@@ -20,7 +20,7 @@ struct Node* newQueueNode(int data);
 struct Queue* createQueue();
 bool isQueueEmpty(struct Queue* q);
 void pushQueue(struct Queue* q, int data);
-int popSQueue(struct Queue* q);
+int popQueue(struct Queue* q);
 
 /* BFS */
 

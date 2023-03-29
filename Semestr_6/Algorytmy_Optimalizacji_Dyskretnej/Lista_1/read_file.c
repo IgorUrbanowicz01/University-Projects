@@ -1,6 +1,4 @@
-#include "graph_structure.h"
-#include "BFS.h"
-#include "DFS.h"
+#include"read_file.h"
 
 struct Graph* getGraph(const char* fileName){
     FILE *file;
@@ -39,11 +37,3 @@ struct Graph* getGraph(const char* fileName){
     return graph;
 }
 
-int main(int argc, char const *argv[])
-{
-    struct Graph* graph = getGraph(argv[1]);
-    BFS(graph, 1);
-    printf("\n\n");
-    DFS(graph, 1);
-    return 0;
-}
