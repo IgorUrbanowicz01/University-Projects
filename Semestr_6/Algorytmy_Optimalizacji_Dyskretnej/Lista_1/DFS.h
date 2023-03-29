@@ -24,4 +24,6 @@ void printStack(struct Stack* s);
 
 /* DFS */
 
-void DFS(struct Graph* graph, int start);
+void DFS(struct Graph* graph, int start);           //iterative method
+void DFSvisit(struct Graph* graph, int u);          //recursive method
+void DFScormen(struct Graph* graph, int start);

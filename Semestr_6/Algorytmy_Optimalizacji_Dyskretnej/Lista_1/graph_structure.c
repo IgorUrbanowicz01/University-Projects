@@ -25,6 +25,7 @@ struct Graph* createGraph(int v, bool d){
     }
 
 void addEdge(struct Graph* graph, int src, int dest){
+    //printf("%d -- %d\n", src, dest);
     struct AdjListNode* crawl = NULL;
     struct AdjListNode* destNode = newAdjListNode(dest);
 
@@ -38,8 +39,9 @@ void addEdge(struct Graph* graph, int src, int dest){
 
         crawl->next = destNode;
     }
-if (graph->dircted == 1)
+if (graph->dircted == 0)
 {
+    printf("sex");
     struct AdjListNode* srcNode = newAdjListNode(src);
     if (graph->array[dest].head == NULL) {
         srcNode->next = graph->array[dest].head;

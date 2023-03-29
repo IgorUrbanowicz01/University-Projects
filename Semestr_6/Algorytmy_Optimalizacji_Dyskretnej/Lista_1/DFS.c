@@ -38,7 +38,7 @@ int popStack(struct Stack* s){
     int data;
     if (isStackEmpty(s))
     {
-        printf("The sueue is empty!");
+        printf("The Stack is empty!");
         return -1;
     }
     temp = s->front;
@@ -75,22 +75,43 @@ void DFS(struct Graph* graph, int s){
     seen[0] = s;
     listlenght = 1; // the lenght of the seen array
     pushStack(stack, s);
+    //printStack(stack);
+    addPred(graph, s, 0);
     while(!isStackEmpty(stack)){
-        temp = popStack(stack);
-        addPred(graph, temp, current);
-        current = temp;
+        temp = current;
+        current = popStack(stack);
         crawl = graph->array[current].head;
         while(crawl != NULL){
             for (int i = 0; i < listlenght; i++)
-                if (seen[i] == crawl->dest)
+                if (seen[i] == crawl->dest){
                     found = 1;
-            if (found == 0){
-                seen[listlenght] = crawl->dest;
-                listlenght++;
-                pushStack(stack, crawl->dest);
-            }else
-            found = 0;
+                }
+                if (found == 0)
+                {
+                    pushStack(stack, crawl->dest);
+                    addPred(graph, crawl->dest, current);
+                    seen[listlenght] = crawl->dest;
+                    listlenght++;
+                }else
+                found = 0;
             crawl = crawl->next;
         }
     }
 }
+
+void DFScormen(struct Graph *graph, int start)
+{
+        /*
+        int n = graph->v;
+        for (int i = 0; i < n; i++)
+        {
+            
+        }*/
+            
+}
+
+void DFSvisit(struct Graph *graph, int u)
+{
+
+}
+

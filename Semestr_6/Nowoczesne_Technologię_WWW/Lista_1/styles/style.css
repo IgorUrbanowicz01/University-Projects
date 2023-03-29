@@ -94,7 +94,7 @@ nav ul li a {
   text-align: center;
   color: rgb(124, 0, 0);
 }
-nav section {
+nav span {
   margin-top: 1rem;
   cursor: pointer;
   display: flex;
@@ -105,7 +105,7 @@ nav section {
   height: 75px;
   width: 75px;
 }
-nav section .menu {
+nav span .menu {
   width: 35px;
   height: 3px;
   background-color: rgb(124, 0, 0);
@@ -185,7 +185,7 @@ main #projects #project_1 pre:hover {
   box-shadow: 2px 3px 3px 2px black;
 }
 main #projects #project_1 div {
-  flex: 1 1 30vw;
+  flex: 1 1 35vw;
 }
 main #projects #project_1 p {
   padding: 4rem;
@@ -240,11 +240,5 @@ footer img {
   }
   to {
     opacity: 100%;
-  }
-}
-/*Media Section*/
-@media screen and (max-width: 800px) {
-  #about img {
-    display: none;
   }
 }/*# sourceMappingURL=style.css.map */
