@@ -41,7 +41,6 @@ void addEdge(struct Graph* graph, int src, int dest){
     }
 if (graph->dircted == 0)
 {
-    printf("sex");
     struct AdjListNode* srcNode = newAdjListNode(src);
     if (graph->array[dest].head == NULL) {
         srcNode->next = graph->array[dest].head;
