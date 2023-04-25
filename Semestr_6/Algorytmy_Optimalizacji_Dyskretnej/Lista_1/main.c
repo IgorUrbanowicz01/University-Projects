@@ -11,9 +11,9 @@ int main(int argc, char const *argv[])
     printf("\n\n");
     int order[graph->v];
     if(topologicalSort(graph, order)){
-        printf("This grap is in topological order\n");
+        printf("grafy bez skierowanego cyklu (DAG-i)\n");
     }else{
-        printf("This grap is not in topological order\n");
+        printf("grafy ze skierowanym cyklem\n");
     }
     printf("\n\n\n\n");
     SCC(graph);
