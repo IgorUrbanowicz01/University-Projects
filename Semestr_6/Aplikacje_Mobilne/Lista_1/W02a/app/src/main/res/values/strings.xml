@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">W02a</string>
+    <string name="rock_paper_scissors">Rock, Paper, Scissors</string>
+    <string name="rock">ROCK</string>
+    <string name="paper">PAPER</string>
+    <string name="scissors">SCISSORS</string>
+    <string name="computerChoice">Computer:</string>
+    <string name="yourChoice">You:</string>
+</resources>
