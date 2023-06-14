@@ -1,0 +1,5 @@
+/home/igor/CLionProjects/University-Projects/Semestr_6/Algorytmy_Optimalizacji_Dyskretnej/Lista_3/build/CMakeFiles/radix.dir
+/home/igor/CLionProjects/University-Projects/Semestr_6/Algorytmy_Optimalizacji_Dyskretnej/Lista_3/build/CMakeFiles/dial.dir
+/home/igor/CLionProjects/University-Projects/Semestr_6/Algorytmy_Optimalizacji_Dyskretnej/Lista_3/build/CMakeFiles/binary_heap.dir
+/home/igor/CLionProjects/University-Projects/Semestr_6/Algorytmy_Optimalizacji_Dyskretnej/Lista_3/build/CMakeFiles/edit_cache.dir
+/home/igor/CLionProjects/University-Projects/Semestr_6/Algorytmy_Optimalizacji_Dyskretnej/Lista_3/build/CMakeFiles/rebuild_cache.dir

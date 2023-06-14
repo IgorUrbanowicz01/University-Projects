@@ -1,0 +1,78 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "lab3",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "binary_heap::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-binary_heap-Debug-6164e4243ab444b21610.json",
+					"name" : "binary_heap",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "dial::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-dial-Debug-ab18f5abc560a0f3df68.json",
+					"name" : "dial",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "radix::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-radix-Debug-6a96b2d5d1ff7d158efd.json",
+					"name" : "radix",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/igor/CLionProjects/University-Projects/Semestr_6/Algorytmy_Optimalizacji_Dyskretnej/Lista_3/cmake-build-debug",
+		"source" : "/home/igor/CLionProjects/University-Projects/Semestr_6/Algorytmy_Optimalizacji_Dyskretnej/Lista_3"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}
