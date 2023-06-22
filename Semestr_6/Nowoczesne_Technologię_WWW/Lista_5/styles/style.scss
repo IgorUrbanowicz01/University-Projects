@@ -1,0 +1,31 @@
+$heder1: calc(4rem + 3vw);
+$heder2: 4rem;
+$heder3: 2.5rem;
+$heder4: 2rem;
+$text: 1.8rem;
+$code: 1.2rem;
+$background: rgb(25, 25, 27);
+$background-main: beige;
+$background-code: rgb(228, 228, 203);
+$line: rgb(124, 0, 0);
+
+
+@mixin flex($justify, $align, $diretion) {
+    display: flex;
+    justify-content: $justify;
+    align-items: $align;
+    flex-direction: $diretion;
+}
+
+
+/*Media Section*/
+@media screen and (max-width: 600px){
+$heder2: 2rem;
+$heder3: 1.5rem;
+$heder4: 1rem;
+$text: 1rem;
+$code: 0.7rem;
+}
+
+@import "global";
+@import "mainPage";
