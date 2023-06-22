@@ -6,6 +6,7 @@
   <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML" crossorigin="anonymous"></script>
 </head>
 <body>
+<?php include 'menu.php'; ?>
   <h1>My Portfolio</h1>
   
   <h2>Interpolation using Lagrange Polynomials</h2>
@@ -25,6 +26,6 @@
   </div>
   
   <!-- Rest of your portfolio content... -->
-  
-</body>
-</html>
+
+  <?php include 'footer.php'; ?>
+

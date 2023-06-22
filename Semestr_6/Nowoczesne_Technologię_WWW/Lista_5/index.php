@@ -22,6 +22,24 @@
    </p>
 </div>
 
+<h2>My Compiler</h2>
+    <p>
+        Our compiler is a powerful tool that transforms high-level programming code into executable machine code.
+        It plays a crucial role in the software development process by translating human-readable instructions into a
+        language that computers can understand and execute. With advanced optimization techniques, our compiler generates
+        efficient and optimized code, resulting in faster and more reliable software. It supports various programming
+        languages and provides comprehensive error checking and debugging capabilities, making it an indispensable tool
+        for developers seeking to create robust and high-performance applications.
+    </p>
+    <h2>Tic-Tac-Toe</h2>
+    <p>
+        Tic-Tac-Toe, also known as noughts and crosses, is a classic paper-and-pencil game enjoyed by players of all ages.
+        It involves two players taking turns to mark their chosen symbol, usually X or O, on a 3x3 grid. The objective is
+        to create a straight line of three matching symbols horizontally, vertically, or diagonally. Despite its simple
+        rules, Tic-Tac-Toe offers strategic gameplay that requires players to anticipate their opponent's moves and make
+        strategic decisions. Our Tic-Tac-Toe game provides a user-friendly interface and engaging gameplay, allowing
+        players to enjoy this timeless game either against an AI opponent or with a friend in a friendly competition.
+    </p>
 <?php
 session_start(); // Start or resume the session
 
@@ -93,7 +111,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])) {
 
 <?php if (isset($_SESSION['username'])): ?>
     <p>Logged in as: <?php echo $_SESSION['username']; ?></p>
-    <p>ID: <?php echo $_SESSION['user_id']; ?></p>
 <?php endif; ?>
 
 <form action="index.php" method="POST">
